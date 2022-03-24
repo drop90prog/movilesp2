@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import { styles } from './styles';
 import { useState } from 'react';
-import { fetchSignIn } from '../controllers/fetchSignIn';
+import { signIn } from '../../controllers/fetchUser';
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from '../../redux/slices/userSlice';
 
@@ -45,7 +45,7 @@ export default function Signin({ navigation }) {
     onPress={() => {
         
         
-    fetchSignIn(email, password, navigation)
+    signIn(email, password, navigation)
     .then(res => {
         let user = jwtDecode(res.token)
         const sesion = {

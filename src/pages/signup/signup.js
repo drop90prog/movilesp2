@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import { styles } from './styles';
 import { useState } from 'react';
-import { fetchSignUp } from '../controllers/fetchSignUp';
+import { signUp } from '../../controllers/fetchUser';
 
 
 
@@ -54,7 +54,7 @@ export default function Signup({navigation}) {
     <Button style={styles.button} 
     title="Sign up"
     mode="contained" 
-    onPress={() => { fetchSignUp(name, email, password) } }
+    onPress={() => { signUp(name, email, password) } }
     />
         
     

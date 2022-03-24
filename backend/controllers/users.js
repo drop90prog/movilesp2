@@ -1,10 +1,8 @@
 'use strict'
-const Imagee = require('../models/images')
-const mongoose = require('mongoose')
+
 const User = require('../models/users')
 const service = require('../services')
-const config = require('../config')
-const formidable = require('formidable');
+
 
 function signup (req, res) {
     if(!req.body.name || !req.body.email || !req.body.password) return res.status(401).send({message: "Please fill the fields"})

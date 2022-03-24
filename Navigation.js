@@ -1,23 +1,60 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import {useState} from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Signin from './src/pages/signin/signin';
 import Signup from './src/pages/signup/signup';
 import Home from './src/pages/home/home';
+import New from './src/pages/new/new';
+
+
+import { Ionicons } from "@expo/vector-icons";
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-export default function Navigation() {
+export default function Navigation(props) {
+
+  const [uf, setUf] = useState(false)
+
   return (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Signin" component={Signin} />
-          <Stack.Screen name="Signup" component={Signup} />
-          <Stack.Screen name="Home" component={Home} />            
-        </Stack.Navigator>      
-      </NavigationContainer>    
+
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+            if (route.name == "Home") {
+              iconName = focused ? "home" : "home-outline";
+            } else if (route.name == "New") {
+              iconName = focused ? "add-circle" : "add-circle-outline";
+            }
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarShowLabel: true,
+        })}
+      >
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="New" component={New} />
+
+    
+
+      </Tab.Navigator>
+
+    
+    </NavigationContainer>   
+
+
+
+
+
+
+
+
+
   );
 }
