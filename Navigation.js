@@ -11,6 +11,8 @@ import Signup from './src/pages/signup/signup';
 import Home from './src/pages/home/home';
 import New from './src/pages/new/new';
 
+import Stacknavigation from './stackNavigation';
+
 
 import { Ionicons } from "@expo/vector-icons";
 
@@ -18,9 +20,6 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function Navigation(props) {
-
-  const [uf, setUf] = useState(false)
-
   return (
 
     <NavigationContainer>
@@ -28,8 +27,8 @@ export default function Navigation(props) {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-            if (route.name == "Home") {
-              iconName = focused ? "home" : "home-outline";
+            if (route.name == "Mangas") {
+              iconName = focused ? "book" : "book-outline";
             } else if (route.name == "New") {
               iconName = focused ? "add-circle" : "add-circle-outline";
             }
@@ -38,7 +37,7 @@ export default function Navigation(props) {
           tabBarShowLabel: true,
         })}
       >
-        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Mangas" component={Stacknavigation} />
         <Tab.Screen name="New" component={New} />
 
     

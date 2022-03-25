@@ -1,19 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Modal } from 'react-native';
+import { StyleSheet, Text, View, Button, Modal, FlatList } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { findMangas } from '../../controllers/fetchManga'
+import { findMangas } from '../../controllers/fetchManga';
+import  Mangas  from '../../components/mangas'
+import { styles } from './styles'
 
 
-export default function Home({navigation}) {
+export default function Home({navigation},props) {
   const user = useSelector((state) => state.user); // datos del usuario logueado
+  const [mangas, setMangas] = useState([])
  
 //useEffect en tabs, esto carga la pagina cuando entras a la tab
   useFocusEffect(
     React.useCallback(()=>{
       
-    findMangas().then(res=>console.log(res.content))
+    findMangas().then(res=>{setMangas(res.content);console.log(mangas)})
 
     },[])
   )
@@ -33,7 +36,19 @@ export default function Home({navigation}) {
 
 
       <View style={styles.bodylow}>
-        
+
+
+      <View>
+        <FlatList
+          data={mangas}
+          renderItem={({ item }) => <Mangas name={item.name} navigation={navigation}/>}
+          keyExtractor={(item, index) => index.toString()}
+          horizontal={false}
+          showsHorizontalScrollIndicator={false}
+          numColumns={2}
+        />
+      </View>
+
       </View>
 
 
@@ -42,21 +57,4 @@ export default function Home({navigation}) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',  
-    justifyContent: 'flex-start',
-  },
-  bodytop:{
-    height:40,
-    width:'100%',    
-    backgroundColor: 'white',    
-  },
-  bodylow:{
-    height:'100%',
-    width:'100%',    
-    backgroundColor: 'lightgray',    
-  },
-});
+

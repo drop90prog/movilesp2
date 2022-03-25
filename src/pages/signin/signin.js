@@ -57,60 +57,11 @@ export default function Signin({ navigation }) {
         navigation.navigate('Home')
     }).catch(error => console.error('Error:', error))}
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-
-
-
-
-
 
     }
     />
         
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <Text style={styles.text}>

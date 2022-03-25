@@ -5,7 +5,7 @@ import { styles } from './styles';
 import { useState } from 'react';
 import { saveManga } from '../../controllers/fetchManga'
 
-export default function New({navigation}) {
+export default function New() {
   const user = useSelector((state) => state.user); // datos del usuario logueado
 
   const [name, setName] = useState('');
