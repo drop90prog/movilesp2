@@ -8,7 +8,7 @@ const Top = createMaterialTopTabNavigator();
 export default function Toptabs({navigation}) {
   return (
     <Top.Navigator>
-      <Top.Screen name="Chapters" navigation={navigation} component={StackNavigationImages} />
+      <Top.Screen name="Chapters" component={StackNavigationImages} />
       <Top.Screen name="Newchapter" component={Newchapter} />
     </Top.Navigator>
   );

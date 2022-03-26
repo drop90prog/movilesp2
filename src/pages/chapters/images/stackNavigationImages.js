@@ -7,7 +7,7 @@ import Chapters from '../chapters';
 
 
 
-import Images from './images';
+import Toptabsimages from '../../../../toptabsimages';
 
 
 
@@ -18,7 +18,7 @@ export default function StackNavigationImages() {
         
     <Stack.Navigator>
         <Stack.Screen options={{headerShown: false}} name="Chaps" component={Chapters} />  
-        <Stack.Screen options={{headerShown: false}} name="Images" component={Images} />          
+        <Stack.Screen options={{headerShown: false}} name="Toptabsimages" component={Toptabsimages} />          
     </Stack.Navigator>
  
   );

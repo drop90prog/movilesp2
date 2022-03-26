@@ -35,7 +35,7 @@ export default function Chapters(props, {navigation}) {
 
   return (
     <View style={styles.container}>
-      
+
       
       <View style={{width:'100%'}}>
         <FlatList

@@ -6,9 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Signin from './src/pages/signin/signin';
-import Signup from './src/pages/signup/signup';
-import Home from './src/pages/home/home';
+
 import New from './src/pages/new/new';
 
 import Stacknavigation from './stackNavigation';

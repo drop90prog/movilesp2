@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image} from "react-native";
 import { storeData, getData, removeData } from "../controllers/storages";
 
 
-export default function ChaptersComponent(props) {
+export default function ChaptersComponent(props, {navigation}) {
 
     let im = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-wn3lhKtX3FdLR2AZJngEGuREl1Xuh3jkTjUgA145gwv5ZnCB4GK4DbJ00MPnSX7PR-o&usqp=CAU'
 
@@ -10,7 +10,7 @@ export default function ChaptersComponent(props) {
     return (
       <TouchableOpacity onPress={()=> { 
         storeData('chapter',props.name)
-        props.navigation.navigate('Images') 
+        props.navigation.navigate('Toptabsimages') 
         
         }}>
         <View  style={{ width: "100%", height: 90, marginLeft: 15, marginVertical: 15, flexDirection:'row' }}>
