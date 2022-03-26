@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { findMangas } from '../../controllers/fetchManga';
-import  Mangas  from '../../components/mangas'
-import { styles } from './styles'
+import  Mangas  from '../../components/mangas';
+import { styles } from './styles';
+import { signIn } from '../../controllers/fetchUser';
 
 
 export default function Home({navigation},props) {
@@ -26,7 +27,7 @@ export default function Home({navigation},props) {
       <View style={styles.bodytop}>
         <View style={{justifyContent:'space-between', flexDirection:'row' }}>
           <View style={{width:'50%'}}>
-            <Button title="signin" onPress={()=>console.log('signin')}/>
+            <Button title="signin" onPress={()=>{console.log('signin')}}/>
           </View>
           <View style={{width:'50%'}}>
             <Button title="signup" onPress={()=>console.log('signup')}/>

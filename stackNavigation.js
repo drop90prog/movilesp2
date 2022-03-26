@@ -5,7 +5,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Chapters from './src/pages/chapters/chapters';
 import Home from './src/pages/home/home';
-import Mangas from './src/components/mangas';
+
+
+import Toptabs from './src/pages/chapters/toptabs';
 
 
 const Stack = createStackNavigator();
@@ -14,11 +16,9 @@ export default function Stacknavigation() {
   return (      
         
         <Stack.Navigator>
-            <Stack.Screen options={{headerShown: false}} name="Home" component={Home} />
-            <Stack.Screen options={{headerShown: false}} name="Mangas1" component={Mangas} />
-            <Stack.Screen options={{headerShown: false}} name="Chapters" component={Chapters} />
-        </Stack.Navigator>
- 
+            <Stack.Screen options={{headerShown: false}} name="Home" component={Home} />                  
+            <Stack.Screen options={{headerShown: false}} name="Toptabs" component={Toptabs} />
+        </Stack.Navigator> 
   );
 }
 

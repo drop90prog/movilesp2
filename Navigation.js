@@ -37,14 +37,13 @@ export default function Navigation(props) {
           tabBarShowLabel: true,
         })}
       >
-        <Tab.Screen name="Mangas" component={Stacknavigation} />
+
+
+
+
+        <Tab.Screen name="Mangas" component={Stacknavigation} />{/* Home */}
         <Tab.Screen name="New" component={New} />
-
-    
-
-      </Tab.Navigator>
-
-    
+      </Tab.Navigator>   
     </NavigationContainer>   
 
 

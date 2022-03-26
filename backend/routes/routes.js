@@ -26,6 +26,13 @@ api.post('/savemanga', mangaCtrl.saveManga)
 api.get('/findmangas', mangaCtrl.findMangas)
 
 
+//=========================================================CHAPTERS
+const chapterCtrl = require ('../controllers/chapters')
+
+api.post('/savechapter', chapterCtrl.saveChapter)
+api.post('/findchapters', chapterCtrl.findChapters)
+
+
 
 
 

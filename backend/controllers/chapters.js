@@ -1,31 +1,34 @@
 
-const Manga = require('../models/manga')
+const Chapters = require('../models/chapters')
 
 
 
 
-function saveManga (req, res) {
+function saveChapter (req, res) {
    
 
-    const manga = new Manga({
+    const chapter = new Chapters({
         name: req.body.name,
+        chaptername: req.body.chaptername,
     })
 
-    manga.save((err)=>{
+    chapter.save((err)=>{
         if(err)res.status(500).send({message:`Error ${err}`})
-        res.status(200).send({message:"new manga added"})
+        res.status(200).send({message:"new chapter added"})
     })    
   };
 
 
-  function findMangas(req, res){
-    Manga.find({}, (err,result)=>{
+
+
+  function findChapters(req, res){
+    Chapters.find({name: req.body.name}, (err,result)=>{
 
         if(err)return res.status(404).send({
             message:'errorrrrr'            
         })  
 
-        if(result.length>0){ 
+        if(result.length>0){
             return res.status(200).send({content:result, message:"found them"})
         } 
 
@@ -50,6 +53,6 @@ function deleteImage (req,res) {
 
 
 module.exports = {
-    saveManga,
-    findMangas,
+    saveChapter,
+    findChapters,
 }
