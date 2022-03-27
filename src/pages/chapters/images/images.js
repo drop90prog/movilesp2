@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, Image, FlatList } from 'react-native';
 import { storeData, getData, removeData } from "../../../controllers/storages";
 import { useFocusEffect } from '@react-navigation/native';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import CommentRenderer from '../../../components/commentRenderer';
 
 
 export default function Images(props) {
@@ -29,6 +30,47 @@ export default function Images(props) {
     }
   ];
 
+  
+  const comments = [
+    {
+      username:"@fulano",
+      comment:"comentario uno de fulano",
+      avatar: "https://avatarfiles.alphacoders.com/125/thumb-125254.png"
+    },
+    {
+      username:"@sutano",
+      comment:"comentario dos de sutano",
+      avatar: "https://i.pinimg.com/280x280_RS/fc/20/d7/fc20d7ba75499df5113b2b3f94b87730.jpg"
+    },
+    {
+      username:"@mengano",
+      comment:"verticalicion que moyeja asi no se puede vergatsion amiguis nonono es que yo no me lo puo creeeeerrr, bueno deja asi isisisis noioioisnojo",
+      avatar: "https://avatarfiles.alphacoders.com/281/thumb-281484.png"
+    },
+    {
+      username:"@pereseo",
+      comment:"comentario crinco de pereseo",
+      avatar: "https://nick-intl.mtvnimages.com/uri/mgid:file:docroot:nick.com:/nick-assets/shows/images/spongebob-squarepants/characters/character-thumb-sandy.jpg?quality=1&height=360&width=640&matte=true&crop=false"
+    },
+    {
+      username:"@hercules",
+      comment:"soy hercules un heroe",
+      avatar: "https://www.looper.com/img/gallery/what-you-never-noticed-about-mr-krabs-lies-in-spongebob-squarepants/intro-1609948293.jpg"
+    }
+  ];
+
+
+
+const coms = comments.map((item,index,array)=>{
+  return(
+    <CommentRenderer key={index} username={item.username} avatar={item.avatar} comment={item.comment}/>
+  )
+})
+
+
+
+
+
   useFocusEffect(
     React.useCallback(()=>{     
     
@@ -40,22 +82,37 @@ export default function Images(props) {
 
       },[name])
   )
-  
+
   return (
     <View style={styles.container}>
       <ScrollView>
 
-      
-      <View style={styles.imageContainer}>
-        <ImageViewer imageUrls={images} />
-      </View>
-      <View style={styles.commentSection}>
+        
+        <View style={styles.imageContainer}>
+            {/* <ImageViewer imageUrls={images} /> */}
+        </View>
+        <View style={styles.commentSection}>        
+          <View>
+            <Text style={{textAlign:"center"}}>Comments</Text>
+          </View>
 
-      </View>
-      {/* <Text>{name}</Text> */}
-      {/* <Button title='ver imagenes' onPress={()=>{alert("funca")}}/> */}
-  
+          <View>
+            {coms}
+          </View>
+          
 
+{/*           <View>
+            <FlatList nestedScrollEnabled
+            data={comments}
+            renderItem={({ item }) => 
+            <CommentRenderer username={item.username} avatar={item.avatar} comment={item.comment}/>}
+            keyExtractor={(item, index) => index.toString()}
+            vertical={true}
+            showsHorizontalScrollIndicator={true}            
+            />
+          </View> */}
+
+        </View>
       </ScrollView>
     </View>
   );
@@ -73,7 +130,8 @@ const styles = StyleSheet.create({
   },
   commentSection: {
     width:'100%',
-    height:400,
+    height:'auto',
     backgroundColor: 'lightblue'
   },
+  
 });
