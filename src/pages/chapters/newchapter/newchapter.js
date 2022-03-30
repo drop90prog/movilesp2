@@ -7,7 +7,7 @@ import { updateManga, deleteManga } from '../../../controllers/fetchManga';
 import { useFocusEffect } from '@react-navigation/native';
 import { getData } from '../../../controllers/storages';
 
-export default function Newchapter() {
+export default function Newchapter(props) {
 
   const [mangaName, setManganame] = useState('');
   const [mangaId, setMangaid] = useState('');
@@ -87,11 +87,13 @@ export default function Newchapter() {
             <Button 
             title="delete manga"
             mode="contained" 
-            onPress={() => {
+            onPress={() => {             
                 deleteManga(mangaId) 
                 .then(res => {
                 alert(res.message)
-                }).catch(error => console.error('Error:', error))}}
+                props.navigation.navigate('Home')
+                }).catch(error => console.error('Error:', error))
+              }}
             />
           </View>
 

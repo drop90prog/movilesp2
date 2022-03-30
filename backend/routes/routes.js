@@ -33,7 +33,8 @@ const chapterCtrl = require ('../controllers/chapters')
 
 api.post('/savechapter', chapterCtrl.saveChapter)
 api.post('/findchapters', chapterCtrl.findChapters)
-
+api.put('/updatechapter', chapterCtrl.updateChapter)
+api.delete('/deletechapter', chapterCtrl.deleteChapter)
 
 
 //=========================================================IMAGES
@@ -52,7 +53,6 @@ const commentCtrl = require ('../controllers/comments')
 
 api.post('/savecomment', commentCtrl.saveComment)
 api.post('/findcomments', commentCtrl.findComments)
-api.post('/find5lastcomments', commentCtrl.find5LastComments)
 api.delete('/deletecomment', commentCtrl.deleteComment)
 
 

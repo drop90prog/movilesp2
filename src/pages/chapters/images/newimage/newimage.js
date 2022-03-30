@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { getData } from '../../../../controllers/storages';
 import { saveImage } from '../../../../controllers/fetchImage';
+import { updateChapter, deleteChapter } from '../../../../controllers/fetchChapter';
 
 import * as ImagePicker from 'expo-image-picker';
 
@@ -12,7 +13,7 @@ import Firebase from 'firebase/app';
 import { firebaseConfig} from '../../../../../firebase';
 import 'firebase/storage'; 
 
-export default function Newimage() {
+export default function Newimage(props) {
 
 
   const [chapterName, setChaptername] = useState('');
@@ -165,6 +166,49 @@ export default function Newimage() {
           </TouchableOpacity>}
           {image && <Button title="upload" onPress={uploadImage} />}
       </View>
+
+      <View>
+          <View>
+              <TextInput style={styles.name}          
+              onChangeText={chapterneim => setChaptername(chapterneim)}
+              placeholder="number"
+              value={chapterName}
+              />
+          </View>
+          <View>
+            <Button style={styles.button} 
+            title="update"
+            mode="contained" 
+            onPress={() => {
+                updateChapter(chapterId, chapterName) 
+                .then(res => {
+                alert(res.message)
+                }).catch(error => console.error('Error:', error))}}
+            />
+          </View>
+
+          <View style={{marginTop:20}}>
+            <Button 
+            title="delete chapter"
+            mode="contained" 
+            onPress={() => {              
+                deleteChapter(chapterId) 
+                .then(res => {
+                alert(res.message)
+                props.navigation.navigate('Chaps')
+                }).catch(error => console.error('Error:', error))
+              }}
+            />
+          </View>
+
+
+
+      </View>
+
+
+
+
+
 
     </View>
   );

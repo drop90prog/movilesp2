@@ -1,14 +1,11 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const bcrypt = require('bcrypt-nodejs')
-const crypto = require('crypto')
 
 const UserSchema = new Schema({
-    idmovie: Number,
-    moviename: String,
-    iduser: String,
     comment: String,
-    username: String,
+    iduser: String,
+    avatar: String,
+    chapterid: String,    
 })
 
 

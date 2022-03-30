@@ -48,19 +48,41 @@ function saveChapter (req, res) {
 }
 
 
-
-function deleteImage (req,res) {
-    console.log(req.body.name)
-    Imagee.findOneAndDelete({filename:req.body.name}, (err)=>{
-        if(err)return res.status(500).send({message: err}) 
-        return res.status(200).send({message:'Successfully deleted'})
+function updateChapter (req,res) {
+    
+    Chapters.findByIdAndUpdate(req.body.chapterid,{chaptername:req.body.newname}, (err, result)=>{
+        if(err)return res.status(500).send({message: err})
+        if(result)return res.status(200).send({message:'Successfully updated'})
+       
     })
     
+    
 }
+
+
+
+function deleteChapter (req,res) {
+      
+
+    Chapters.findByIdAndDelete({_id: req.body.chapterid} , (err, result)=>{
+        if(err)return res.status(500).send({message: err}) 
+        if(result)res.status(200).send({message:'Successfully deleted'})
+    })    
+}
+
+
+
+
+
+
+
+
 
 
 
 module.exports = {
     saveChapter,
     findChapters,
+    updateChapter,
+    deleteChapter,
 }

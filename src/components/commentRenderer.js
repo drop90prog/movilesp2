@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image} from "react-native";
 import { Card } from "react-native-paper";
+import { deleteComment } from "../controllers/fetchComments";
 
 
 
@@ -37,7 +38,13 @@ export default function CommentRenderer(props) {
                 </TouchableOpacity>                
               </View>
               <View>
-              <TouchableOpacity onPress={()=>{alert("delete comment")}}>
+              <TouchableOpacity onPress={()=>{
+                deleteComment(props.id)
+                  .then(res=>{
+                    alert(res.message)                    
+                  })
+                
+                }}>
                   <View style={{height:20, width:70, backgroundColor:'pink'}}>
                     <Text style={{textAlign:'center'}}>delete</Text>
                   </View>                    

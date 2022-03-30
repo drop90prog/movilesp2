@@ -7,10 +7,10 @@ const Top = createMaterialTopTabNavigator();
 
 
 
-export default function Toptabsimages() {
+export default function Toptabsimages(props) {
   return (
     <Top.Navigator>
-      <Top.Screen name="Images" component={Images} />
+      <Top.Screen name="Images" navigation={props.navigation} component={Images} />
       <Top.Screen name="New" component={Newimage} />
     </Top.Navigator>
   );

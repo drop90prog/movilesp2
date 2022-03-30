@@ -1,18 +1,13 @@
 const Comment = require('../models/comments')
 
 
-
-
-function saveComment(req, res){   
-
-    console.log(req.body)
+function saveComment(req, res){     
 
     const komentario = new Comment({
-        idmovie: req.body.idmovie,
-        moviename: req.body.moviename,
-        iduser: req.body.iduser,
         comment: req.body.comment,
-        username: req.body.username,
+        iduser: req.body.iduser,
+        avatar: req.body.avatar,
+        chapterid: req.body.chapterid,    
     })        
     komentario.save((err)=>{
         if(err)return res.status(500).send({message:`Error ${err}`})
@@ -22,43 +17,31 @@ function saveComment(req, res){
 }//function saveComment
 
 
-             
 function findComments(req, res){
-    Comment.find({idmovie: req.body.idmovie}, (err,result)=>{
-
-        if(err)return res.status(404).send({
-            message:'errorrrrr'            
-        })  
-
-        if(result){
-            return res.status(200).send({resultado:result})
-        } 
-        
-    })//Comment.find
-}
-
-
-function find5LastComments(req, res){
-
     
-    Comment.find({iduser: req.body.iduser}, (err,result)=>{
+    Comment.find({chapterid: req.body.chapterid}, (err,result)=>{
 
         if(err)return res.status(404).send({
             message:'errorrrrr'            
-        })  
+        })
 
-        if(result){
-            return res.status(200).send({resultado:result})
+        if(result.length==0){console.log("==0")
+            return res.status(404).send({message:"no comments yet"})
+        } 
+
+        if(result.length>0){console.log(">0")
+            return res.status(200).send({result:result})
         } 
         
     })//Comment.find
 }
+
 
 
 function deleteComment (req,res) {
       
 
-    Comment.findByIdAndDelete({_id: req.body.idcomment} , (err, result)=>{
+    Comment.findByIdAndDelete({_id: req.body.commentid} , (err, result)=>{
         if(err)return res.status(500).send({message: err}) 
         if(result)res.status(200).send({message:'Successfully deleted'})
     })    
@@ -71,7 +54,6 @@ function deleteComment (req,res) {
 module.exports = {
     saveComment,
     findComments,
-    find5LastComments,
     deleteComment,
 }
 

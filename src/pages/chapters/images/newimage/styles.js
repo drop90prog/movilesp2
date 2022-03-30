@@ -17,4 +17,12 @@ export const styles = StyleSheet.create({
       width:'100%',    
       backgroundColor: 'lightgray',    
     },
+    name: {
+      marginTop:10,
+      width:250,
+      borderColor:"black",
+      borderWidth:1,     
+      borderRadius:10,
+      padding:10
+    },
   });
