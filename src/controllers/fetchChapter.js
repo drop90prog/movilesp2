@@ -1,9 +1,12 @@
-export const saveChapter = async (name, chaptername)=> {
+export const saveChapter = async (mangaid, chaptername, number)=> {
 
     let heroku = 'https://movilesp1.herokuapp.com/savechapter'
     let local = 'http://10.0.0.94:3000/savechapter'
           
-    let info = { name: name, chaptername: chaptername };            
+
+    if(chaptername=='')chaptername='(no name)'
+
+    let info = { mangaid: mangaid, chaptername: chaptername, number: number };            
         
       const res = await fetch(local, {
           method: 'post', 
@@ -13,14 +16,16 @@ export const saveChapter = async (name, chaptername)=> {
           }
           })
           return res.json()
+
+
     }
   
   
-export const findChapters = async(name)=> {
+export const findChapters = async(mangaid)=> {
         
-let heroku = 'https://movilesp1.herokuapp.com/findchapters'
-let local = 'http://10.0.0.94:3000/findchapters'
-let info = { name: name };  
+    let heroku = 'https://movilesp1.herokuapp.com/findchapters'
+    let local = 'http://10.0.0.94:3000/findchapters'
+    let info = { mangaid: mangaid };  
     
     const res = await fetch(local, {
         method: 'post',
@@ -31,3 +36,6 @@ let info = { name: name };
         })
         return res.json()
   }
+
+
+  

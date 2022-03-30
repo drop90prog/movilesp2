@@ -1,26 +1,27 @@
 
-const Manga = require('../models/manga')
+const Image = require('../models/images')
 
 
 
 
-function saveManga (req, res) {
+function saveImage (req, res) {
    
 
-    const manga = new Manga({
-        name: req.body.name,
-        poster: req.body.poster
+    const image = new Image({
+        chapterid: req.body.chapterid,
+        url: req.body.url
     })
 
-    manga.save((err)=>{
+    image.save((err)=>{
         if(err)res.status(500).send({message:`Error ${err}`})
         res.status(200).send({message:"new manga added"})
     })    
   };
 
 
-  function findMangas(req, res){
-    Manga.find({}, (err,result)=>{
+  function findImages(req, res){
+      console.log(req.body)
+    Image.find({chapterid: req.body.chapterid}, (err,result)=>{
 
         if(err)return res.status(404).send({
             message:'errorrrrr'            
@@ -30,7 +31,7 @@ function saveManga (req, res) {
             return res.status(200).send({content:result, message:"found them"})
         } 
 
-        if(result.length==0){
+        if(result.length==0){console.log("not found")
             return res.status(404).send({message:"not found"})
         } 
         
@@ -39,16 +40,7 @@ function saveManga (req, res) {
 
 
 
-function updateManga (req,res) {
-    
-    Manga.findByIdAndUpdate(req.body.mangaid,{name:req.body.newname}, (err, result)=>{
-        if(err)return res.status(500).send({message: err})
-        if(result)return res.status(200).send({message:'Successfully updated'})
-       
-    })
-    
-    
-}
+
 
 
 
@@ -64,8 +56,7 @@ function deleteManga (req,res) {
 
 
 module.exports = {
-    saveManga,
-    findMangas,
-    updateManga,
+    saveImage,
+    findImages,
     deleteManga,
 }

@@ -4,7 +4,7 @@ import { Card } from "react-native-paper";
 
 
 export default function CommentRenderer(props) {
-    console.log(props.username)
+    /* console.log(props.username) */
     return (
 
     <View style={{padding:5}}>

@@ -24,6 +24,8 @@ const mangaCtrl = require ('../controllers/manga')
 
 api.post('/savemanga', mangaCtrl.saveManga)
 api.get('/findmangas', mangaCtrl.findMangas)
+api.post('/updatemanga', mangaCtrl.updateManga)
+api.delete('/deletemanga', mangaCtrl.deleteManga)
 
 
 //=========================================================CHAPTERS
@@ -31,6 +33,14 @@ const chapterCtrl = require ('../controllers/chapters')
 
 api.post('/savechapter', chapterCtrl.saveChapter)
 api.post('/findchapters', chapterCtrl.findChapters)
+
+
+
+//=========================================================IMAGES
+const imageCtrl = require ('../controllers/images')
+
+api.post('/saveimage', imageCtrl.saveImage)
+api.post('/findimages', imageCtrl.findImages)
 
 
 
@@ -79,6 +89,7 @@ api.delete('/deletereview', reviewsCtrl.deleteReview)
 //==========================================================RATINGREVIEWS
 
 const ratingReviews = require('../controllers/ratingreviews')
+const { saveImage } = require('../controllers/images')
 
 api.post('/saveratingreview', ratingReviews.saveRatingReview)
 api.post('/findratingreview', ratingReviews.findRatingReview)

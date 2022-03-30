@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Modal, FlatList } from 'react-native';
-import { useDispatch, useSelector } from "react-redux";
+
 import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { findMangas } from '../../controllers/fetchManga';
@@ -10,14 +10,14 @@ import { signIn } from '../../controllers/fetchUser';
 
 
 export default function Home({navigation},props) {
-  const user = useSelector((state) => state.user); // datos del usuario logueado
+
   const [mangas, setMangas] = useState([])
  
 //useEffect en tabs, esto carga la pagina cuando entras a la tab
   useFocusEffect(
     React.useCallback(()=>{
       
-    findMangas().then(res=>{setMangas(res.content);console.log(mangas)})
+    findMangas().then(res=>{setMangas(res.content)})
 
     },[])
   )
@@ -42,7 +42,8 @@ export default function Home({navigation},props) {
       <View>
         <FlatList
           data={mangas}
-          renderItem={({ item }) => <Mangas name={item.name} navigation={navigation}/>}
+          renderItem={({ item }) => 
+          <Mangas name={item.name} mangaid={item._id} poster={item.poster} navigation={navigation}/>}
           keyExtractor={(item, index) => index.toString()}
           horizontal={false}
           showsHorizontalScrollIndicator={false}
