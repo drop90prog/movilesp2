@@ -7,7 +7,8 @@ function saveComment(req, res){
         comment: req.body.comment,
         iduser: req.body.iduser,
         avatar: req.body.avatar,
-        chapterid: req.body.chapterid,    
+        chapterid: req.body.chapterid,
+        name: req.body.name
     })        
     komentario.save((err)=>{
         if(err)return res.status(500).send({message:`Error ${err}`})

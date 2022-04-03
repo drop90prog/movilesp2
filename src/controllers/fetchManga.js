@@ -1,11 +1,11 @@
-export const saveManga = async (name, poster)=> {
+export const saveManga = async (name, poster, creatorid)=> {
 
   let heroku = 'https://movilesp1.herokuapp.com/savemanga'
   let local = 'http://10.0.0.94:3000/savemanga'
 
   if(!poster)poster='https://directory.usacarry.com/wp-content/uploads/2021/06/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpeg'
         
-  let info = { name: name, poster:poster };            
+  let info = { name: name, poster:poster, creatorid:creatorid };            
       
     const res = await fetch(local, {
         method: 'post', 

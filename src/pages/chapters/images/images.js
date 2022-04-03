@@ -22,40 +22,58 @@ export default function Images(props) {
   const [images, setImages] = useState([])
   const [comment, setComment] = useState('')
   const [comments, setComments] = useState([])
-  const iduser = 'nodisponible'
+  const [userId, setUserid] = useState('');
+  const [userName, setUsername] = useState('');
+  const [isAdmin, setIsadmin] = useState(false);
 
   //obtiene de un array el id(0) y nombre(1) del capitulo
-  const o = async()=>{
-    const gettingchapter = JSON.parse(await getData('chapter'))
+
+  getData('chapter').then(res=>{
+    const gettingchapter =JSON.parse(res)
     setChapterid(gettingchapter[0])
     setChaptername(gettingchapter[1])  
 
-    findImages(gettingchapter[0])
-    .then(res=>{
-      let arrayOfImages =[];
-      for(let x in res.content){
-        arrayOfImages.push({url:res.content[x].url})
-      }
-      setImages(arrayOfImages)
+  })
 
-      //storeData('images',JSON.stringify(res.content))  
-    })
-
-    findComments(gettingchapter[0]).then(res=>{
-      
-      if(!res.result)setComment([])
-      else setComments(res.result)
-    })
+  //obtiene id del user loggeado
+  getData('user').then(res=>{
+    if(res){
+      let us = JSON.parse(res)
+      setUserid(us.sub)
+      setUsername(us.name)
+    }
+  })
 
 
-  }
+  getData('permissions').then(res=>{
+    let per = JSON.parse(res)
+    if(per.isAdmin)setIsadmin(true)
+    
+  })
+  
 
   useFocusEffect(
     React.useCallback(()=>{
 
-      o()
-
-
+    if(chapterId){
+      findImages(chapterId)
+      .then(res=>{
+        let arrayOfImages =[];
+        for(let x in res.content){
+          arrayOfImages.push({url:res.content[x].url})
+        }
+        setImages(arrayOfImages)
+  
+        //storeData('images',JSON.stringify(res.content))  
+      })
+  
+      findComments(chapterId).then(res=>{
+        
+        if(!res.result)setComment([])
+        else setComments(res.result)
+        console.log(res.result)
+      })
+    }
 
 /*
       findImages(chapterId)
@@ -81,7 +99,7 @@ export default function Images(props) {
     
 
 
-    },[])
+    },[chapterId])
 
   )//useEffect
 
@@ -127,11 +145,14 @@ export default function Images(props) {
 const coms = comments.map((item,index,array)=>{
   return(
     <CommentRenderer 
+    loggeduserid={userId}
+    isadmin={isAdmin}
     key={index} 
-    username={"joseito"} 
     avatar={item.avatar} 
     comment={item.comment}
-    id={item._id}    
+    name={item.name}
+    iduser={item.iduser}
+    ind={index}
     />
   )
 })
@@ -168,7 +189,10 @@ const coms = comments.map((item,index,array)=>{
               />            
             </View>
             <Button title="comment" onPress={()=>{
-              saveComment(comment, iduser, commentss[0].avatar, chapterId)
+              if(!userId)alert("Sign in before comment")
+              else if(comment=='')alert("fill the fiels please")
+              else{
+                saveComment(comment, userId, commentss[0].avatar, chapterId, userName)
                 .then(res=>{
                   findComments(chapterId).then(res=>{
       
@@ -179,6 +203,9 @@ const coms = comments.map((item,index,array)=>{
 
                   alert(res.message)
                 })
+              }
+              
+
               }}/>
            </View>
 

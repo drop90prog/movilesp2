@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image} from "react-native";
 import { Card } from "react-native-paper";
 import { deleteComment } from "../controllers/fetchComments";
@@ -6,6 +7,18 @@ import { deleteComment } from "../controllers/fetchComments";
 
 export default function CommentRenderer(props) {
     /* console.log(props.username) */
+    const [allowDelete, setAllowdelete] = useState(false)
+    
+
+    useEffect(()=>{
+      console.log(props.isadmin)
+      if(!props.isadmin){
+        if(props.iduser == props.loggeduserid)setAllowdelete(true)
+        else setAllowdelete(false)
+      }else setAllowdelete(true)
+
+    },[props.ind])
+
     return (
 
     <View style={{padding:5}}>
@@ -19,7 +32,7 @@ export default function CommentRenderer(props) {
                   <Image source={{uri:props.avatar}} style={styles.avatars}/>
                 </View>
                 <View style={{marginTop:4}}>{/* username */}
-                  <Text >{props.username}</Text>
+                  <Text >{props.name}</Text>
                 </View>            
               </View>
 
@@ -29,7 +42,7 @@ export default function CommentRenderer(props) {
               </View>
             </View>
 
-            <View style={{flexDirection:'row', justifyContent:'space-around', height:25}}>
+            {allowDelete&&<View style={{flexDirection:'row', justifyContent:'space-around', height:25}}>
               <View>
                 <TouchableOpacity onPress={()=>{alert("edit comment")}}>
                   <View style={{height:20, width:70, backgroundColor:'pink'}}>
@@ -37,20 +50,20 @@ export default function CommentRenderer(props) {
                   </View>                    
                 </TouchableOpacity>                
               </View>
-              <View>
-              <TouchableOpacity onPress={()=>{
+              <View >
+                <TouchableOpacity onPress={()=>{
                 deleteComment(props.id)
                   .then(res=>{
                     alert(res.message)                    
                   })
-                
-                }}>
+                  
+                  }}>
                   <View style={{height:20, width:70, backgroundColor:'pink'}}>
                     <Text style={{textAlign:'center'}}>delete</Text>
                   </View>                    
                 </TouchableOpacity>    
               </View>
-            </View>
+            </View>}
 
 
           </View>{/* contenido del card */}

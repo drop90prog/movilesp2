@@ -1,10 +1,10 @@
-export const saveComment = async (comment, iduser, avatar, chapterid)=> {
+export const saveComment = async (comment, iduser, avatar, chapterid, name)=> {
 
     let heroku = 'https://movilesp1.herokuapp.com/savecomment';
     let local = 'http://10.0.0.94:3000/savecomment';
 
 
-    let info = {comment:comment, iduser:iduser, avatar:avatar, chapterid:chapterid};            
+    let info = {comment:comment, iduser:iduser, avatar:avatar, chapterid:chapterid, name:name};            
         
       const res = await fetch(local, {
           method: 'post', 

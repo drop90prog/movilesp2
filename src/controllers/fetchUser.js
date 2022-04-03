@@ -1,4 +1,4 @@
-export const signIn = async (email, password, navigation)=> {
+export const signIn = async (email, password)=> {
 
   let heroku = 'https://movilesp1.herokuapp.com/signin'
   let local = 'http://10.0.0.94:3000/signin'    
@@ -16,12 +16,13 @@ export const signIn = async (email, password, navigation)=> {
   }
 
    
-export const signUp = (name, email, password)=> {  
+export const signUp = (name, email, password, admin)=> {  
   
   let heroku = 'https://movilesp1.herokuapp.com/signup'
   let local = 'http://10.0.0.94:3000/signup'
-        
-    let account = {name: name, email: email, password: password};            
+
+
+    let account = {name: name, email: email, password: password, admin:admin};            
     
     fetch(local, {
       method: 'post', 

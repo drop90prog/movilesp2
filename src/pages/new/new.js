@@ -2,8 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Modal, TextInput, Image, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
 import { styles } from './styles';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { saveManga } from '../../controllers/fetchManga';
+import { getData } from '../../controllers/storages';
+import { useFocusEffect } from '@react-navigation/native';
 
 import * as ImagePicker from 'expo-image-picker';
 
@@ -12,12 +14,25 @@ import { firebaseConfig } from '..//../../firebase';
 import 'firebase/storage'; 
 
 export default function New() {
-  const user = useSelector((state) => state.user); // datos del usuario logueado
+  const [allowed, setAllowed] = useState(false)
 
   const [name, setName] = useState(null);
   const [image, setImage] = useState(null);
   const [poster, setPoster] = useState(null);
+  const [creatorid, setCreatorid] = useState('')
+  
+  useFocusEffect(
+    React.useCallback(()=>{
+      getData('permissions').then(res=>{
+        let per = JSON.parse(res)
+        if(per.isLogged)setAllowed(true)
+        if(!per.isLogged)setAllowed(false)//necesrio, porque sino queda guardado el true y luego estes deslogueado seguira siendo true
+        console.log(`new manga: logged: ${per.isLogged}, admin: ${per.isAdmin}`)
+      })
 
+      getData('user').then(res=>{let user = JSON.parse(res); setCreatorid(user.sub)})
+    },[])
+  )
 
 //*****************************************************************************
   const pickImage = async () => {
@@ -89,39 +104,45 @@ export default function New() {
 
   return (
     <View style={styles.container}>
+      {allowed?<View>
+        <View>
+            <TextInput style={styles.name}          
+            onChangeText={name => setName(name)}
+            placeholder="Enter name" 
+            value={name}    
+            />
+        </View>
+
+        <Button style={styles.button} 
+        title="Add"
+        mode="contained" 
+        onPress={() => { 
+          if(!name)alert("fill the form please")
+          else{
+          saveManga(name, poster, creatorid) 
+          .then(res => {
+          setName(null)
+          setImage(null)
+          setPoster(null)
+          alert(res.message)
+          }).catch(error => console.error('Error:', error))}}
+          }
+        />
+
+
+        <View >
+          <Button title="Pick an image from camera roll" onPress={pickImage} />
+            {image && 
+            <TouchableOpacity onPress={()=>{setImage(null)}}>
+              <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+            </TouchableOpacity>}
+            {image && <Button title="upload" onPress={uploadImage} />}
+        </View>
+      </View>:
       <View>
-          <TextInput style={styles.name}          
-          onChangeText={name => setName(name)}
-          placeholder="Enter name" 
-          value={name}    
-          />
+        <Text>q loquis</Text>
       </View>
-
-      <Button style={styles.button} 
-      title="Add"
-      mode="contained" 
-      onPress={() => { 
-        if(!name)alert("fill the form please")
-        else{
-        saveManga(name, poster) 
-        .then(res => {
-        setName(null)
-        setImage(null)
-        setPoster(null)
-        alert(res.message)
-        }).catch(error => console.error('Error:', error))}}
-        }
-      />
-
-
-      <View >
-        <Button title="Pick an image from camera roll" onPress={pickImage} />
-          {image && 
-          <TouchableOpacity onPress={()=>{setImage(null)}}>
-            <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-          </TouchableOpacity>}
-          {image && <Button title="upload" onPress={uploadImage} />}
-      </View>
+      }
 
     </View>
   );

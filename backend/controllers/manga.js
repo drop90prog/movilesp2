@@ -9,7 +9,8 @@ function saveManga (req, res) {
 
     const manga = new Manga({
         name: req.body.name,
-        poster: req.body.poster
+        poster: req.body.poster,
+        creatorid: req.body.creatorid
     })
 
     manga.save((err)=>{

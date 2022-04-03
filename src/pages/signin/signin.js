@@ -5,14 +5,17 @@ import { useState } from 'react';
 import { signIn } from '../../controllers/fetchUser';
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from '../../redux/slices/userSlice';
+import { storeData } from '../../controllers/storages'
 
 
 
-export default function Signin({ navigation }) {
+export default function Signin(props,{ navigation }) {
     const dispatch = useDispatch();
     const jwtDecode = require('jwt-decode');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+
   return (
 
     <View  style={styles.contender}>
@@ -42,19 +45,12 @@ export default function Signin({ navigation }) {
     <Button style={styles.button} 
     title="Sign in"
     mode="contained" 
-    onPress={() => {
-        
-        
-    signIn(email, password, navigation)
+    onPress={() => {       
+    signIn(email, password)    
     .then(res => {
         let user = jwtDecode(res.token)
-        const sesion = {
-            name: user.name,
-            email: user.email,
-            avatar: user.avatar,
-        }                  
-        dispatch(setUser(sesion));
-        navigation.navigate('Home')
+        storeData('user',JSON.stringify(user))
+        props.navigation.navigate('Home')
     }).catch(error => console.error('Error:', error))}
         
 

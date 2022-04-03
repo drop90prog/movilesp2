@@ -6,6 +6,7 @@ const UserSchema = new Schema({
     iduser: String,
     avatar: String,
     chapterid: String,    
+    name: String,
 })
 
 

@@ -22,28 +22,53 @@ export default function Newimage(props) {
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState(null);
 
+  const [userId, setUserid] = useState('');
+  const [allowed, setAllowed] = useState(false);
+  const [creatorid, setCreatorid] = useState('');
+
+console.log("niuuuuuuuu")
+//obtiene si es admin o no
+  getData('permissions').then(res=>{
+    let per = JSON.parse(res)
+    if(per.isAdmin)setAllowed(true)
+   
+   // console.log(`(new chapter) admin: ${per.isAdmin}`)
+  })
+
+  //obtiene id del user loggeado
+  getData('user').then(res=>{
+    if(res){
+      let us = JSON.parse(res)
+      setUserid(us.sub)
+    }
+  })
+
+  //obtiene id(0) y nombre(1) del capitulo
+  getData('chapter').then(res=>{
+    let gettingchapter = JSON.parse(res)
+    setChapterid(gettingchapter[0])
+    setChaptername(gettingchapter[1])  
+   // console.log(`chaptername: ${gettingchapter[1]}, chapterid: ${gettingchapter[0]}`)   
+  })
+
+  //obtiene id del creador del manga
+  getData('manga').then(res=>{
+    let l = JSON.parse(res)
+    const creatoridd = l[2]
+    setCreatorid(creatoridd)
+    //console.log(`current manga: ${manganamee}, id:${mangaidee}, creatorid: ${creatoridd}`)         
+  })
+
 
   useFocusEffect(
     React.useCallback(()=>{
 
-      //obtiene el nombre del manga
-/*       const u = async()=>{
-        let l =  JSON.parse(await getData('manga'))
-        const manganamee = l[1]
-        setManganame(manganamee)
-        console.log(`current manga: ${manganamee}`)    
+      if(userId==creatorid){
+        console.log(`userid: ${userId}, creatorid: ${creatorid}`), setAllowed(true)
       }
-      u() */
-
-      //obtiene id(0) y nombre(1) del capitulo
-      const o = async()=>{
-        const gettingchapter = JSON.parse(await getData('chapter'))
-        setChapterid(gettingchapter[0])
-        setChaptername(gettingchapter[1])  
-        console.log(`chaptername: ${gettingchapter[1]}, chapterid: ${gettingchapter[0]}`)   
-      }
-      o()
-      },[manganame])
+      
+ 
+      },[manganame, userId, creatorid])
 
 
 
@@ -144,71 +169,68 @@ export default function Newimage(props) {
 
   return (
     <View style={styles.container}>
+      {allowed?<View> 
 
-      <Button style={styles.button} 
-      title="Add"
-      mode="contained" 
-      onPress={() => { 
-        saveImage(chapterId, url) 
-        .then(res => {
-        setImage(null)
-        setUrl(null)
-        alert(res.message)
-        }).catch(error => console.error('Error:', error))}}
-      />
+        <Button style={styles.button} 
+        title="Add"
+        mode="contained" 
+        onPress={() => { 
+          saveImage(chapterId, url) 
+          .then(res => {
+          setImage(null)
+          setUrl(null)
+          alert(res.message)
+          }).catch(error => console.error('Error:', error))}}
+        />
 
 
-      <View >
-        <Button title="Pick an image from camera roll" onPress={pickImage} />
-          {image && 
-          <TouchableOpacity onPress={()=>{setImage(null)}}>
-            <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-          </TouchableOpacity>}
-          {image && <Button title="upload" onPress={uploadImage} />}
-      </View>
+        <View >
+          <Button title="Pick an image from camera roll" onPress={pickImage} />
+            {image && 
+            <TouchableOpacity onPress={()=>{setImage(null)}}>
+              <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+            </TouchableOpacity>}
+            {image && <Button title="upload" onPress={uploadImage} />}
+        </View>
 
-      <View>
-          <View>
-              <TextInput style={styles.name}          
-              onChangeText={chapterneim => setChaptername(chapterneim)}
-              placeholder="number"
-              value={chapterName}
+        <View>
+            <View>
+                <TextInput style={styles.name}          
+                onChangeText={chapterneim => setChaptername(chapterneim)}
+                placeholder="number"
+                value={chapterName}
+                />
+            </View>
+            <View>
+              <Button style={styles.button} 
+              title="update"
+              mode="contained" 
+              onPress={() => {
+                  updateChapter(chapterId, chapterName) 
+                  .then(res => {
+                  alert(res.message)
+                  }).catch(error => console.error('Error:', error))}}
               />
-          </View>
-          <View>
-            <Button style={styles.button} 
-            title="update"
-            mode="contained" 
-            onPress={() => {
-                updateChapter(chapterId, chapterName) 
-                .then(res => {
-                alert(res.message)
-                }).catch(error => console.error('Error:', error))}}
-            />
-          </View>
+            </View>
 
-          <View style={{marginTop:20}}>
-            <Button 
-            title="delete chapter"
-            mode="contained" 
-            onPress={() => {              
-                deleteChapter(chapterId) 
-                .then(res => {
-                alert(res.message)
-                props.navigation.navigate('Chaps')
-                }).catch(error => console.error('Error:', error))
-              }}
-            />
-          </View>
-
-
-
-      </View>
-
-
-
-
-
+            <View style={{marginTop:20}}>
+              <Button 
+              title="delete chapter"
+              mode="contained" 
+              onPress={() => {              
+                  deleteChapter(chapterId) 
+                  .then(res => {
+                  alert(res.message)
+                  props.navigation.navigate('Chaps')
+                  }).catch(error => console.error('Error:', error))
+                }}
+              />
+            </View>
+        </View>
+      </View>:
+      <View>
+        <Text>qqq nooo jajaj bobisss</Text>
+      </View>}
 
     </View>
   );

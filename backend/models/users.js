@@ -8,9 +8,7 @@ const UserSchema = new Schema({
     email: { type: String, unique: true, lowercase: true},
     password: { type: String, select: false },
     avatar: String,
-    showLastFavorites: Boolean,
-    showLastComments:Boolean,
-    showLastRatings: Boolean,    
+    admin: Boolean, 
     signupDate: {type: Date, default: Date.now()},
     lastlogin: Date   
 })

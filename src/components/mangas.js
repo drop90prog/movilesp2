@@ -12,7 +12,7 @@ export default function Mangas(props, {navigation}) {
     
     return (
       <TouchableOpacity onPress={()=> {       
-      storeData("manga",JSON.stringify([props.mangaid, props.name]))
+      storeData("manga",JSON.stringify([props.mangaid, props.name, props.creatorid]))
        props.navigation.navigate('Toptabs') //envia a chapters
         }}>
         <View  style={{ width: 130, height: 200, marginLeft: 15, marginVertical: 15 }}>

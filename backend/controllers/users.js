@@ -10,9 +10,7 @@ function signup (req, res) {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        showLastFavorites: false,
-        showLastComments: false,
-        showLastRatings: false, 
+        admin: req.body.admin,
         avatar: 'https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y',
     })
 

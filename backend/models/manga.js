@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 const UserSchema = new Schema({
     name: String,
     poster: String,
+    creatorid: String,
 
 })
 
