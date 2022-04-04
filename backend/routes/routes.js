@@ -56,6 +56,15 @@ api.post('/findcomments', commentCtrl.findComments)
 api.delete('/deletecomment', commentCtrl.deleteComment)
 
 
+//==========================================================FOLLOWS
+
+const followCtrl = require ('../controllers/follows')
+
+api.post('/savefollow', followCtrl.saveFollow)
+api.post('/findfollow', followCtrl.findFollow)
+api.delete('/deletefollow', followCtrl.deleteFollow)
+
+
 
 
 //==========================================================RATINGS
