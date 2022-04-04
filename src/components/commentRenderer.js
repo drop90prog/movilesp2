@@ -11,7 +11,7 @@ export default function CommentRenderer(props) {
     
 
     useEffect(()=>{
-      console.log(props.isadmin)
+/*       console.log(props.isadmin) */
       if(!props.isadmin){
         if(props.iduser == props.loggeduserid)setAllowdelete(true)
         else setAllowdelete(false)

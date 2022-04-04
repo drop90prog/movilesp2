@@ -42,7 +42,7 @@ const imageCtrl = require ('../controllers/images')
 
 api.post('/saveimage', imageCtrl.saveImage)
 api.post('/findimages', imageCtrl.findImages)
-
+api.delete('/deleteimage', imageCtrl.deleteImage)
 
 
 

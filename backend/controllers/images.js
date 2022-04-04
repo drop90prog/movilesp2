@@ -39,15 +39,10 @@ function saveImage (req, res) {
 }
 
 
-
-
-
-
-
-function deleteManga (req,res) {
+function deleteImage (req,res) {
       
 
-    Manga.findByIdAndDelete({_id: req.body.mangaid} , (err, result)=>{
+    Image.findByIdAndDelete({_id: req.body.imageid} , (err, result)=>{
         if(err)return res.status(500).send({message: err}) 
         if(result)res.status(200).send({message:'Successfully deleted'})
     })    
@@ -55,8 +50,11 @@ function deleteManga (req,res) {
 
 
 
+
+
+
 module.exports = {
     saveImage,
     findImages,
-    deleteManga,
+    deleteImage,
 }

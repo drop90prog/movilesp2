@@ -4,7 +4,7 @@ import { styles } from './styles';
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { getData } from '../../../../controllers/storages';
-import { saveImage } from '../../../../controllers/fetchImage';
+import { deleteImage, saveImage } from '../../../../controllers/fetchImage';
 import { updateChapter, deleteChapter } from '../../../../controllers/fetchChapter';
 
 import * as ImagePicker from 'expo-image-picker';
@@ -21,12 +21,13 @@ export default function Newimage(props) {
   const [manganame, setManganame] = useState('')
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState(null);
+  const [images, setImages] = useState([]);
 
   const [userId, setUserid] = useState('');
   const [allowed, setAllowed] = useState(false);
   const [creatorid, setCreatorid] = useState('');
 
-console.log("niuuuuuuuu")
+
 //obtiene si es admin o no
   getData('permissions').then(res=>{
     let per = JSON.parse(res)
@@ -56,16 +57,28 @@ console.log("niuuuuuuuu")
     let l = JSON.parse(res)
     const creatoridd = l[2]
     setCreatorid(creatoridd)
+  
     //console.log(`current manga: ${manganamee}, id:${mangaidee}, creatorid: ${creatoridd}`)         
   })
+
+
 
 
   useFocusEffect(
     React.useCallback(()=>{
 
       if(userId==creatorid){
-        console.log(`userid: ${userId}, creatorid: ${creatorid}`), setAllowed(true)
+/*         console.log(`userid: ${userId}, creatorid: ${creatorid}`) */
+        setAllowed(true)
       }
+
+
+      getData('images').then(res=>{  
+        let imagess = JSON.parse(res)
+        setImages(imagess)
+ 
+        //console.log(`current manga: ${manganamee}, id:${mangaidee}, creatorid: ${creatoridd}`)         
+      })
       
  
       },[manganame, userId, creatorid])
@@ -94,7 +107,7 @@ console.log("niuuuuuuuu")
       allowsMultipleSelection: true
     });
   
-    console.log(result); 
+/*     console.log(result);  */
   
     if (!result.cancelled) {
       setImage(result.uri);
@@ -130,7 +143,7 @@ console.log("niuuuuuuuu")
     },
     ()=>{
       snapshot.snapshot.ref.getDownloadURL().then((url)=>{
-        console.log("Download URL: ", url)  
+/*         console.log("Download URL: ", url)   */
 
        
 
@@ -171,17 +184,7 @@ console.log("niuuuuuuuu")
     <View style={styles.container}>
       {allowed?<View> 
 
-        <Button style={styles.button} 
-        title="Add"
-        mode="contained" 
-        onPress={() => { 
-          saveImage(chapterId, url) 
-          .then(res => {
-          setImage(null)
-          setUrl(null)
-          alert(res.message)
-          }).catch(error => console.error('Error:', error))}}
-        />
+
 
 
         <View >
@@ -194,6 +197,29 @@ console.log("niuuuuuuuu")
         </View>
 
         <View>
+
+              {images.map((item, index)=>{
+        
+                return(
+                  <View key={index} >
+                    <TouchableOpacity  onPress={()=>{
+                      
+                      deleteImage(item.id).then((res)=>{alert(res.message)})
+                      
+                      }}>
+                      <View style={{height:30, width:100, backgroundColor:'lightgray', marginTop:20}}>
+                        <Text>{index + 1}</Text>
+                      </View>    
+                    </TouchableOpacity>
+                                   
+                  </View>               
+                )
+
+              })}
+
+        </View>
+
+        <View style={{marginTop:40}}>
             <View>
                 <TextInput style={styles.name}          
                 onChangeText={chapterneim => setChaptername(chapterneim)}

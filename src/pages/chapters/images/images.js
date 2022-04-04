@@ -60,9 +60,10 @@ export default function Images(props) {
       .then(res=>{
         let arrayOfImages =[];
         for(let x in res.content){
-          arrayOfImages.push({url:res.content[x].url})
+          arrayOfImages.push({url:res.content[x].url, id:res.content[x]._id})
         }
         setImages(arrayOfImages)
+        
   
         //storeData('images',JSON.stringify(res.content))  
       })
@@ -71,7 +72,7 @@ export default function Images(props) {
         
         if(!res.result)setComment([])
         else setComments(res.result)
-        console.log(res.result)
+/*         console.log(res.result) */
       })
     }
 
@@ -104,13 +105,13 @@ export default function Images(props) {
   )//useEffect
 
 
+  storeData('images', JSON.stringify(images))
 
 
 
 
 
-
-  
+/*   
   const commentss = [
     {
       username:"@fulano",
@@ -139,7 +140,7 @@ export default function Images(props) {
     }
   ];
 
-
+ */
 
 
 const coms = comments.map((item,index,array)=>{
@@ -166,10 +167,10 @@ const coms = comments.map((item,index,array)=>{
     <View style={styles.container}>
       <ScrollView>
 
-{/*         
+        
         <View style={styles.imageContainer}>
             {images.length>0 &&<ImageViewer imageUrls={images} />}
-        </View> */}
+        </View>
         <View style={styles.commentSection}>        
           <View>
             <Text style={{textAlign:"center"}}>Comments</Text>

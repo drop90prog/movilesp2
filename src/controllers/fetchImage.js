@@ -31,3 +31,21 @@ export const findImages = async(chapterid)=> {
         })
         return res.json()
   }
+
+
+export const deleteImage = async (imageid)=> {
+
+let heroku = 'https://movilesp1.herokuapp.com/deleteimage'
+let local = 'http://10.0.0.94:3000/deleteimage'
+        
+let info = { imageid:imageid };            
+    
+    const res = await fetch(local, {
+        method: 'delete', 
+        body: JSON.stringify(info), 
+        headers:{            
+            'Content-Type': 'application/json'
+        }
+        })
+        return res.json()
+}
