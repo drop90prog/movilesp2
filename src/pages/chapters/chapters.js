@@ -17,6 +17,7 @@ export default function Chapters(props, {navigation}) {
   const [iduser, setIduser] = useState('')
 
   const [isFollowed, setIsfollowed] = useState(false)
+  const [tokennp, setTokennp] = useState('')
 
 
 
@@ -50,10 +51,13 @@ export default function Chapters(props, {navigation}) {
         if(res.status==200)setIsfollowed(true)
       })
 
+      getData('tokennp').then((res)=>{setTokennp(res)})
+
       },[name, mangaid, iduser])
   )
 
-console.log(iduser)
+console.log(tokennp)
+
 
 
   return (
@@ -63,7 +67,7 @@ console.log(iduser)
           <Text style={{textAlign:'center'}}>{name}</Text>
 {!isFollowed?<TouchableOpacity onPress={()=>{
                 
-                saveFollow(iduser, mangaid).then((res)=>{
+                saveFollow(iduser, tokennp, mangaid).then((res)=>{
                   alert(res.message)
                   setIsfollowed(true)
                 })

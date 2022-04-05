@@ -7,6 +7,7 @@ function saveFollow(req, res){
 
     const follow = new Follow({
         iduser: req.body.iduser,
+        tokennp: req.body.tokennp,
         idmanga: req.body.idmanga,
     })        
     follow.save((err)=>{
@@ -39,11 +40,32 @@ function findFollow(req, res){
 
         
     })//Rating.find
-    
-
-
-
 }
+
+
+function findFollowsManga(req, res){
+
+
+
+    Follow.find({idmanga: req.body.idmanga}, (err,result)=>{
+
+        if(err)return res.status(404).send({
+            message:'errorrrrr'            
+        })  
+        if(result.length==0){
+        return res.status(404).send({message:"not found"})
+        }
+
+        if(result.length>0){ 
+            return res.status(200).send({result:result})
+        }
+
+        
+    })//Rating.find
+}
+
+
+
 
 
 function find5LastRatings(req, res){
@@ -77,6 +99,7 @@ function deleteFollow (req,res) {
 module.exports = {
     saveFollow,
     findFollow,
+    findFollowsManga,
     deleteFollow,
     
 }

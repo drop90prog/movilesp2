@@ -6,6 +6,7 @@ import { saveChapter } from '../../../controllers/fetchChapter';
 import { updateManga, deleteManga } from '../../../controllers/fetchManga';
 import { useFocusEffect } from '@react-navigation/native';
 import { getData } from '../../../controllers/storages';
+import { findFollowsManga } from '../../../controllers/fetchFollows';
 
 
 export default function Newchapter(props) {
@@ -18,6 +19,30 @@ export default function Newchapter(props) {
   const [chapters, setChapters] = useState([]);
   const [userId, setUserid] = useState('');
   const [allowed, setAllowed] = useState(false);
+  const [message, setMessage] = useState('a new chapter has been released');
+  const [title, setTitle] = useState('Manga app');
+  const [followers, setFollowers] = useState([])
+
+
+  async function sendPushNotification(expoPushToken, title, messagee) {
+    const message = {
+      to: expoPushToken,
+      sound: 'default',
+      title: title,
+      body: messagee,
+      data: { someData: 'goes here' },
+    };
+  
+    await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+  }
 
 
 
@@ -59,10 +84,10 @@ export default function Newchapter(props) {
       }
 
 
+      findFollowsManga(mangaId).then((res)=>{setFollowers(res.result)})
 
     },[userId, creatorid])
   )
-
 
 
   return (
@@ -116,6 +141,52 @@ export default function Newchapter(props) {
                   }).catch(error => console.error('Error:', error))}}
               />
             </View>
+
+
+
+
+            <View>
+                <TextInput style={styles.name}          
+                onChangeText={titl => setTitle(titl)}
+                placeholder="title"
+                value={title}
+                />
+            </View>
+            <View>
+                <TextInput style={styles.name}          
+                onChangeText={messag => setMessage(messag)}
+                placeholder="message"
+                value={message}
+                />
+            </View>
+            <View>
+              <Button style={styles.button} 
+              title="Send notification"
+              mode="contained" 
+              onPress={() => {
+
+                //enviando notificaciones push
+                let arr = []
+                for(let x in followers){
+                  sendPushNotification(followers[x].tokennp, title, message)
+                  arr.push(followers[x].tokennp)
+                }
+               
+                
+                }}
+              />
+            </View>
+
+
+
+
+
+
+
+
+
+
+
 
 
             <View style={{marginTop:20}}>

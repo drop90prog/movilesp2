@@ -9,9 +9,9 @@ function signup (req, res) {
     else{const user = new User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
-        admin: req.body.admin,
+        password: req.body.password,        
         avatar: 'https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y',
+        admin: req.body.admin,
     })
 
 

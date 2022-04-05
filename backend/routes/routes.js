@@ -62,6 +62,7 @@ const followCtrl = require ('../controllers/follows')
 
 api.post('/savefollow', followCtrl.saveFollow)
 api.post('/findfollow', followCtrl.findFollow)
+api.post('/findfollowsmanga', followCtrl.findFollowsManga)
 api.delete('/deletefollow', followCtrl.deleteFollow)
 
 

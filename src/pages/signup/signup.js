@@ -8,12 +8,16 @@ import { CheckBox } from 'react-native-elements';
 
 
 
+
 export default function Signup({navigation}) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
     const [admin, setAdmin] = useState(false)
+
+
+
   return (
 
     <View  style={styles.contender}>
