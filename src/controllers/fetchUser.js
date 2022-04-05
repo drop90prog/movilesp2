@@ -44,3 +44,30 @@ export const signUp = (name, email, password, admin)=> {
     
 
   }
+
+
+
+export const updateUser = async (name, email, password, iduser)=> {  
+
+  let heroku = 'https://movilesp1.herokuapp.com/updateuser'
+  let local = 'http://10.0.0.94:3000/updateuser'
+
+  if(!name && !email && !password){
+    alert('Please fill the fields')
+  }else{
+    let account = {name:name, email:email, password:password, iduser:iduser};            
+    
+   const res =await fetch(local, {
+      method: 'put', 
+      body: JSON.stringify(account), 
+      headers:{            
+          'Content-Type': 'application/json'
+      }
+      })
+      return res.json()
+  }
+
+    
+    
+
+  }

@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 
 import New from './src/pages/new/new';
+import Profile from './src/pages/profile/profile';
 
 import Stacknavigation from './stackNavigation';
 
@@ -29,6 +30,8 @@ export default function Navigation(props) {
               iconName = focused ? "book" : "book-outline";
             } else if (route.name == "New") {
               iconName = focused ? "add-circle" : "add-circle-outline";
+            } else if (route.name == "Profile") {
+              iconName = focused ? "md-people-sharp" : "md-people-outline";
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
@@ -41,6 +44,7 @@ export default function Navigation(props) {
 
         <Tab.Screen name="Mangas" component={Stacknavigation} />{/* Home */}
         <Tab.Screen name="New" component={New} />
+        <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>   
     </NavigationContainer>   
 

@@ -12,7 +12,7 @@ const userCtrl = require ('../controllers/users')
 
 api.post('/signup', userCtrl.signup)
 api.post('/signin', userCtrl.signin)
-api.put('/update', userCtrl.updateUser)
+api.put('/updateuser', userCtrl.updateUser)
 api.delete('/down', userCtrl.deleteStuff)
 api.post('/getcheckboxes', userCtrl.getCheckBoxes)
 

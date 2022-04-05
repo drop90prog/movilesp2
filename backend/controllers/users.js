@@ -88,59 +88,31 @@ function signin (req, res) {
 
 function updateUser (req, res) {    
 
-
-   
-
         
         if(req.body.name)
-        User.findByIdAndUpdate(req.body.id,{"name": req.body.name }, function(err, result){
+        User.findByIdAndUpdate(req.body.iduser,{"name": req.body.name }, (err, result)=>{
             
         })       
     
         if(req.body.email)        
-            User.findByIdAndUpdate(req.body.id,{"email": req.body.email }, function(err, result){       
+            User.findByIdAndUpdate(req.body.iduser,{"email": req.body.email }, (err, result)=>{       
                 
         })
         
         if(req.body.password)
-            User.findByIdAndUpdate(req.body.id,{"password": req.body.password }, function(err, result){       
+            User.findByIdAndUpdate(req.body.iduser,{"password": req.body.password }, (err, result)=>{       
                 
         })
         
 
-        User.findByIdAndUpdate(req.body.id,{"showLastFavorites": req.body.showLastFavorites }, (err, result)=>{
+        User.findById(req.body.iduser, (err, user)=> {
+                return res.status(200).send({
+                    message:'Successfully updated',
+                    token: service.createToken(user)
+                })      
             
-        })        
+        })//user.findOne  
         
-        User.findByIdAndUpdate(req.body.id,{"showLastComments": req.body.showLastComments }, (err, result)=>{
-                
-        })
-
-        
-        User.findByIdAndUpdate(req.body.id,{"showLastRatings": req.body.showLastRatings }, (err, result)=>{      
-            
-        })
-
-
-    const t = async()=>{       
-
-
-            User.findById(req.body.id, (err, user)=> {
-                console.log("4")
-                    return res.status(200).send({
-                        message:'Successfully updated',
-                        token: service.createToken(user)
-                    })      
-                
-            })//user.findOne  
-        
-  
-
-
-    }
-
-t()
-
 
      
  }//updateUser

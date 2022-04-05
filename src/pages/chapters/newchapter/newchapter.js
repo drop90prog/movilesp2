@@ -171,8 +171,8 @@ export default function Newchapter(props) {
                   sendPushNotification(followers[x].tokennp, title, message)
                   arr.push(followers[x].tokennp)
                 }
-               
-                
+
+
                 }}
               />
             </View>
