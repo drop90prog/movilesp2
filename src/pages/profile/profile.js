@@ -6,6 +6,7 @@ import { signUp, updateUser } from '../../controllers/fetchUser';
 import { getData, storeData, removeData } from '../../controllers/storages';
 
 import * as ImagePicker from 'expo-image-picker';
+import * as Sharing from 'expo-sharing';
 
 import Firebase from 'firebase/app';
 import { firebaseConfig } from '../../../firebase';
@@ -26,6 +27,7 @@ export default function Profile() {
     const [rend, setRend] = useState(true)
     const [image, setImage] = useState(null);
     const [poster, setPoster] = useState(null);
+    
 
     useEffect(()=>{
         getData('user').then((res)=>{
@@ -99,7 +101,14 @@ const pickImage = async () => {
 
 
 
+  let openShareDialogAsync = async () => {
+    if (!(await Sharing.isAvailableAsync())) {
+      alert(`Uh oh, sharing isn't available on your platform`);
+      return;
+    }
 
+    await Sharing.shareAsync(image);
+  };
 
         
 
@@ -159,7 +168,9 @@ const pickImage = async () => {
 
 
         <View style={{marginTop:20}}>
-          <Button title="Pick an image from camera roll" onPress={pickImage} />
+          {!image?<Button title="Pick an image from camera roll" onPress={pickImage} />:
+          <Button title="Share" onPress={openShareDialogAsync} />
+          }
             {image && 
             <TouchableOpacity onPress={()=>{setImage(null)}}>
               <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
