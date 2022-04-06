@@ -25,6 +25,7 @@ export default function Images(props) {
   const [userId, setUserid] = useState('');
   const [userName, setUsername] = useState('');
   const [isAdmin, setIsadmin] = useState(false);
+  const [avatar, setAvatar] = useState('');
 
   //obtiene de un array el id(0) y nombre(1) del capitulo
 
@@ -41,6 +42,7 @@ export default function Images(props) {
       let us = JSON.parse(res)
       setUserid(us.sub)
       setUsername(us.name)
+      setAvatar(us.avatar)
     }
   })
 
@@ -72,6 +74,7 @@ export default function Images(props) {
         
         if(!res.result)setComment([])
         else setComments(res.result)
+        
 /*         console.log(res.result) */
       })
     }
@@ -154,6 +157,7 @@ const coms = comments.map((item,index,array)=>{
     name={item.name}
     iduser={item.iduser}
     ind={index}
+    commentid={item._id}
     />
   )
 })
@@ -193,7 +197,7 @@ const coms = comments.map((item,index,array)=>{
               if(!userId)alert("Sign in before comment")
               else if(comment=='')alert("fill the fiels please")
               else{
-                saveComment(comment, userId, commentss[0].avatar, chapterId, userName)
+                saveComment(comment, userId, avatar, chapterId, userName)
                 .then(res=>{
                   findComments(chapterId).then(res=>{
       

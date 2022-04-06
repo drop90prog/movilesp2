@@ -52,7 +52,7 @@ export default function CommentRenderer(props) {
               </View>
               <View >
                 <TouchableOpacity onPress={()=>{
-                deleteComment(props.id)
+                deleteComment(props.commentid)
                   .then(res=>{
                     alert(res.message)                    
                   })

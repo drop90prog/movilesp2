@@ -40,7 +40,7 @@ function findComments(req, res){
 
 
 function deleteComment (req,res) {
-      
+      console.log(req.body)
 
     Comment.findByIdAndDelete({_id: req.body.commentid} , (err, result)=>{
         if(err)return res.status(500).send({message: err}) 
