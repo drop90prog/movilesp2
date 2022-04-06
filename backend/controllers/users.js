@@ -88,6 +88,8 @@ function signin (req, res) {
 
 function updateUser (req, res) {    
 
+    console.log(req.body)
+
         
         if(req.body.name)
         User.findByIdAndUpdate(req.body.iduser,{"name": req.body.name }, (err, result)=>{
@@ -102,6 +104,11 @@ function updateUser (req, res) {
         if(req.body.password)
             User.findByIdAndUpdate(req.body.iduser,{"password": req.body.password }, (err, result)=>{       
                 
+        })
+
+        if(req.body.poster)
+        User.findByIdAndUpdate(req.body.iduser,{"avatar": req.body.poster }, (err, result)=>{       
+            
         })
         
 

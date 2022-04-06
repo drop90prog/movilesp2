@@ -89,10 +89,6 @@ export default function New() {
     })
   }//subida de archivos a firebase
 //*****************************************************************************
-
-
-
-
   //Navigate to your node_modules/react-native/Libraries/Core/Timers/JSTimers.js file.
   //Look for the variable MAX_TIMER_DURATION_MS
   //Change its value to 10000 * 1000
