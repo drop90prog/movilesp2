@@ -64,6 +64,7 @@ export default function Images(props) {
         for(let x in res.content){
           arrayOfImages.push({url:res.content[x].url, id:res.content[x]._id})
         }
+  
         setImages(arrayOfImages)
         
   
@@ -171,10 +172,33 @@ const coms = comments.map((item,index,array)=>{
     <View style={styles.container}>
       <ScrollView>
 
-        
         <View style={styles.imageContainer}>
-            {images.length>0 &&<ImageViewer imageUrls={images} />}
+          <View style={{marginVertical:20}}>
+            <Button title='right' onPress={()=>{
+              storeData('images', JSON.stringify(images))
+              props.navigation.navigate('ImageViewerR')             
+              }}/>
+          </View>
+          <View style={{marginBottom:20}}>
+            <Button title='left'onPress={()=>{
+              storeData('images', JSON.stringify(images))
+              props.navigation.navigate('ImageViewerL')             
+              }}/>
+          </View>
+          <View style={{marginBottom:20}}>
+            <Button title='up' onPress={()=>{
+              storeData('images', JSON.stringify(images))
+              props.navigation.navigate('ImageViewerU')             
+              }}/>
+          </View>
+          <View style={{marginBottom:20}}>
+            <Button title='down' onPress={()=>{
+              storeData('images', JSON.stringify(images))
+              props.navigation.navigate('ImageViewerD')             
+              }}/>
+          </View>         
         </View>
+
         <View style={styles.commentSection}>        
           <View>
             <Text style={{textAlign:"center"}}>Comments</Text>
@@ -257,5 +281,8 @@ const styles = StyleSheet.create({
     borderRadius:0,
     padding:10
   },
+  betr: {
+    marginBottom:20,
+  }
   
 });

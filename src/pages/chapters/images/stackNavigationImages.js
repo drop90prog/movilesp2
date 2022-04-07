@@ -18,7 +18,7 @@ export default function StackNavigationImages() {
         
     <Stack.Navigator>
         <Stack.Screen options={{headerShown: false}} name="Chaps" component={Chapters} />  
-        <Stack.Screen options={{headerShown: false}} name="Toptabsimages" component={Toptabsimages} />          
+        <Stack.Screen options={{headerShown: false}} name="Toptabsimages" component={Toptabsimages} />  
     </Stack.Navigator>
  
   );
