@@ -6,35 +6,32 @@ import { getData } from '../controllers/storages';
 
 export default function ImageViewerL() {
 
-    const [indexActive, setIndexactive] = useState(null);
+    const [indexActive, setIndexactive] = useState(0);
     const [iduser, setIduser] = useState('');
     const [chapterid, setChapterid] = useState('');
-    const [state, setState] = useState(false);
     const [images, setImages] = useState([])
 
-    
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
     useEffect(()=>{
-        //console.log(`incide ${indexActive}`)
+
+
+        console.log(`indice ${indexActive}`)
+
         
+        if(iduser && chapterid)
         updateIndexActive(iduser, chapterid, indexActive).then((res)=>{
             console.log(res)
         })
+
+
     },[indexActive])
 
-
-
-    const onViewableItemsChanged = React.useCallback(({ viewableItems, changed }) => {
-/*         console.log("Visible items are", viewableItems[0].key); */
-            if(viewableItems.length>0) setIndexactive(viewableItems[0].key)
-/*             console.log(viewableItems[0].key)  */   
-    }, []);
-    
-    const viewabilityConfigCallbackPairs = React.useRef([
-      { onViewableItemsChanged },
-    ]);
-
  
-
+////////////////////////////////////////////////////////////////////////////////////////
     useEffect(()=>{
         getData('images').then((res)=>{
             setImages(JSON.parse(res))
@@ -45,17 +42,36 @@ export default function ImageViewerL() {
         getData('chapter').then((res)=>{
             let b =JSON.parse(res); setChapterid(b[0])//0=id, 1=name
         })
-    },[])
 
+
+    },[])
+////////////////////////////////////////////////////////////////////////////////////////
     useEffect(()=>{
         if(iduser && chapterid)findIndexActive(iduser, chapterid).then((res)=>{
             console.log(res.result)
             setIndexactive(res.result.indexactive)
-            setState(true)
         })
     },[iduser, chapterid])
 
-    console.log(indexActive)
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+    
+    const onViewableItemsChanged = React.useCallback(({ viewableItems, changed }) => {
+/*         console.log("Visible items are", viewableItems[0].key); */
+            if(viewableItems.length>0) setIndexactive(viewableItems[0].key); 
+/*             console.log(viewableItems[0].key)  */   
+
+    }, []);
+    
+    const viewabilityConfigCallbackPairs = React.useRef([
+      { onViewableItemsChanged },
+    ]);
+
+
     return (
         <View style={styles.container}>
         <View>
@@ -80,7 +96,9 @@ export default function ImageViewerL() {
 
                 imageWidth={Dimensions.get('window').width}
                 imageHeight={500}>
-            {indexActive&&<Image key={index} source={{uri: item.url}} style={styles.imagess}/>}
+            {indexActive?<Image key={index} source={{uri: item.url}} style={styles.imagess}/>:
+            <Image key={index} source={{uri: item.url}} style={styles.imagess}/>
+            }
             </ImageZoom>
             
             )}

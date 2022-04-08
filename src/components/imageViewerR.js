@@ -1,45 +1,70 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Dimensions, Image} from "react-native";
 import ImageZoom from 'react-native-image-pan-zoom';
+import { findIndexActive, updateIndexActive } from '../controllers/fetchIndexActive';
 import { getData } from '../controllers/storages';
-
 
 export default function ImageViewerR() {
 
+    const [indexActive, setIndexactive] = useState(null);
+    const [iduser, setIduser] = useState('');
+    const [chapterid, setChapterid] = useState('');
+    const [state, setState] = useState(false);
+    const [images, setImages] = useState([])
+
     
+    useEffect(()=>{
+        //console.log(`incide ${indexActive}`)
+        
+        updateIndexActive(iduser, chapterid, indexActive).then((res)=>{
+            console.log(res)
+        })
+    },[indexActive])
+
+
 
     const onViewableItemsChanged = React.useCallback(({ viewableItems, changed }) => {
-      /*   if(viewableItems[0].key)console.log("Visible items are", viewableItems[0].key); */
-
-      if(viewableItems.length>0)
-        console.log(viewableItems[0].key)
-
- 
-
-    
+/*         console.log("Visible items are", viewableItems[0].key); */
+            if(viewableItems.length>0) setIndexactive(viewableItems[0].key)
+/*             console.log(viewableItems[0].key)  */   
     }, []);
     
     const viewabilityConfigCallbackPairs = React.useRef([
       { onViewableItemsChanged },
     ]);
 
-    const [images, setImages] = useState([])
+ 
 
     useEffect(()=>{
         getData('images').then((res)=>{
             setImages(JSON.parse(res))
         })
+        getData('user').then((res)=>{
+            if(res){let a =JSON.parse(res); setIduser(a.sub)}
+          })
+        getData('chapter').then((res)=>{
+            let b =JSON.parse(res); setChapterid(b[0])//0=id, 1=name
+        })
     },[])
 
-    
+    useEffect(()=>{
+        if(iduser && chapterid)findIndexActive(iduser, chapterid).then((res)=>{
+            console.log(res.result)
+            setIndexactive(res.result.indexactive)
+            setState(true)
+        })
+    },[iduser, chapterid])
+
+    console.log(indexActive)
     return (
         <View style={styles.container}>
+        <View>
             <FlatList
             horizontal
             pagingEnabled
             keyExtractor={(item, index) => index.toString()}
             data={images}
-            initialScrollIndex={0}
+            initialScrollIndex={indexActive}
             getItemLayout={(data, index) => (
                 {length: Dimensions.get('window').width, offset: Dimensions.get('window').width * index, index}
               )}
@@ -47,21 +72,20 @@ export default function ImageViewerR() {
             viewabilityConfigCallbackPairs.current
             }
             renderItem={({item, index})=>(
-    <View style={{ justifyContent:'center'}}>
+    
             <ImageZoom 
                 cropWidth={Dimensions.get('window').width}
                 cropHeight={Dimensions.get('window').height}
 
                 imageWidth={Dimensions.get('window').width}
-                imageHeight={Dimensions.get('window').height}
-                >
-                <Image key={index} source={{uri: item.url}} style={styles.image}/>
+                imageHeight={500}>
+            {indexActive&&<Image key={index} source={{uri: item.url}} style={styles.imagess}/>}
             </ImageZoom>
-    </View>
-
             
             )}
             />
+            </View>
+
       </View>
     );
   };
@@ -71,8 +95,8 @@ const styles = StyleSheet.create({
 
         backgroundColor:'gray',
     },
-    image: {
-        height:Dimensions.get('window').height, 
-
+    imagess: {
+        height:400, 
+        width:Dimensions.get('window').width,
       },
 });

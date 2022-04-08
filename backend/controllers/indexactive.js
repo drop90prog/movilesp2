@@ -41,9 +41,15 @@ function saveIndexActive (req, res) {
         chapterid: req.body.chapterid,
     }, (err,result)=>{
         if(result){
+            console.log(`findIndexActive found it: ${result}`)
+
             return res.status(200).send({result})
         }
         if(!result){
+
+ 
+            console.log(`findIndexActive not found it: ${req.body}`)
+
             return res.status(404).send({message:"no index found"})
         }
     })
@@ -63,23 +69,30 @@ function deleteImage (req,res) {
 
 function updateIndexActive (req, res) {
 
+    let iduser = req.body.iduser;
+    let chapterid =  req.body.chapterid;
 
-
-    Indexactive.findOne({
-        iduser: req.body.iduser, 
-        chapterid: req.body.chapterid,
-    }, (err,result)=>{
+    Indexactive.findOne({ iduser:iduser, chapterid:chapterid }, (err,result)=>{
         if(result){
            
-            Indexactive.findByIdAndUpdate(result._id,{"indexactive": req.body.indexactive }, (err, result)=>{
-            if(result)res.status(200).send({message:`index active updated to: ${req.body.indexactive}`})
+            console.log(`updateIndexActive found it: ${result}`)
+
+            let id = result._id
+            let indexactive = req.body.indexactive
+
+            Indexactive.findByIdAndUpdate(id,{"indexactive":indexactive }, (err, result)=>{
+            if(result){
+                //este result es el documente que estaba antes de actualizarlo
+                res.status(200).send({message:`index active updated to: ${indexactive}`})
+            }
             if(err)return res.status(500).send({message: err}) 
             })       
 
         }
         if(!result){
            
-            console.log("not found")
+            console.log("updateIndexActive not found")
+            console.log(req.body)
 
         }
 
