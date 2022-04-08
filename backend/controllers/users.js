@@ -86,7 +86,7 @@ function signin (req, res) {
 
 }//updatePicture
 
-function updateUser (req, res) {    
+function updateUser (req, res) {
 
     console.log(req.body)
 

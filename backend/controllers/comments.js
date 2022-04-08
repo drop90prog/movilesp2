@@ -26,11 +26,11 @@ function findComments(req, res){
             message:'errorrrrr'            
         })
 
-        if(result.length==0){console.log("==0")
+        if(result.length==0){
             return res.status(404).send({message:"no comments yet"})
         } 
 
-        if(result.length>0){console.log(">0")
+        if(result.length>0){
             return res.status(200).send({result:result})
         } 
         
@@ -40,7 +40,7 @@ function findComments(req, res){
 
 
 function deleteComment (req,res) {
-      console.log(req.body)
+   
 
     Comment.findByIdAndDelete({_id: req.body.commentid} , (err, result)=>{
         if(err)return res.status(500).send({message: err}) 

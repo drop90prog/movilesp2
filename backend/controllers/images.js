@@ -20,7 +20,7 @@ function saveImage (req, res) {
 
 
   function findImages(req, res){
-      console.log(req.body)
+
     Image.find({chapterid: req.body.chapterid}, (err,result)=>{
 
         if(err)return res.status(404).send({
@@ -31,7 +31,7 @@ function saveImage (req, res) {
             return res.status(200).send({content:result, message:"found them"})
         } 
 
-        if(result.length==0){console.log("not found")
+        if(result.length==0){
             return res.status(404).send({message:"not found"})
         } 
         

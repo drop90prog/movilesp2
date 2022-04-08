@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, Image, FlatList, TextInput } from 'react-native';
 import { storeData, getData, removeData } from "../../../controllers/storages";
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -7,6 +7,7 @@ import CommentRenderer from '../../../components/commentRenderer';
 import { useFocusEffect } from '@react-navigation/native';
 import { findImages } from '../../../controllers/fetchImage';
 import { saveComment, findComments } from '../../../controllers/fetchComments';
+import { saveIndexActive } from '../../../controllers/fetchIndexActive';
 
 
 
@@ -98,15 +99,18 @@ export default function Images(props) {
           }           
         //storeData('images',JSON.stringify(res.content))  
       }) */
-
-
-
     
 
 
     },[chapterId])
 
   )//useEffect
+
+
+  useEffect(()=>{
+    if(userId)saveIndexActive(userId, chapterId).then((res)=>{console.log(res)})
+    if(!userId)console.log("sign in first to save the active index")
+  },[userId])
 
 
   storeData('images', JSON.stringify(images))

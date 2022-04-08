@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Dimensions, Image} from "react-native";
 import ImageZoom from 'react-native-image-pan-zoom';
+import { findIndexActive, updateIndexActive } from '../controllers/fetchIndexActive';
 import { getData } from '../controllers/storages';
 
 export default function ImageViewerL() {
 
-    const [indexActive, setIndexactive] = useState(0)
+    const [indexActive, setIndexactive] = useState(null);
+    const [iduser, setIduser] = useState('');
+    const [chapterid, setChapterid] = useState('');
+    const [state, setState] = useState(false);
+    const [images, setImages] = useState([])
 
+    
     useEffect(()=>{
-        console.log(`incide ${indexActive}`)
+        //console.log(`incide ${indexActive}`)
         
+        updateIndexActive(iduser, chapterid, indexActive).then((res)=>{
+            console.log(res)
+        })
     },[indexActive])
+
+
 
     const onViewableItemsChanged = React.useCallback(({ viewableItems, changed }) => {
 /*         console.log("Visible items are", viewableItems[0].key); */
@@ -22,17 +33,32 @@ export default function ImageViewerL() {
       { onViewableItemsChanged },
     ]);
 
-    const [images, setImages] = useState([])
+ 
 
     useEffect(()=>{
         getData('images').then((res)=>{
             setImages(JSON.parse(res))
         })
+        getData('user').then((res)=>{
+            if(res){let a =JSON.parse(res); setIduser(a.sub)}
+          })
+        getData('chapter').then((res)=>{
+            let b =JSON.parse(res); setChapterid(b[0])//0=id, 1=name
+        })
     },[])
 
-    
+    useEffect(()=>{
+        if(iduser && chapterid)findIndexActive(iduser, chapterid).then((res)=>{
+            console.log(res.result)
+            setIndexactive(res.result.indexactive)
+            setState(true)
+        })
+    },[iduser, chapterid])
+
+    console.log(indexActive)
     return (
         <View style={styles.container}>
+        <View>
             <FlatList
             horizontal
             inverted
@@ -54,11 +80,13 @@ export default function ImageViewerL() {
 
                 imageWidth={Dimensions.get('window').width}
                 imageHeight={500}>
-                <Image key={index} source={{uri: item.url}} style={styles.imagess}/>
+            {indexActive&&<Image key={index} source={{uri: item.url}} style={styles.imagess}/>}
             </ImageZoom>
             
             )}
             />
+            </View>
+
       </View>
     );
   };

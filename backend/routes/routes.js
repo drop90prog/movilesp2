@@ -66,6 +66,16 @@ api.post('/findfollowsmanga', followCtrl.findFollowsManga)
 api.delete('/deletefollow', followCtrl.deleteFollow)
 
 
+//==========================================================INDEXACTIVE
+
+const indexactiveCtrl = require ('../controllers/indexactive')
+
+api.post('/saveindexactive', indexactiveCtrl.saveIndexActive)
+api.post('/findindexactive', indexactiveCtrl.findIndexActive)
+api.put('/updateindexactive', indexactiveCtrl.updateIndexActive)
+
+
+
 
 
 //==========================================================RATINGS

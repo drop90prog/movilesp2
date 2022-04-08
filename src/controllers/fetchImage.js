@@ -49,3 +49,4 @@ let info = { imageid:imageid };
         })
         return res.json()
 }
+

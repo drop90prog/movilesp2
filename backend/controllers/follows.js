@@ -85,7 +85,7 @@ function find5LastRatings(req, res){
 
 
 function deleteFollow (req,res) {
-    console.log(req.body)   
+
 
     Follow.findOneAndDelete({iduser: req.body.iduser, idmanga:req.body.idmanga} , (err, result)=>{
         if(err)return res.status(500).send({message: err}) 
