@@ -10,7 +10,37 @@ export default function ImageViewerR() {
     const [iduser, setIduser] = useState('');
     const [chapterid, setChapterid] = useState('');
     const [images, setImages] = useState([])
+    const [activate, setActivate] = useState(false);
 
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+useEffect(()=>{
+    getData('images').then((res)=>{
+        setImages(JSON.parse(res))
+    })
+    getData('user').then((res)=>{
+        if(res){let a =JSON.parse(res); setIduser(a.sub)}
+        })
+    getData('chapter').then((res)=>{
+        let b =JSON.parse(res); setChapterid(b[0])//0=id, 1=name
+    })
+
+
+},[])
+
+
+ 
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+useEffect(()=>{
+    if(iduser && chapterid)findIndexActive(iduser, chapterid).then((res)=>{
+
+        if(!res.message){setActivate(true);setIndexactive(res.result.indexactive); }
+    })
+},[iduser, chapterid])
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -30,32 +60,8 @@ export default function ImageViewerR() {
 
     },[indexActive])
 
- 
-////////////////////////////////////////////////////////////////////////////////////////
-    useEffect(()=>{
-        getData('images').then((res)=>{
-            setImages(JSON.parse(res))
-        })
-        getData('user').then((res)=>{
-            if(res){let a =JSON.parse(res); setIduser(a.sub)}
-          })
-        getData('chapter').then((res)=>{
-            let b =JSON.parse(res); setChapterid(b[0])//0=id, 1=name
-        })
-
-
-    },[])
-////////////////////////////////////////////////////////////////////////////////////////
-    useEffect(()=>{
-        if(iduser && chapterid)findIndexActive(iduser, chapterid).then((res)=>{
-            console.log(res.result)
-            setIndexactive(res.result.indexactive)
-        })
-    },[iduser, chapterid])
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 
@@ -72,9 +78,20 @@ export default function ImageViewerR() {
     ]);
 
 
+/* 
+      findIndexActive(iduser, chapterid).then((res)=>{
+          
+            if(!res.message){setActivate(true);setIndexactive(res.result.indexactive); }
+         
+
+        })
+
+    
+ */
+
     return (
         <View style={styles.container}>
-        <View>
+{activate?<View>
             <FlatList
             horizontal
             pagingEnabled
@@ -102,7 +119,7 @@ export default function ImageViewerR() {
             
             )}
             />
-            </View>
+        </View>:null}
 
       </View>
     );

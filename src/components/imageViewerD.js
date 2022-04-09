@@ -1,40 +1,101 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Dimensions, Image} from "react-native";
 import ImageZoom from 'react-native-image-pan-zoom';
+import { findIndexActive, updateIndexActive } from '../controllers/fetchIndexActive';
 import { getData } from '../controllers/storages';
 
 
 export default function ImageViewerD() {
 
-    
+  const [indexActive, setIndexactive] = useState(0);
+  const [iduser, setIduser] = useState('');
+  const [chapterid, setChapterid] = useState('');
+  const [images, setImages] = useState([])
+  const [activate, setActivate] = useState(false);
 
-    const onViewableItemsChanged = React.useCallback(({ viewableItems, changed }) => {
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+useEffect(()=>{
+  getData('images').then((res)=>{
+      setImages(JSON.parse(res))
+  })
+  getData('user').then((res)=>{
+      if(res){let a =JSON.parse(res); setIduser(a.sub)}
+      })
+  getData('chapter').then((res)=>{
+      let b =JSON.parse(res); setChapterid(b[0])//0=id, 1=name
+  })
+
+
+},[])
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+useEffect(()=>{
+  if(iduser && chapterid)findIndexActive(iduser, chapterid).then((res)=>{
+
+      if(!res.message){setActivate(true);setIndexactive(res.result.indexactive); }
+  })
+},[iduser, chapterid])
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+  useEffect(()=>{
+
+
+      console.log(`indice ${indexActive}`)
+
+      
+      if(iduser && chapterid)
+      updateIndexActive(iduser, chapterid, indexActive).then((res)=>{
+          console.log(res)
+      })
+
+
+  },[indexActive])
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  
+  const onViewableItemsChanged = React.useCallback(({ viewableItems, changed }) => {
 /*         console.log("Visible items are", viewableItems[0].key); */
-        if(viewableItems.length>0)
-        console.log(viewableItems[0].key)
-    
-    }, []);
-    
-    const viewabilityConfigCallbackPairs = React.useRef([
-      { onViewableItemsChanged },
-    ]);
+          if(viewableItems.length>0) setIndexactive(viewableItems[0].key); 
+/*             console.log(viewableItems[0].key)  */   
 
-    const [images, setImages] = useState([])
+  }, []);
+  
+  const viewabilityConfigCallbackPairs = React.useRef([
+    { onViewableItemsChanged },
+  ]);
 
-    useEffect(()=>{
-        getData('images').then((res)=>{
-            setImages(JSON.parse(res))
-            console.log(JSON.parse(res))
-        })
-    },[])
+
+
+
+
+
+
+
 
     
     return (
         <View style={styles.container}>
-            <FlatList
+{activate?<View>
+          <FlatList                  
             keyExtractor={(item, index) => index.toString()}
             data={images}
-            initialScrollIndex={0}
+            initialScrollIndex={indexActive}
             getItemLayout={(data, index) => (
                 {length: Dimensions.get('window').height, offset: Dimensions.get('window').height * index, index}
               )}
@@ -54,6 +115,8 @@ export default function ImageViewerD() {
             
             )}
             />
+          </View>:null}
+           
       </View>
     );
   };
@@ -61,11 +124,14 @@ export default function ImageViewerD() {
 const styles = StyleSheet.create({
     container: {
 
-        backgroundColor:'gray',
+        backgroundColor:'black',
     },
-    imagess: {
+    imagess: {        
         height:"100%",
   
         margin:10,
+   
       },
 });
+
+
