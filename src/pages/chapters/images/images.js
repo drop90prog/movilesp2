@@ -7,6 +7,7 @@ import CommentRenderer from '../../../components/commentRenderer';
 import { useFocusEffect } from '@react-navigation/native';
 import { findImages } from '../../../controllers/fetchImage';
 import { saveComment, findComments } from '../../../controllers/fetchComments';
+import { findReplies } from '../../../controllers/fetchReplies';
 import { saveIndexActive } from '../../../controllers/fetchIndexActive';
 
 
@@ -23,10 +24,12 @@ export default function Images(props) {
   const [images, setImages] = useState([])
   const [comment, setComment] = useState('')
   const [comments, setComments] = useState([])
+  const [replies, setReplies] = useState([])
   const [userId, setUserid] = useState('');
   const [userName, setUsername] = useState('');
   const [isAdmin, setIsadmin] = useState(false);
   const [avatar, setAvatar] = useState('');
+  
 
   //obtiene de un array el id(0) y nombre(1) del capitulo
 
@@ -75,7 +78,14 @@ export default function Images(props) {
       findComments(chapterId).then(res=>{
         
         if(!res.result)setComment([])
-        else setComments(res.result)
+        else {
+          setComments(res.result)
+
+          findReplies(chapterId).then((res)=>{
+           setReplies(res.result)
+          })
+
+        }
         
 /*         console.log(res.result) */
       })
@@ -108,8 +118,8 @@ export default function Images(props) {
 
 
   useEffect(()=>{
-    if(userId)saveIndexActive(userId, chapterId).then((res)=>{console.log(res)})
-    if(!userId)console.log("sign in first to save the active index")
+    if(userId)saveIndexActive(userId, chapterId).then((res)=>{/* console.log(res) */})
+ /*    if(!userId)console.log("sign in first to save the active index") */
   },[userId])
 
 
@@ -151,6 +161,29 @@ export default function Images(props) {
  */
 
 
+const repliess = [
+  {
+    name:'juahito',
+    commentidr:'624a0521616be034cece2bec',
+    reply:'esto es un repliiiii'
+  },
+  {
+    name:'mengano',
+    commentidr:'624a0521616be034cece2bec',
+    reply:'otro replaisss bb'
+  },
+  {
+    name:'aquiles',
+    commentidr:'624a0521616be034cece2bec',
+    reply:'mondongo lentejaaaa'
+  },
+  {
+    name:'rucasticolentico',
+    commentidr:'624a0552616be034cece2bfe',
+    reply:'iaora?'
+  },
+]
+
 const coms = comments.map((item,index,array)=>{
   return(
     <CommentRenderer 
@@ -163,6 +196,8 @@ const coms = comments.map((item,index,array)=>{
     iduser={item.iduser}
     ind={index}
     commentid={item._id}
+    replies={replies}
+    chapterid={chapterId}
     />
   )
 })

@@ -1,23 +1,84 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Button} from "react-native";
 import { Card } from "react-native-paper";
 import { deleteComment } from "../controllers/fetchComments";
+import { findReplies, saveReply, deleteReply } from "../controllers/fetchReplies";
+
 
 
 
 export default function CommentRenderer(props) {
     /* console.log(props.username) */
-    const [allowDelete, setAllowdelete] = useState(false)
-    
+    const [allowDelete, setAllowdelete] = useState(false);
+    const [allowDeleteReply, setAllowdeletereply] = useState(false);
+    const [allowComment, setAllowcomment] = useState(false);
+    const [reply, setReply] = useState('');
+    const [replies, setReplies] = useState([]);
+
 
     useEffect(()=>{
 /*       console.log(props.isadmin) */
       if(!props.isadmin){
         if(props.iduser == props.loggeduserid)setAllowdelete(true)
         else setAllowdelete(false)
-      }else setAllowdelete(true)
+      }else {setAllowdelete(true); setAllowdeletereply(true)}
+
+      
+      
 
     },[props.ind])
+
+
+
+    useEffect(()=>{
+      setReplies(props.replies)
+    },[props.replies])
+
+
+
+      const reps = replies.map((item,index,array)=>{
+        let deleteReplyAllowed = false
+        if(item.iduser == props.loggeduserid)deleteReplyAllowed=true;
+        else deleteReplyAllowed = false
+
+        return(
+         <View key={index} >
+           <Card style={{width:300}}>
+            {props.commentid==item.commentid?<View >
+              <View>
+                <Text>{item.name}: {item.reply} 
+                  {deleteReplyAllowed || allowDeleteReply?<Text style={{color:"red", fontWeight:'bold'}} 
+                        onPress={()=>{
+
+                          deleteReply(item._id).then((res)=>{
+                            findReplies(props.chapterid).then((res)=>{
+                              setReplies(res.result)
+                            })
+
+                          })
+
+                          
+                          }}> [x]</Text>:null}
+                </Text>
+              </View>
+         
+              <View>
+
+              </View>
+            </View>:null}
+
+           </Card>
+         </View>
+          
+        )
+      })
+
+
+
+
+
+
+
 
     return (
 
@@ -42,7 +103,7 @@ export default function CommentRenderer(props) {
               </View>
             </View>
 
-            {allowDelete&&<View style={{flexDirection:'row', justifyContent:'space-around', height:25}}>
+            {allowDelete?<View style={{flexDirection:'row', justifyContent:'space-around', height:25}}>
               <View>
                 <TouchableOpacity onPress={()=>{alert("edit comment")}}>
                   <View style={{height:20, width:70, backgroundColor:'pink'}}>
@@ -63,15 +124,75 @@ export default function CommentRenderer(props) {
                   </View>                    
                 </TouchableOpacity>    
               </View>
-            </View>}
+              <View style={{height:20, width:70, backgroundColor:'pink'}}>
+                <TouchableOpacity onPress={()=>{setAllowcomment(!allowComment)}}>
+                  <View style={{height:20, width:70, bareplyckgroundColor:'pink'}}>
+                    <Text style={{textAlign:'center'}}>reply</Text>
+                  </View>                    
+                </TouchableOpacity>                
+              </View>
+            </View>:
+            <View style={{flexDirection:'row', justifyContent:'space-around', height:25}}>
+            <View>              
+                <View style={{height:20, width:70}}>
+                  {/* relleno para alinear de ultimo el boton "reply" */}
+                </View>                        
+            </View>
+            <View >              
+                <View style={{height:20, width:70}}>
+                    {/* relleno para alinear de ultimo el boton "reply" */}
+                </View>                
+            </View>
+            <View style={{height:20, width:70, backgroundColor:'pink'}}>
+              <TouchableOpacity onPress={()=>{setAllowcomment(!allowComment)}}>
+                <View style={{height:20, width:70, bareplyckgroundColor:'pink'}}>
+                  <Text style={{textAlign:'center'}}>reply</Text>
+                </View>                    
+              </TouchableOpacity>                
+            </View>
+          </View>
+
+
+            
+
+            
+            }
 
 
           </View>{/* contenido del card */}
-
-
           
           
         </Card>
+        
+{
+  reps
+}
+{allowComment?<View>
+          <View style={styles.inputcomment}>
+              <TextInput 
+              multiline
+              onChangeText={(text)=>{setReply(text)}} 
+              placeholder="Enter your text..."             
+              />            
+            </View>
+
+            <Button title="comment" onPress={()=>{
+                if(!props.loggeduserid)alert("Sign in before reply")
+                else if(reply=='')alert("fill the fiels please")
+                else{
+                  saveReply(props.commentid, props.chapterid, props.loggeduserid, props.name, reply)
+                  .then((res)=>{
+                    findReplies(props.chapterid).then((res)=>{
+                      setReplies(res.result)
+                    })
+                  })
+                }
+              }}/>
+        </View>:null}
+
+
+
+
     </View>
 
     );
@@ -98,6 +219,15 @@ const styles = StyleSheet.create({
         height:15,
         width:50,
         backgroundColor:'black'
+      },
+      inputcomment: {
+        alignSelf:'center',    
+        marginTop:10,
+        width:'97%',
+        borderColor:"black",
+        borderWidth:1,     
+        borderRadius:0,
+        padding:10
       },
 
 });

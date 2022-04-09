@@ -75,6 +75,16 @@ api.post('/findindexactive', indexactiveCtrl.findIndexActive)
 api.put('/updateindexactive', indexactiveCtrl.updateIndexActive)
 
 
+//=========================================================REPLIES
+
+const replyCtrl = require ('../controllers/replies')
+
+api.post('/savereply', replyCtrl.saveReply)
+api.post('/findreplies', replyCtrl.findReplies)
+api.delete('/deletereply', replyCtrl.deleteReply)
+
+
+
 
 
 
