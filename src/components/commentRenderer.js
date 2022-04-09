@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Button} from "react-native";
 import { Card } from "react-native-paper";
-import { deleteComment } from "../controllers/fetchComments";
+import { deleteComment, updateComment } from "../controllers/fetchComments";
 import { findReplies, saveReply, deleteReply } from "../controllers/fetchReplies";
 
 
@@ -14,6 +14,9 @@ export default function CommentRenderer(props) {
     const [allowComment, setAllowcomment] = useState(false);
     const [reply, setReply] = useState('');
     const [replies, setReplies] = useState([]);
+    const [editableComment, setEditablecomment] = useState(false)
+    const [comment, setComment] = useState('')
+    const [Respcomment, setRespcomment] = useState('')
 
 
     useEffect(()=>{
@@ -23,7 +26,8 @@ export default function CommentRenderer(props) {
         else setAllowdelete(false)
       }else {setAllowdelete(true); setAllowdeletereply(true)}
 
-      
+      setComment(props.comment)
+      setRespcomment(props.comment)
       
 
     },[props.ind])
@@ -98,19 +102,65 @@ export default function CommentRenderer(props) {
               </View>
 
           
+
+              <View style={styles.commentArea}>
+                <TextInput 
+                color='black'
+                editable={editableComment}
+                multiline
+                value={comment}
+                onChangeText={(text)=>{setComment(text)}}                          
+                />            
+            </View>
+
+
+{/* 
               <View style={styles.commentArea}>
                 <Text>{props.comment}</Text>
               </View>
+ */}
+
             </View>
 
             {allowDelete?<View style={{flexDirection:'row', justifyContent:'space-around', height:25}}>
-              <View>
-                <TouchableOpacity onPress={()=>{alert("edit comment")}}>
+{!editableComment?<View>
+                <TouchableOpacity onPress={()=>{setEditablecomment(!editableComment)}}>
                   <View style={{height:20, width:70, backgroundColor:'pink'}}>
                     <Text style={{textAlign:'center'}}>Edit</Text>
                   </View>                    
                 </TouchableOpacity>                
+              </View>:
+              <View style={{flexDirection:'row', justifyContent:'space-around', height:25}}>
+                <View>
+                  <TouchableOpacity onPress={()=>{
+                    setEditablecomment(!editableComment)
+                    setComment(Respcomment)
+                    }}>
+                    <View style={{height:20, width:70, backgroundColor:'pink'}}>
+                      <Text style={{textAlign:'center'}}>Cancel</Text>
+                    </View>                    
+                  </TouchableOpacity>  
+                </View>
+                <View style={{height:20, width:20, backgroundColor:'lightgreen'}}>
+                  <Text style={{alignSelf:"center"}}  
+                  onPress={()=>{
+                    if(comment==''){
+                      alert('Empty comments not allowed')
+                      setComment(Respcomment)
+                    }else{                    
+                      updateComment(props.commentid, comment).then((res)=>{
+                        setEditablecomment(!editableComment)
+                        console.log(res)
+                      })
+                    }
+                  }}>S</Text>
+                </View>
+              
               </View>
+              
+              
+              
+              }
               <View >
                 <TouchableOpacity onPress={()=>{
                 deleteComment(props.commentid)
@@ -213,7 +263,7 @@ const styles = StyleSheet.create({
       commentArea: {
         height:'auto',
         width:240,
-        backgroundColor:'lightgray'
+        backgroundColor:'lightgray',        
       },
       optArea: {
         height:15,

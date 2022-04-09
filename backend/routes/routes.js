@@ -53,6 +53,7 @@ const commentCtrl = require ('../controllers/comments')
 
 api.post('/savecomment', commentCtrl.saveComment)
 api.post('/findcomments', commentCtrl.findComments)
+api.put('/updatecomment', commentCtrl.updateComment)
 api.delete('/deletecomment', commentCtrl.deleteComment)
 
 

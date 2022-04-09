@@ -38,6 +38,15 @@ function findComments(req, res){
 }
 
 
+function updateComment (req, res) {     
+        
+    Comment.findByIdAndUpdate(req.body.commentid,{comment: req.body.comment}, (err, result)=>{
+        if(err)return res.status(500).send({message: err}) 
+        if(result)return res.status(200).send({message:'Successfully updated'})
+    })
+     
+ }//updateComment
+
 
 function deleteComment (req,res) {
    
@@ -55,6 +64,7 @@ function deleteComment (req,res) {
 module.exports = {
     saveComment,
     findComments,
+    updateComment,
     deleteComment,
 }
 

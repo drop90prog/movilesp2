@@ -36,6 +36,27 @@ export const findComments = async(chapterid)=> {
             return res.json()
     }
 
+export const updateComment = async (commentid, comment)=> {
+
+    let heroku = 'https://movilesp1.herokuapp.com/updatecomment';
+    let local = 'http://10.0.0.94:3000/updatecomment';
+
+
+    let info = {commentid:commentid, comment:comment};            
+        
+        const res = await fetch(local, {
+            method: 'put', 
+            body: JSON.stringify(info), 
+            headers:{            
+                'Content-Type': 'application/json'
+            }
+            })
+            return res.json()
+
+}
+
+
+
 
 
 export const deleteComment = async (commentid)=> {
