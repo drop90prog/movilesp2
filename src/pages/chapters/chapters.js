@@ -67,7 +67,7 @@ console.log(tokennp)
           <Text style={{textAlign:'center'}}>{name}</Text>
 {!isFollowed?<TouchableOpacity onPress={()=>{
                 
-                saveFollow(iduser, tokennp, mangaid).then((res)=>{
+                saveFollow(iduser, tokennp, mangaid, name).then((res)=>{
                   alert(res.message)
                   setIsfollowed(true)
                 })

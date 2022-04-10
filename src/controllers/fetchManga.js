@@ -30,6 +30,7 @@ export const findMangas = async()=> {
   }
 
 
+
 export const updateManga = async(mangaid, newname)=> {
 
   let info = { mangaid: mangaid, newname: newname };  

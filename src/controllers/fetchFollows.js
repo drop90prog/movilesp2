@@ -1,10 +1,10 @@
-export const saveFollow = async (iduser, tokennp, idmanga)=> {
+export const saveFollow = async (iduser, tokennp, idmanga, name)=> {
 
     let heroku = 'https://movilesp1.herokuapp.com/savefollow';
     let local = 'http://10.0.0.94:3000/savefollow';
 
 
-    let info = {iduser:iduser, tokennp:tokennp, idmanga:idmanga};            
+    let info = {iduser:iduser, tokennp:tokennp, idmanga:idmanga, name:name};            
         
       const res = await fetch(local, {
           method: 'post', 
@@ -35,13 +35,31 @@ export const findFollow = async(iduser, idmanga)=> {
             return res.json()
     }
 
-
+    //grupo de personas que siguen un manga especifico
 export const findFollowsManga = async(idmanga)=> {
 
     let info = {idmanga:idmanga}; 
     
     let heroku = 'https://movilesp1.herokuapp.com/findfollowsmanga'
     let local = 'http://10.0.0.94:3000/findfollowsmanga'
+        
+        const res = await fetch(local, {
+            method: 'post', 
+            body: JSON.stringify(info), 
+            headers:{            
+                'Content-Type': 'application/json'
+            }
+            })
+            return res.json()
+    }
+
+    //mangas seguidos por alguien especifico
+export const findFollowsMangas = async(iduser)=> {
+
+    let info = {iduser:iduser}; 
+    
+    let heroku = 'https://movilesp1.herokuapp.com/findfollowsmangas'
+    let local = 'http://10.0.0.94:3000/findfollowsmangas'
         
         const res = await fetch(local, {
             method: 'post', 

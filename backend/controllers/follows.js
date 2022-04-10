@@ -9,6 +9,7 @@ function saveFollow(req, res){
         iduser: req.body.iduser,
         tokennp: req.body.tokennp,
         idmanga: req.body.idmanga,
+        name: req.body.name
     })        
     follow.save((err)=>{
         if(err)return res.status(500).send({message:`Error ${err}`})
@@ -61,7 +62,26 @@ function findFollowsManga(req, res){
         }
 
         
-    })//Rating.find
+    })//Follow.find
+}
+
+
+function findFollowsMangas(req, res){
+
+    Follow.find({iduser: req.body.iduser}, (err,result)=>{
+
+        if(err)return res.status(404).send({
+            message:'errorrrrr'            
+        })  
+        if(result.length==0){
+        return res.status(404).send({message:"not found"})
+        }
+
+        if(result.length>0){ 
+            return res.status(200).send({result:result})
+        }
+        
+    })//Follow.find
 }
 
 
@@ -100,6 +120,7 @@ module.exports = {
     saveFollow,
     findFollow,
     findFollowsManga,
+    findFollowsMangas,
     deleteFollow,
     
 }

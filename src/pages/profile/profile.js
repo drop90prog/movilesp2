@@ -4,6 +4,7 @@ import { styles } from './styles';
 import { useEffect, useState } from 'react';
 import { signUp, updateUser } from '../../controllers/fetchUser';
 import { getData, storeData, removeData } from '../../controllers/storages';
+import { findFollowsMangas, deleteFollow } from '../../controllers/fetchFollows';
 
 import * as ImagePicker from 'expo-image-picker';
 import * as Sharing from 'expo-sharing';
@@ -27,6 +28,10 @@ export default function Profile() {
     const [rend, setRend] = useState(true)
     const [image, setImage] = useState(null);
     const [poster, setPoster] = useState(null);
+    const [showFollowing, setShowfollowing] = useState(false);
+    const [followingMangas, setFollowingMangas] = useState([])
+    const [change, setChange] = useState(false)
+
     
 
     useEffect(()=>{
@@ -36,8 +41,16 @@ export default function Profile() {
             setEmail(a.email)
             setAvatar(a.avatar)
             setIduser(a.sub)
+            findFollowsMangas(a.sub).then((res)=>{
+              setFollowingMangas(res.result)
             })
-    },[rend])
+
+            })
+    },[rend, change])
+
+    
+
+
 
 //*****************************************************************************
 const pickImage = async () => {
@@ -109,8 +122,46 @@ const pickImage = async () => {
 
     await Sharing.shareAsync(image);
   };
+  
 
-        
+  function asd(){
+var follows;
+    if(followingMangas!=undefined){
+    follows = followingMangas.map((item, index)=>{
+      return(
+        <View style={{flexDirection:'row'}} key={index}>
+          <View style={{justifyContent:'center'}}>
+            <Text>{item.name}</Text>
+          </View>
+          <View style={{width:90}}>
+            <Button title='unfollow' onPress={()=>{
+              deleteFollow(item.iduser, item.idmanga).then((res)=>{
+  
+  
+                findFollowsMangas(item.iduser).then((res)=>{
+                  setFollowingMangas(res.result)
+                })
+  
+                alert(res.message)
+              })
+  
+            }}/>
+          </View>
+          
+        </View>
+      )
+    })
+    return follows
+  }else return alert("0 mangas following")
+  
+    
+    
+  }
+
+  
+  
+
+
 
   return (
 <ScrollView>
@@ -167,6 +218,7 @@ const pickImage = async () => {
 
 
 
+
         <View style={{marginTop:20}}>
           {!image?<Button title="Pick an image from camera roll" onPress={pickImage} />:
           <Button title="Share" onPress={openShareDialogAsync} />
@@ -177,6 +229,45 @@ const pickImage = async () => {
             </TouchableOpacity>}
             {image && <Button title="upload" onPress={uploadImage} />}
         </View>
+
+
+
+
+      <View style={{marginTop:50}}>
+        <View style={{height:'auto', width:300, }}>
+          <Button title='show following' onPress={()=>{
+            setShowfollowing(!showFollowing)
+            setChange(!change)
+
+          }}/>
+        </View>
+
+{showFollowing?
+        <View>
+          {asd()}
+        </View>
+:null}
+
+
+
+
+
+      </View>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     </View>
 </ScrollView>
