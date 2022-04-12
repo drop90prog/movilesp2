@@ -56,7 +56,7 @@ export const updateUser = async (name, email, password, iduser, poster)=> {
           'Content-Type': 'application/json'
       }
       })
-      return res.json()
+      return res
   }
 
     

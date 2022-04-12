@@ -1,29 +1,63 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ActivityIndicator } from 'react-native';
+
+
+
+
 
 export const styles = StyleSheet.create({
-    contender: {
-     margin:55,   
+    lienzo: {
+      flex:1,    
+      backgroundColor: 'white',   
+    },
+    content: {
+      width:'95%',
+      alignItems:'center',
+      alignSelf:'center',
+
+    },
+    allowedContent: {
+      width:'100%',
+    },
+    avatarContainer: {
+      padding:20,
+      flexDirection:'row',
+      justifyContent: 'space-around'
+    },
+    avatarContainerInProcess: {
+      backgroundColor: 'white',
+      padding:20,
+      flexDirection:'row',
+      justifyContent: 'space-around',
+      opacity: .2
+    },
+    inputsContainer: {  
+      width:'100%',
+      alignItems:'center',
     },
   
-      email: {
+      input: {
+        justifyContent:'center',
+        width:'80%',
         marginTop:10,
-        width:250,
-        borderColor:"black",
+        borderColor:"lightgray",
         borderWidth:1,     
-        borderRadius:10,
+        borderRadius:5,
         padding:10
       },
-      password: {  
-          marginTop:15,    
-          width:250,
-          borderColor:"black",
-          borderWidth:1,     
-          borderRadius:10,
-          padding:10
-        },
         button: {  
-          marginTop:15,    
-          backgroundColor: 'black'        
+          width:'80%',
+          marginTop:20,
+         
+        },
+        followingMangasContainer: {
+          marginTop:30,
+          marginBottom:60,
+          alignItems:'center',
+        },
+        followingMangas: {
+          flexDirection:'row', 
+          marginTop:20, width:'100%', 
+          justifyContent:'space-evenly',
         },
         text: {            
           padding:15              

@@ -89,19 +89,21 @@ function updateUser (req, res) {
 
     console.log(req.body)
 
-        
+
+
+ 
         if(req.body.name)
         User.findByIdAndUpdate(req.body.iduser,{"name": req.body.name }, (err, result)=>{
             
         })       
     
         if(req.body.email)        
-            User.findByIdAndUpdate(req.body.iduser,{"email": req.body.email }, (err, result)=>{       
+        User.findByIdAndUpdate(req.body.iduser,{"email": req.body.email }, (err, result)=>{       
                 
         })
         
         if(req.body.password)
-            User.findByIdAndUpdate(req.body.iduser,{"password": req.body.password }, (err, result)=>{       
+        User.findByIdAndUpdate(req.body.iduser,{"password": req.body.password }, (err, result)=>{       
                 
         })
 
@@ -110,6 +112,8 @@ function updateUser (req, res) {
             
         })
         
+        
+
 
         User.findById(req.body.iduser, (err, user)=> {
                 return res.status(200).send({

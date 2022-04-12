@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Button, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, TextInput, Button, Image, ActivityIndicator, ScrollView } from 'react-native';
 import { styles } from './styles';
 import React, { useEffect, useState } from 'react';
 import { signUp, updateUser } from '../../controllers/fetchUser';
@@ -12,7 +11,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Sharing from 'expo-sharing';
 
 import Firebase from 'firebase/app';
-import { firebaseConfig } from '../../../firebase';
+import { firebaseConfig } from '../../controllers/storages';
 import 'firebase/storage'; 
 
 
@@ -23,7 +22,7 @@ export default function Profile() {
     const [iduser, setIduser] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [repeatPassword, setRepeatPassword] = useState('');
+    const [again, setAgain] = useState('');
     const [admin, setAdmin] = useState(false)
     const [ avatar, setAvatar ] = useState('')
     const jwtDecode = require('jwt-decode');
@@ -34,6 +33,8 @@ export default function Profile() {
     const [followingMangas, setFollowingMangas] = useState([])
     const [change, setChange] = useState(false)
     const [allowed, setAllowed] = useState(false)
+    const [isShown, setIshown] = useState(true)
+    const [inProcess, setInprocess] = useState(false)
     
 
 
@@ -105,10 +106,45 @@ const pickImage = async () => {
       return error
     },
     ()=>{
-      snapshot.snapshot.ref.getDownloadURL().then((url)=>{      
+      snapshot.snapshot.ref.getDownloadURL().then((url)=>{
         /* console.log("Download URL: ", url)   */
-        setImage(null)  
+        
         setPoster(url)
+        let avat = url
+        updateUser('', '', '', iduser, avat).then((res)=>{
+  
+          if(res.status==200){
+            res.json().then(response=>{
+              /* alert(response.message) */
+            
+              let user = jwtDecode(response.token)
+
+              removeData('user')            
+              storeData('user',JSON.stringify(user))
+              setRend(!rend)
+              setInprocess(false)
+              setImage(null)  
+              
+            }).catch(err=>console.log(err))
+          }else alert("error")  
+        }).catch(err=>console.log(err))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         blob.close()
         return url;
       })
@@ -137,11 +173,11 @@ var follows;
     if(followingMangas!=undefined){
     follows = followingMangas.map((item, index)=>{
       return(
-        <View style={{flexDirection:'row'}} key={index}>
+        <View style={styles.followingMangas} key={index}>
           <View style={{justifyContent:'center'}}>
             <Text>{item.name}</Text>
           </View>
-          <View style={{width:90}}>
+          <View >
             <Button title='unfollow' onPress={()=>{
               deleteFollow(item.iduser, item.idmanga).then((res)=>{
   
@@ -170,84 +206,146 @@ var follows;
 
 
   return (
-<ScrollView>
-  <View  style={styles.contender}>
+<ScrollView style={styles.lienzo}>
+  <View  style={styles.content}>
     {allowed?
-    <View>
-      <View>
-        {avatar?<Image source={{uri:avatar}} style={{height:90, width:90}}/>:console.log("loading")}
+    <View style={styles.allowedContent}>
+      <View style={inProcess ? styles.avatarContainerInProcess: styles.avatarContainer}>
+      {inProcess?
+      <View style={{position:'absolute', top:'50%', left:'50%'}}>
+        <ActivityIndicator size={'large'} color={'orange'}/>
+      </View>:null}
+      
+
+        <View>
+          {avatar?<Image source={{uri:avatar}} style={{height:90, width:90, borderRadius:5}}/>:console.log("loading")}
+        </View>
+        
+
+        <View style={{flexDirection:'column', justifyContent:'space-evenly'}}>
+
+          <View >
+            {!image?<Button title="Pick Image" onPress={pickImage} />:
+            /*<Button title="Share" onPress={openShareDialogAsync} /> */
+              <Button title="Save" onPress={()=>{setInprocess(true);uploadImage()}} />
+            }
+              {/* 
+              {image?
+              <TouchableOpacity onPress={()=>{setImage(null)}}>
+                <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+              </TouchableOpacity>:null}
+               */}              
+          </View>
+
+          <View>
+            {image? <Button title="Cancel" color={'red'} onPress={()=>{setImage(null)}} />:null}
+          </View>
+
+        </View>
+
       </View>
+      
+      <View style={styles.inputsContainer}>
+        <View style={styles.input} >
+            <Text style={{color:'gray'}}>Username: </Text>
+            <TextInput        
+              onChangeText={newText => setName(newText)}
+              defaultValue={name}   
+              placeholder="Enter username"           
+            />
+        </View>
+
+        <View style={styles.input}>
+            <Text style={{color:'gray'}}>Email: </Text>
+            <TextInput 
+              label="Email"
+              onChangeText={a => setEmail(a)}
+              placeholder="Enter e-mail"
+              value={email}
+            />
+        </View>
+
+        <View style={[styles.input, {flexDirection:'row', justifyContent:'space-around'}]}>
+          <View>
+            <Text style={{color:'gray'}}>Password: </Text>
+              <TextInput 
+                label="Password"
+                onChangeText={password => setPassword(password)}
+                secureTextEntry={true}
+                placeholder="Enter password"
+                value={password}
+              />
+          </View>
+
+          <View>
+            <Text style={{color:'gray'}}>Again: </Text>
+                <TextInput 
+                label="Password"
+                onChangeText={password => setAgain(password)}
+                secureTextEntry={true}
+                placeholder="Enter password"
+                value={again}
+              />
+          </View>
+        </View>
+
+        <View style={styles.button}>
+          <Button  color={'orange'}
+            title="update"
+            mode="contained" 
+            onPress={() => { 
+
+              if(name!='' || email!=''){
+                if(password == again){
+                  updateUser(name, email, password, iduser, poster).then((res)=>{
+  
+                    if(res.status==200){
+                      res.json().then(response=>{
+                        alert(response.message)
+                      
+                        let user = jwtDecode(response.token)
+    
+                        removeData('user')            
+                        storeData('user',JSON.stringify(user))
+                        setRend(!rend)
+                        setPassword('')
+                        setAgain('')
+                        
+                      }).catch(err=>console.log(err))
+                    }else alert("error")  
+                  }).catch(err=>console.log(err))
+
+                }else alert("Passwords must match")
+              }else alert("please fill the fields")
 
 
-      <View>
-          <TextInput style={styles.email}        
-          onChangeText={newText => setName(newText)}
-          defaultValue={name}   
-          placeholder="Enter username"           
+
+
+
+
+
+
+            }}
           />
-      </View>
-
-      <View>
-          <TextInput style={styles.email}
-          label="Email"
-          onChangeText={a => setEmail(a)}
-          placeholder="Enter e-mail"
-          value={email}
-          />
-      </View>
-
-      <View >
-          <TextInput style={styles.password}
-          label="Password"
-          onChangeText={password => setPassword(password)}
-          secureTextEntry={true}
-          placeholder="Enter password"
-          />
-      </View>
-
-      <Button style={styles.button} 
-        title="update"
-        mode="contained" 
-        onPress={() => { 
-            updateUser(name, email, password, iduser, poster).then((res)=>{
-                alert(res.message)
-                
-                let user = jwtDecode(res.token)
-
-                removeData('user')            
-                storeData('user',JSON.stringify(user))
-                setRend(!rend)
-            })            
-        } }
-      />
+        </View>
 
 
 
-
-      <View style={{marginTop:20}}>
-        {!image?<Button title="Pick an image from camera roll" onPress={pickImage} />:
-        <Button title="Share" onPress={openShareDialogAsync} />
-        }
-          {image?
-          <TouchableOpacity onPress={()=>{setImage(null)}}>
-            <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-          </TouchableOpacity>:null}
-          {image? <Button title="upload" onPress={uploadImage} />:null}
       </View>
 
 
-
-
-      <View style={{marginTop:50}}>
-        <View style={{height:'auto', width:300, }}>
-          <Button title='show following' onPress={()=>{
+      <View style={styles.followingMangasContainer}>
+        <View style={{ width:'80%', }}>
+          <Button 
+          title = {isShown ? 'show following mangas':'hide following mangas'} 
+          onPress={()=>{
+            setIshown(!isShown)
             setShowfollowing(!showFollowing)
             setChange(!change)
-
           }}/>
         </View>
 
-      {showFollowing?
+        {showFollowing?
         <View>
           {asd()}
         </View>:null}

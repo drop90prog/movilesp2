@@ -10,7 +10,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 
 import Firebase from 'firebase/app';
-import { firebaseConfig } from '..//../../firebase';
+import { firebaseConfig } from '../../controllers/storages';
 import 'firebase/storage'; 
 
 export default function New() {

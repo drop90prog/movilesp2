@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator} from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator, ScrollView} from 'react-native';
 import { styles } from './styles';
 import { useState } from 'react';
 import { signUp } from '../../controllers/fetchUser';
@@ -19,7 +19,7 @@ export default function Signup(props, {navigation}) {
 
 
   return (
-
+<ScrollView>
     <View  style={styles.lienzo}>
 
     <View style={styles.container}>
@@ -129,6 +129,7 @@ export default function Signup(props, {navigation}) {
         
     </View>
 </View>
+</ScrollView>
   );
 }
 
