@@ -24,13 +24,22 @@ export default function New() {
   useFocusEffect(
     React.useCallback(()=>{
       getData('permissions').then(res=>{
-        let per = JSON.parse(res)
-        if(per.isLogged)setAllowed(true)
-        if(!per.isLogged)setAllowed(false)//necesrio, porque sino queda guardado el true y luego estes deslogueado seguira siendo true
-        console.log(`new manga: logged: ${per.isLogged}, admin: ${per.isAdmin}`)
-      })
+        if(res){
+          let per = JSON.parse(res)
+          if(per.isLogged)setAllowed(true)
+          if(!per.isLogged)setAllowed(false)//necesrio, porque sino queda guardado el true y luego estes deslogueado seguira siendo true
+          console.log(`new manga: logged: ${per.isLogged}, admin: ${per.isAdmin}`)
+        }
 
-      getData('user').then(res=>{let user = JSON.parse(res); setCreatorid(user.sub)})
+      }).catch((err)=>{console.log(err)})
+
+      getData('user').then(res=>{
+        if(res){
+          let user = JSON.parse(res); 
+          setCreatorid(user.sub)
+        }
+})
+      .catch((err)=>{console.log(err)})
     },[])
   )
 
@@ -85,7 +94,7 @@ export default function New() {
         setPoster(url)
         blob.close()
         return url;
-      })
+      }).catch(err=>console.log(err))
     })
   }//subida de archivos a firebase
 //*****************************************************************************

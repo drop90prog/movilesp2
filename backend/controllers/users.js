@@ -24,20 +24,19 @@ function signup (req, res) {
 
 
 function signin (req, res) {
-    if(!req.body.email || !req.body.password) return res.status(401).send({message: "Please fill the fields"})
-    else {console.log(req.body)
-
+   
     User.findOne({email: req.body.email}, (err, user)=> {
-        if(err || !user) return res.status(500).send({message: "Email or password wrong"})
-        else{console.log("user: "+user)
-            return res.status(200).send({
-                message:'Logged in successfully',
-                token: service.createToken(user)
-            })
-        }        
+        if(err) return res.status(500).send({message: err})
+        if(!user) return res.status(500).send({message: "Email or password wrong"})
+        
+        console.log("user: "+user)
+        return res.status(200).send({
+            token: service.createToken(user)
+        })
+              
         
     })//user.findOne  
-    }//else
+
 } 
 
 

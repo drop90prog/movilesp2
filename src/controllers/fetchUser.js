@@ -16,31 +16,23 @@ export const signIn = async (email, password)=> {
   }
 
    
-export const signUp = (name, email, password, admin)=> {  
+export const signUp = async(name, email, password, admin)=> {  
   
   let heroku = 'https://movilesp1.herokuapp.com/signup'
   let local = 'http://10.0.0.94:3000/signup'
 
 
-    let account = {name: name, email: email, password: password, admin:admin};            
+    let account = {name:name, email:email, password:password, admin:admin};            
     
-    fetch(local, {
+    const res = await fetch(local, {
       method: 'post', 
       body: JSON.stringify(account), 
       headers:{            
           'Content-Type': 'application/json'
       }
-      }).then(res =>{ 
-      
-        if(res.status==200) {          
-          
-          res.json().then((data) => {alert(data.message)});     
-
-        }else res.json().then((data) => {alert(data.error)});
-      
       })
-      .catch(error => console.error('Error:', error))
-      .then(response => console.log(response));
+      
+      return res
     
 
   }

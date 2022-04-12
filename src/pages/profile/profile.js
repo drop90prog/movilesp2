@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { styles } from './styles';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { signUp, updateUser } from '../../controllers/fetchUser';
 import { getData, storeData, removeData } from '../../controllers/storages';
 import { findFollowsMangas, deleteFollow } from '../../controllers/fetchFollows';
+
+import { useFocusEffect } from '@react-navigation/native';
 
 import * as ImagePicker from 'expo-image-picker';
 import * as Sharing from 'expo-sharing';
@@ -31,24 +33,30 @@ export default function Profile() {
     const [showFollowing, setShowfollowing] = useState(false);
     const [followingMangas, setFollowingMangas] = useState([])
     const [change, setChange] = useState(false)
-
+    const [allowed, setAllowed] = useState(false)
     
 
-    useEffect(()=>{
+
+    useFocusEffect(
+      React.useCallback(()=>{
         getData('user').then((res)=>{
+          if(res){
             let a = JSON.parse(res)
             setName(a.name)
             setEmail(a.email)
             setAvatar(a.avatar)
             setIduser(a.sub)
+            setAllowed(true)
             findFollowsMangas(a.sub).then((res)=>{
               setFollowingMangas(res.result)
             })
+          }
+          else { setAllowed(false)}
 
-            })
-    },[rend, change])
 
-    
+          }).catch(err=>{console.log(err); setAllowed(false)})
+      },[rend, change])
+    )
 
 
 
@@ -152,9 +160,7 @@ var follows;
       )
     })
     return follows
-  }else return alert("0 mangas following")
-  
-    
+  }else return alert("0 mangas following")   
     
   }
 
@@ -165,70 +171,69 @@ var follows;
 
   return (
 <ScrollView>
-    <View  style={styles.contender}>
-
+  <View  style={styles.contender}>
+    {allowed?
     <View>
+      <View>
         {avatar?<Image source={{uri:avatar}} style={{height:90, width:90}}/>:console.log("loading")}
-    </View>
+      </View>
 
 
-    <View>
-        <TextInput style={styles.email}        
-        onChangeText={newText => setName(newText)}
-        defaultValue={name}   
-        placeholder="Enter username"           
-        />
-    </View>
+      <View>
+          <TextInput style={styles.email}        
+          onChangeText={newText => setName(newText)}
+          defaultValue={name}   
+          placeholder="Enter username"           
+          />
+      </View>
 
-    <View>
-        <TextInput style={styles.email}
-        label="Email"
-        onChangeText={a => setEmail(a)}
-        placeholder="Enter e-mail"
-        value={email}
-        />
-    </View>
+      <View>
+          <TextInput style={styles.email}
+          label="Email"
+          onChangeText={a => setEmail(a)}
+          placeholder="Enter e-mail"
+          value={email}
+          />
+      </View>
 
-    <View >
-        <TextInput style={styles.password}
-        label="Password"
-        onChangeText={password => setPassword(password)}
-        secureTextEntry={true}
-        placeholder="Enter password"
-        />
-    </View>
+      <View >
+          <TextInput style={styles.password}
+          label="Password"
+          onChangeText={password => setPassword(password)}
+          secureTextEntry={true}
+          placeholder="Enter password"
+          />
+      </View>
 
-    <Button style={styles.button} 
-    title="update"
-    mode="contained" 
-    onPress={() => { 
-        updateUser(name, email, password, iduser, poster).then((res)=>{
-            alert(res.message)
-            
-            let user = jwtDecode(res.token)
+      <Button style={styles.button} 
+        title="update"
+        mode="contained" 
+        onPress={() => { 
+            updateUser(name, email, password, iduser, poster).then((res)=>{
+                alert(res.message)
+                
+                let user = jwtDecode(res.token)
 
-            removeData('user')            
-            storeData('user',JSON.stringify(user))
-            setRend(!rend)
-
-        })    
-    
-    } }
-    />
+                removeData('user')            
+                storeData('user',JSON.stringify(user))
+                setRend(!rend)
+            })            
+        } }
+      />
 
 
 
 
-        <View style={{marginTop:20}}>
-          {!image?<Button title="Pick an image from camera roll" onPress={pickImage} />:
-          <Button title="Share" onPress={openShareDialogAsync} />
-          }
-            {image && 
-            <TouchableOpacity onPress={()=>{setImage(null)}}>
-              <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-            </TouchableOpacity>}
-            {image && <Button title="upload" onPress={uploadImage} />}
-        </View>
+      <View style={{marginTop:20}}>
+        {!image?<Button title="Pick an image from camera roll" onPress={pickImage} />:
+        <Button title="Share" onPress={openShareDialogAsync} />
+        }
+          {image?
+          <TouchableOpacity onPress={()=>{setImage(null)}}>
+            <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+          </TouchableOpacity>:null}
+          {image? <Button title="upload" onPress={uploadImage} />:null}
+      </View>
 
 
 
@@ -242,11 +247,10 @@ var follows;
           }}/>
         </View>
 
-{showFollowing?
+      {showFollowing?
         <View>
           {asd()}
-        </View>
-:null}
+        </View>:null}
 
 
 
@@ -254,22 +258,13 @@ var follows;
 
       </View>
 
+    </View>:
+    <View>
+      <Text>bobisss</Text>
+    </View>}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </View>
+  </View>
 </ScrollView>
   );
 }
