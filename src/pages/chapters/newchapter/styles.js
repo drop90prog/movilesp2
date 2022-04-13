@@ -1,16 +1,25 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-    contender: {
-     margin:55,   
-    },
+  lienzo: {
+    flex:1,    
+    backgroundColor: 'white',   
+  },
+  container: {
+    width:'95%',
+    alignItems:'center',
+    alignSelf:'center',
+  },
+  allowedContent: {
+    width:'100%',
+  },
   
-      name: {
-        marginTop:10,
-        width:250,
+      input: {
+        marginTop:5,
+        width:"100%",
         borderColor:"black",
         borderWidth:1,     
-        borderRadius:10,
+        borderRadius:6,
         padding:10
       },
       password: {  

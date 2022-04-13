@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Modal, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, TextInput } from 'react-native';
 import { styles } from './styles';
 import React, { useState } from 'react';
 import { saveChapter } from '../../../controllers/fetchChapter';
@@ -7,7 +7,7 @@ import { updateManga, deleteManga } from '../../../controllers/fetchManga';
 import { useFocusEffect } from '@react-navigation/native';
 import { getData } from '../../../controllers/storages';
 import { findFollowsManga } from '../../../controllers/fetchFollows';
-
+import { Card } from 'react-native-paper'
 
 export default function Newchapter(props) {
 
@@ -46,31 +46,7 @@ export default function Newchapter(props) {
 
 
 
-  getData('permissions').then(res=>{
-    let per = JSON.parse(res)
-    if(per.isAdmin)setAllowed(true)
-   
-    console.log(`(new chapter) admin: ${per.isAdmin}`)
-  })
 
-  getData('user').then(res=>{
-    if(res){
-      let us = JSON.parse(res)
-      setUserid(us.sub)
-    }
-  })
-
-
-  getData('manga').then(res=>{
-    let l = JSON.parse(res)
-    const manganamee = l[1]
-    const mangaidee = l[0]
-    const creatoridd = l[2]        
-    setMangaid(mangaidee)
-    setManganame(manganamee)
-    setCreatorid(creatoridd)
-    //console.log(`current manga: ${manganamee}, id:${mangaidee}, creatorid: ${creatoridd}`)         
-  })
 
 
 
@@ -78,6 +54,34 @@ export default function Newchapter(props) {
   useFocusEffect(
     React.useCallback(()=>{     
       //console.log("allowed: "+allowed)      
+
+
+
+      getData('permissions').then(res=>{
+        let per = JSON.parse(res)
+        if(per.isAdmin)setAllowed(true)
+       
+        console.log(`(new chapter) admin: ${per.isAdmin}`)
+      })
+    
+      getData('user').then(res=>{
+        if(res){
+          let us = JSON.parse(res)
+          setUserid(us.sub)
+        }
+      })
+    
+    
+      getData('manga').then(res=>{
+        let l = JSON.parse(res)
+        const manganamee = l[1]
+        const mangaidee = l[0]
+        const creatoridd = l[2]        
+        setMangaid(mangaidee)
+        setManganame(manganamee)
+        setCreatorid(creatoridd)
+        //console.log(`current manga: ${manganamee}, id:${mangaidee}, creatorid: ${creatoridd}`)         
+      })
       
       if(userId==creatorid){
         console.log(`userid: ${userId}, creatorid: ${creatorid}`), setAllowed(true)
@@ -91,47 +95,89 @@ export default function Newchapter(props) {
 
 
   return (
-    <View style={styles.container}>
-      {allowed?<View>
+    <ScrollView style={styles.lienzo}>
+      <View style={styles.container}>
 
-        <View>
-            <TextInput style={styles.name}          
-            onChangeText={chapter => setChapterName(chapter)}
-            placeholder="name"            
-            />
-        </View>
+     
+      {allowed?
+      <View style={styles.allowedContent}>
 
-        <View>
-            <TextInput style={styles.name}          
-            onChangeText={number => setChapternumber(number)}
-            placeholder="number"          
-            />
-        </View>
+{/* NEW CHAPTER */}
+        <View style={{marginTop:15}}>
+          <Card style={{padding:15, }}>
 
-        <Button style={styles.button} 
-        title="Add"
-        mode="contained" 
-        onPress={() => {
-          if(!chapterNumber){
-            alert('fill the number field')
-          }else{        saveChapter(mangaId ,chapterName, chapterNumber) 
-            .then(res => {
-            alert(res.message)
-            }).catch(error => console.error('Error:', error))}}}
-        />
-
-
-        <View>
-          <Text style={{marginTop:40}}>editar manga</Text>
-            <View>
-                <TextInput style={styles.name}          
-                onChangeText={manganeim => setManganame(manganeim)}
-                placeholder="number"
-                value={mangaName}
-                />
+            <View style={{padding:10}}>
+              <Text style={{color:'gray', fontSize:20, fontWeight:'bold', textAlign:'center'}}>ADD NEW CHAPTER</Text>
             </View>
-            <View>
+
+            <View style={{padding:5, }}>
+              <Text style={{color:'gray' }}>Name of the chapter:</Text>
+            </View>
+
+            <View style={styles.input}>
+              <TextInput           
+              onChangeText={chapter => setChapterName(chapter)}
+              placeholder="name"            
+              />
+            </View>
+
+
+            <View style={{paddingL:5, marginTop:10}}>
+              <Text style={{color:'gray' }}>Number of the chapter: 
+                <Text style={{color:'red' }}> (required)</Text>
+              </Text>
+            </View>
+            <View style={styles.input}>
+              <TextInput
+              keyboardType = 'numeric'
+              onChangeText={number => setChapternumber(number)}
+              placeholder="number"          
+              />
+            </View>
+
+            <View style={{marginTop:15}}>
               <Button style={styles.button} 
+              disabled={chapterNumber?false:true}
+              title="Add"
+              mode="contained" 
+              onPress={() => {
+                if(!chapterNumber){
+                  alert('fill the number field')
+                }else{        saveChapter(mangaId ,chapterName, chapterNumber) 
+                  .then(res => {
+                  alert(res.message)
+                  }).catch(error => console.error('Error:', error))}}}
+              />
+            </View>
+
+          </Card>
+        </View>
+
+
+
+{/* EDIT MANGA */}
+        <View style={{marginTop:15}}>
+          <Card style={{padding:15, }}>
+
+            <View style={{padding:10}}>
+              <Text style={{color:'gray', fontSize:20, fontWeight:'bold', textAlign:'center'}}>EDIT MANGA</Text>
+            </View>
+
+            <View style={{padding:5, }}>
+              <Text style={{color:'gray' }}>Name of the manga:</Text>
+            </View>
+
+            <View>
+              <TextInput style={styles.input}          
+              onChangeText={manganeim => setManganame(manganeim)}
+              placeholder="number"
+              value={mangaName}
+              />
+            </View>          
+
+            <View style={{marginTop:15}}>
+              <Button style={styles.button} 
+              disabled={mangaName?false:true}
               title="update"
               mode="contained" 
               onPress={() => {
@@ -142,25 +188,55 @@ export default function Newchapter(props) {
               />
             </View>
 
+          </Card>
+        </View>
 
 
+
+
+
+
+
+
+
+
+{/* NOTIFICATION */}
+        <View style={{marginTop:15}}>
+          
+          <Card style={{padding:15, }}>
+            <View style={{padding:10}}>
+              <Text style={{color:'gray', fontSize:20, fontWeight:'bold', textAlign:'center'}}>NOTIFICATION</Text>
+            </View>
+            <View style={{paddingLeft:5, }}>
+              <Text style={{color:'gray' }}>Title:
+                <Text style={{color:'red' }}> (required)</Text>
+              </Text>
+            </View>
 
             <View>
-                <TextInput style={styles.name}          
+                <TextInput style={styles.input}          
                 onChangeText={titl => setTitle(titl)}
                 placeholder="title"
                 value={title}
                 />
             </View>
+
+            <View style={{paddingLeft:5, marginTop:10}}>
+              <Text style={{color:'gray' }}>Message:
+                <Text style={{color:'red' }}> (required)</Text>
+              </Text>
+            </View>
             <View>
-                <TextInput style={styles.name}          
+                <TextInput style={styles.input}          
                 onChangeText={messag => setMessage(messag)}
                 placeholder="message"
                 value={message}
                 />
-            </View>
-            <View>
+            </View>        
+
+            <View style={{marginTop:15}}>
               <Button style={styles.button} 
+              disabled={!title || !message ? true:false}
               title="Send notification"
               mode="contained" 
               onPress={() => {
@@ -177,20 +253,17 @@ export default function Newchapter(props) {
               />
             </View>
 
+          </Card>
+        </View>
+        
+        
 
 
 
-
-
-
-
-
-
-
-
-
-            <View style={{marginTop:20}}>
+        <View>
+            <View style={{marginVertical:40}}>
               <Button 
+              color={'red'}
               title="delete manga"
               mode="contained" 
               onPress={() => {             
@@ -209,8 +282,8 @@ export default function Newchapter(props) {
       </View>}
 
 
-
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 
