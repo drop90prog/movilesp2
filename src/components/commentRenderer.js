@@ -46,8 +46,8 @@ export default function CommentRenderer(props) {
         else deleteReplyAllowed = false
 
         return(
-         <View key={index} >
-           <Card style={{width:300}}>
+         <View key={index} style={{paddingLeft:10, marginBottom:3, marginTop:2}}>
+           
             {props.commentid==item.commentid?<View >
               <View>
                 <Text>{item.name}: {item.reply} 
@@ -71,7 +71,7 @@ export default function CommentRenderer(props) {
               </View>
             </View>:null}
 
-           </Card>
+          
          </View>
           
         )
@@ -125,7 +125,7 @@ export default function CommentRenderer(props) {
             {allowDelete?<View style={{flexDirection:'row', justifyContent:'space-around', height:25}}>
 {!editableComment?<View>
                 <TouchableOpacity onPress={()=>{setEditablecomment(!editableComment)}}>
-                  <View style={{height:20, width:70, backgroundColor:'pink'}}>
+                  <View style={{height:20, width:70, backgroundColor:'#DEDEDE'}}>
                     <Text style={{textAlign:'center'}}>Edit</Text>
                   </View>                    
                 </TouchableOpacity>                
@@ -174,9 +174,9 @@ export default function CommentRenderer(props) {
                   </View>                    
                 </TouchableOpacity>    
               </View>
-              <View style={{height:20, width:70, backgroundColor:'pink'}}>
+              <View style={{height:20, width:70}}>
                 <TouchableOpacity onPress={()=>{setAllowcomment(!allowComment)}}>
-                  <View style={{height:20, width:70, bareplyckgroundColor:'pink'}}>
+                  <View style={{height:20, width:70, backgroundColor:'#DEDEDE'}}>
                     <Text style={{textAlign:'center'}}>reply</Text>
                   </View>                    
                 </TouchableOpacity>                
@@ -193,9 +193,9 @@ export default function CommentRenderer(props) {
                     {/* relleno para alinear de ultimo el boton "reply" */}
                 </View>                
             </View>
-            <View style={{height:20, width:70, backgroundColor:'pink'}}>
+            <View style={{height:20, width:70}}>
               <TouchableOpacity onPress={()=>{setAllowcomment(!allowComment)}}>
-                <View style={{height:20, width:70, bareplyckgroundColor:'pink'}}>
+                <View style={{height:20, width:70, backgroundColor:'#DEDEDE'}}>
                   <Text style={{textAlign:'center'}}>reply</Text>
                 </View>                    
               </TouchableOpacity>                
@@ -226,18 +226,21 @@ export default function CommentRenderer(props) {
               />            
             </View>
 
-            <Button title="comment" onPress={()=>{
-                if(!props.loggeduserid)alert("Sign in before reply")
-                else if(reply=='')alert("fill the fiels please")
-                else{
-                  saveReply(props.commentid, props.chapterid, props.loggeduserid, props.name, reply)
-                  .then((res)=>{
-                    findReplies(props.chapterid).then((res)=>{
-                      setReplies(res.result)
+            <View style={{width:'30%', alignSelf:'flex-end', marginTop:2}}>
+              <Button color={'orange'} title="reply" onPress={()=>{
+                  if(!props.loggeduserid)alert("Sign in before reply")
+                  else if(reply=='')alert("fill the fiels please")
+                  else{
+                    saveReply(props.commentid, props.chapterid, props.loggeduserid, props.name, reply)
+                    .then((res)=>{
+                      findReplies(props.chapterid).then((res)=>{
+                        setReplies(res.result)
+                      })
                     })
-                  })
-                }
-              }}/>
+                  }
+                }}/>
+            </View>
+
         </View>:null}
 
 
@@ -252,7 +255,7 @@ const styles = StyleSheet.create({
     profile:{
         width:100,
         height:'auto',
-        backgroundColor:'lightblue',
+/*         backgroundColor:'lightgray', */
         alignItems: 'center',
       },
       avatars: {
@@ -263,7 +266,9 @@ const styles = StyleSheet.create({
       commentArea: {
         height:'auto',
         width:240,
-        backgroundColor:'lightgray',        
+        borderWidth:1,
+        borderColor:'#ECECEC'
+  /*       backgroundColor:'lightgray',    */     
       },
       optArea: {
         height:15,

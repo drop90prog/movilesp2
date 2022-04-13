@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, ScrollView, Image, FlatList, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, Image, TouchableOpacity, TextInput } from 'react-native';
 import { storeData, getData, removeData } from "../../../controllers/storages";
 import ImageViewer from 'react-native-image-zoom-viewer';
 import CommentRenderer from '../../../components/commentRenderer';
@@ -9,7 +9,9 @@ import { findImages } from '../../../controllers/fetchImage';
 import { saveComment, findComments } from '../../../controllers/fetchComments';
 import { findReplies } from '../../../controllers/fetchReplies';
 import { saveIndexActive } from '../../../controllers/fetchIndexActive';
-
+import { styles } from './styles';
+import { Card } from 'react-native-elements';
+import { Entypo } from '@expo/vector-icons';
 
 
 
@@ -208,39 +210,109 @@ const coms = comments.map((item,index,array)=>{
 
 
   return (
-    <View style={styles.container}>
+    <View style={styles.lienzo}>
       <ScrollView>
 
-        <View style={styles.imageContainer}>
-          <View style={{marginVertical:20}}>
-            <Button title='right' onPress={()=>{
-              storeData('images', JSON.stringify(images))
-              props.navigation.navigate('ImageViewerR')             
-              }}/>
-          </View>
-          <View style={{marginBottom:20}}>
-            <Button title='left'onPress={()=>{
+
+
+<View style={{alignItems:'center', padding:15}}>
+  <View>
+    <Text style={{fontSize:24, color:'gray', fontWeight:'bold', letterSpacing:3}}>Choose Direction</Text>
+  </View>
+  {/* fila arriba ******************/}
+    <View style={{flexDirection:'row'}}>
+      <TouchableOpacity onPress={()=>{
               storeData('images', JSON.stringify(images))
               props.navigation.navigate('ImageViewerL')             
-              }}/>
-          </View>
-          <View style={{marginBottom:20}}>
-            <Button title='up' onPress={()=>{
+              }}
+      >
+        <View style={{width:150}}>
+          <Card>
+            <View style={{alignItems:'center'}}>
+              <View>
+                <Text>Left</Text>
+              </View>
+              <View>              
+                <Entypo name="arrow-left" size={30} color="black" />
+              </View>
+            </View>   
+          </Card>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={()=>{
+              storeData('images', JSON.stringify(images))
+              props.navigation.navigate('ImageViewerR')             
+              }}
+      >
+        <View style={{width:150}}>
+          <Card>
+            <View style={{alignItems:'center'}}>
+              <View>
+                <Text>Right</Text>
+              </View>
+              <View>
+                <Entypo name="arrow-right" size={30} color="black" />
+              </View>
+            </View>           
+          </Card>
+        </View>
+      </TouchableOpacity>     
+    </View>
+     
+    {/* fila abajo ****************/}
+    <View style={{flexDirection:'row'}}>
+      <TouchableOpacity onPress={()=>{
               storeData('images', JSON.stringify(images))
               props.navigation.navigate('ImageViewerU')             
-              }}/>
-          </View>
-          <View style={{marginBottom:20}}>
-            <Button title='down' onPress={()=>{
+              }}
+        >
+        <View style={{width:150}}>
+          <Card >
+            <View style={{alignItems:'center'}}>
+              <View>
+                <Text>Up</Text>
+              </View>
+              <View>
+                <Entypo name="arrow-up" size={30} color="black" />
+              </View>
+            </View>           
+          </Card>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={()=>{
               storeData('images', JSON.stringify(images))
               props.navigation.navigate('ImageViewerD')             
-              }}/>
-          </View>         
+              }}
+      >
+        <View style={{width:150}}>
+          <Card>
+            <View style={{alignItems:'center'}}>
+              <View>
+                <Text>Down</Text>
+              </View>
+              <View>              
+                <Entypo name="arrow-down" size={30} color="black" />
+              </View>
+            </View>   
+          </Card>
         </View>
+      </TouchableOpacity>
+    </View>
 
-        <View style={styles.commentSection}>        
+
+</View>
+    
+
+
+
+
+
+
+        <View style={styles.commentSection}>
           <View>
-            <Text style={{textAlign:"center"}}>Comments</Text>
+            <Text style={{textAlign:"center", fontSize:20}}>Comments</Text>
           </View>
 
           <View>
@@ -256,30 +328,33 @@ const coms = comments.map((item,index,array)=>{
               placeholder="Enter your text..."             
               />            
             </View>
-            <Button title="comment" onPress={()=>{
-              if(!userId)alert("Sign in before comment")
-              else if(comment=='')alert("fill the fiels please")
-              else{
-                saveComment(comment, userId, avatar, chapterId, userName)
-                .then(res=>{
-                  findComments(chapterId).then(res=>{
-      
-                   
-                    setComments(res.result)
+            <View style={{marginTop:3, width:'97%', alignSelf:'center'}}>
+              <Button title="comment" onPress={()=>{
+                if(!userId)alert("Sign in before comment")
+                else if(comment=='')alert("fill the fiels please")
+                else{
+                  saveComment(comment, userId, avatar, chapterId, userName)
+                  .then(res=>{
+                    findComments(chapterId).then(res=>{
+        
+                    
+                      setComments(res.result)
+                    })
+
+
+                    alert(res.message)
                   })
+                }
+                
 
+                }}/>
+            </View>
 
-                  alert(res.message)
-                })
-              }
-              
-
-              }}/>
            </View>
 
 
 
-{/*           <View>
+          {/*<View>
             <FlatList nestedScrollEnabled
             data={comments}
             renderItem={({ item }) => 
@@ -296,32 +371,3 @@ const coms = comments.map((item,index,array)=>{
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex:1,
-    backgroundColor: '#fff',
-  },
-  imageContainer: {
-    width:'100%',
-    height:400,
-    backgroundColor: 'lightgreen'
-  },
-  commentSection: {
-    width:'100%',
-    height:'auto',
-    backgroundColor: 'lightblue'
-  },
-  inputcomment: {
-    alignSelf:'center',    
-    marginTop:10,
-    width:'97%',
-    borderColor:"black",
-    borderWidth:1,     
-    borderRadius:0,
-    padding:10
-  },
-  betr: {
-    marginBottom:20,
-  }
-  
-});
