@@ -20,7 +20,8 @@ export default function New() {
   const [image, setImage] = useState(null);
   const [poster, setPoster] = useState(null);
   const [creatorid, setCreatorid] = useState('')
-  
+
+
   useFocusEffect(
     React.useCallback(()=>{
       getData('permissions').then(res=>{
@@ -90,8 +91,18 @@ export default function New() {
     ()=>{
       snapshot.snapshot.ref.getDownloadURL().then((url)=>{      
         console.log("Download URL: ", url)  
-        setImage(null)  
-        setPoster(url)
+
+
+        saveManga(name, url, creatorid)
+        .then(res => {
+        setName(null)
+        setImage(null)
+        setPoster(null)
+        alert(res.message)
+        }).catch(error => console.error('Error:', error))
+
+
+
         blob.close()
         return url;
       }).catch(err=>console.log(err))
@@ -108,47 +119,65 @@ export default function New() {
 
 
   return (
-    <View style={styles.container}>
+    <View style={styles.lienzo}>
+
+      <View style={styles.container}>
+        
+      
+          <View style={{marginVertical:30}}>
+            <Text style={{fontSize:30, color:'gray', alignSelf:'center'}}>Register Manga</Text>
+          </View>
       {allowed?<View>
-        <View>
-            <TextInput style={styles.name}          
-            onChangeText={name => setName(name)}
-            placeholder="Enter name" 
-            value={name}    
-            />
-        </View>
 
-        <Button style={styles.button} 
-        title="Add"
-        mode="contained" 
-        onPress={() => { 
-          if(!name)alert("fill the form please")
-          else{
-          saveManga(name, poster, creatorid) 
-          .then(res => {
-          setName(null)
-          setImage(null)
-          setPoster(null)
-          alert(res.message)
-          }).catch(error => console.error('Error:', error))}}
-          }
-        />
+          <View style={styles.inputContainer}>
+                <TextInput style={styles.input}
+                onChangeText={name => setName(name)}
+                placeholder="Enter manga name"        
+                />
+            </View>
 
 
-        <View >
-          <Button title="Pick an image from camera roll" onPress={pickImage} />
-            {image && 
-            <TouchableOpacity onPress={()=>{setImage(null)}}>
-              <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-            </TouchableOpacity>}
-            {image && <Button title="upload" onPress={uploadImage} />}
-        </View>
+            <View style={styles.buttonsContainer}>
+              <View style={!image?{marginVertical:30}:{marginTop:30}}>
+                <Button 
+                  disabled={name?false:true}
+                  title="Add Manga no image"
+                  mode="contained" 
+                  onPress={() => {
+
+                    saveManga(name, poster, creatorid)
+                    .then(res => {
+                    setName(null)
+                    setImage(null)
+                    setPoster(null)
+                    alert(res.message)
+                    }).catch(error => console.error('Error:', error))}
+                    }
+                />
+              </View>
+
+              <View >
+
+              {image?<Image source={{ uri: image }} style={{ width: 200, height: 200 }}/>:null}
+                {image?<Button color={'red'} title="cancel" onPress={()=>setImage(null)}/>:null}
+                {!image?
+                <Button title="Pick Image" onPress={pickImage} />:
+                <Button title="Add manga and image" disabled={name?false:true} onPress={uploadImage}/>}
+
+
+                
+              </View>             
+            </View>
+
+
+
+
       </View>:
       <View>
         <Text>q loquis</Text>
       </View>
       }
-
+    </View>
     </View>
   );
 }

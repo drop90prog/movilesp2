@@ -110,8 +110,7 @@ const pickImage = async () => {
         /* console.log("Download URL: ", url)   */
         
         setPoster(url)
-        let avat = url
-        updateUser('', '', '', iduser, avat).then((res)=>{
+        updateUser('', '', '', iduser, url).then((res)=>{
   
           if(res.status==200){
             res.json().then(response=>{

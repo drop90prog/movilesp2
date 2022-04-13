@@ -8,12 +8,9 @@ export const styles = StyleSheet.create({
     },
     container:{
       width:'85%',
-
       alignItems:'center',
     },
-    inputEmailContainer:{
-
-      
+    inputEmailContainer:{      
       justifyContent:'center',
       alignItems:'center',
       width:'100%', 
