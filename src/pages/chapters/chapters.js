@@ -7,6 +7,11 @@ import { getData, removeData, storeData } from '../../controllers/storages';
 import ChaptersRenderer from '../../components/chaptersRenderer';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { saveFollow, findFollow, deleteFollow } from '../../controllers/fetchFollows';
+import { styles } from './styles';
+import { FontAwesome } from '@expo/vector-icons';
+
+import { useHeaderHeight } from '@react-navigation/elements';
+
 
 
 export default function Chapters(props, {navigation}) {
@@ -15,11 +20,12 @@ export default function Chapters(props, {navigation}) {
   const [name, setName] = useState('')
   const [mangaid, setMangaid] = useState('')
   const [iduser, setIduser] = useState('')
+  
 
   const [isFollowed, setIsfollowed] = useState(false)
   const [tokennp, setTokennp] = useState('')
 
-
+  const headerHeight = useHeaderHeight();
 
   useFocusEffect(
     React.useCallback(()=>{
@@ -60,41 +66,68 @@ console.log(tokennp)
 
 
 
+
+
+
   return (
-    <View style={styles.container}>
-      <View>
-        <View>
-          <Text style={{textAlign:'center'}}>{name}</Text>
-{!isFollowed?<TouchableOpacity onPress={()=>{
+    <View style={styles.lienzo}>
+      <View style={styles.container}>
+        <View style={[styles.topbanner, {backgroundColor: isFollowed?'#CDFFC2':'#FFC2C2'}]}>
+      
+          <View>
+            <Text style={{textAlign:'center'}}>{name}</Text>
+          </View>
+
+          <View>
+            {!isFollowed?
+            <TouchableOpacity 
+            onPress={()=>{
+              saveFollow(iduser, tokennp, mangaid, name).then((res)=>{
+                alert(res.message)
+                setIsfollowed(true)
+              }) }}
+              style={{justifyContent:'center',
+              width:60, backgroundColor:'red',
+              height:29, marginVertical:30,borderRadius:10,}} 
+              >
+
+              <View >
+                <Text style={{textAlign:'center', color:"white"}}>follow</Text>
+              </View>
+
+            </TouchableOpacity>:
+            <TouchableOpacity onPress={()=>{
+              
+              deleteFollow(iduser, mangaid).then((res)=>{
+                alert(res.message)
+                setIsfollowed(false)
+              }) }}
+              
+              style={{justifyContent:'center',
+              width:95, backgroundColor:'#1A9800',
+              height:29, marginVertical:30,borderRadius:10,}} 
+              
+              >
                 
-                saveFollow(iduser, tokennp, mangaid, name).then((res)=>{
-                  alert(res.message)
-                  setIsfollowed(true)
-                })
+
+
+              <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
+                <View>
+                  <Text style={{textAlign:'center', color:"white"}}>following</Text>
+                </View>
+                <View>
+                  <FontAwesome name="check-square-o" size={18} color="white" />
+                </View>                
                 
-                
-                }}>
-            <View style={{height:20, width:'100%', backgroundColor:'tomato'}}>
-              <Text>follow</Text>
-            </View>
-          </TouchableOpacity>:
-          <TouchableOpacity onPress={()=>{
-            
-            deleteFollow(iduser, mangaid).then((res)=>{
-              alert(res.message)
-              setIsfollowed(false)
-            })
-            
-            
-            }}>
-            <View style={{height:20, width:'100%', backgroundColor:'lightgreen'}}>
-              <Text>unfollow</Text>
-            </View>
-          </TouchableOpacity>}
+              </View>
+            </TouchableOpacity>}
+          </View>
+
+          
         </View>
 
 
-        <View style={{width:'100%'}}>
+        <View style={{width:'95%'}}>
           <FlatList
             data={chapters}
             renderItem={({ item }) => 
@@ -108,17 +141,12 @@ console.log(tokennp)
             vertical={true}          
           />
         </View>
+
+
       </View>
      
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-   
-    
-  },
-});
+

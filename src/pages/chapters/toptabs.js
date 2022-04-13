@@ -7,7 +7,9 @@ const Top = createMaterialTopTabNavigator();
 
 export default function Toptabs(props) {
   return (
-    <Top.Navigator>
+    <Top.Navigator screenOptions={{
+      tabBarStyle: {height: 40},
+    }}>
       <Top.Screen name="Chapters" component={StackNavigationImages} />
       <Top.Screen name="Newchapter" navigation={props.navigation} component={Newchapter} />
     </Top.Navigator>
