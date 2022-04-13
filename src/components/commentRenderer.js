@@ -125,7 +125,7 @@ export default function CommentRenderer(props) {
             {allowDelete?<View style={{flexDirection:'row', justifyContent:'space-around', height:25}}>
 {!editableComment?<View>
                 <TouchableOpacity onPress={()=>{setEditablecomment(!editableComment)}}>
-                  <View style={{height:20, width:70, backgroundColor:'#DEDEDE'}}>
+                  <View style={{height:20, width:70, backgroundColor:'#DEDEDE', borderRadius:3}}>
                     <Text style={{textAlign:'center'}}>Edit</Text>
                   </View>                    
                 </TouchableOpacity>                
@@ -169,14 +169,14 @@ export default function CommentRenderer(props) {
                   })
                   
                   }}>
-                  <View style={{height:20, width:70, backgroundColor:'pink'}}>
+                  <View style={{height:20, width:70, backgroundColor:'pink', borderRadius:3}}>
                     <Text style={{textAlign:'center'}}>delete</Text>
                   </View>                    
                 </TouchableOpacity>    
               </View>
-              <View style={{height:20, width:70}}>
+              <View style={{height:20, width:70, borderRadius:3}}>
                 <TouchableOpacity onPress={()=>{setAllowcomment(!allowComment)}}>
-                  <View style={{height:20, width:70, backgroundColor:'#DEDEDE'}}>
+                  <View style={{height:20, width:70, backgroundColor:'#DEDEDE', borderRadius:3}}>
                     <Text style={{textAlign:'center'}}>reply</Text>
                   </View>                    
                 </TouchableOpacity>                
@@ -193,9 +193,9 @@ export default function CommentRenderer(props) {
                     {/* relleno para alinear de ultimo el boton "reply" */}
                 </View>                
             </View>
-            <View style={{height:20, width:70}}>
+            <View style={{height:20, width:70, borderRadius:3}}>
               <TouchableOpacity onPress={()=>{setAllowcomment(!allowComment)}}>
-                <View style={{height:20, width:70, backgroundColor:'#DEDEDE'}}>
+                <View style={{height:20, width:70, backgroundColor:'#DEDEDE', borderRadius:3}}>
                   <Text style={{textAlign:'center'}}>reply</Text>
                 </View>                    
               </TouchableOpacity>                
