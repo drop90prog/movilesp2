@@ -45,7 +45,12 @@ export default function Newchapter(props) {
   }
 
 
-
+  getData('permissions').then(res=>{
+    let per = JSON.parse(res)
+    if(per.isAdmin)setAllowed(true)
+  
+   // console.log(`(new chapter) admin: ${per.isAdmin}`)
+  })
 
 
 
@@ -57,12 +62,7 @@ export default function Newchapter(props) {
 
 
 
-      getData('permissions').then(res=>{
-        let per = JSON.parse(res)
-        if(per.isAdmin)setAllowed(true)
-       
-        console.log(`(new chapter) admin: ${per.isAdmin}`)
-      })
+
     
       getData('user').then(res=>{
         if(res){
@@ -84,6 +84,9 @@ export default function Newchapter(props) {
       })
       
       if(userId==creatorid){
+        if(!userId || creatorid)return;
+       
+
         console.log(`userid: ${userId}, creatorid: ${creatorid}`), setAllowed(true)
       }
 
@@ -92,7 +95,7 @@ export default function Newchapter(props) {
 
     },[userId, creatorid])
   )
-
+  console.log(`allowed: ${allowed}`)
 
   return (
     <ScrollView style={styles.lienzo}>
@@ -102,7 +105,7 @@ export default function Newchapter(props) {
       {allowed?
       <View style={styles.allowedContent}>
 
-{/* NEW CHAPTER */}
+        {/* NEW CHAPTER */}
         <View style={{marginTop:15}}>
           <Card style={{padding:15, }}>
 
@@ -155,7 +158,7 @@ export default function Newchapter(props) {
 
 
 
-{/* EDIT MANGA */}
+        {/* EDIT MANGA */}
         <View style={{marginTop:15}}>
           <Card style={{padding:15, }}>
 
@@ -200,7 +203,7 @@ export default function Newchapter(props) {
 
 
 
-{/* NOTIFICATION */}
+        {/* NOTIFICATION */}
         <View style={{marginTop:15}}>
           
           <Card style={{padding:15, }}>
@@ -278,7 +281,7 @@ export default function Newchapter(props) {
         </View>
       </View>:
       <View>
-        <Text>qnooo bobis xd</Text>
+        <Text>not allowed</Text>
       </View>}
 
 

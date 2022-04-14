@@ -62,7 +62,7 @@ export default function Chapters(props, {navigation}) {
       },[name, mangaid, iduser])
   )
 
-console.log(tokennp)
+
 
 
 

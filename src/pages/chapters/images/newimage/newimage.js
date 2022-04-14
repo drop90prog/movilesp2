@@ -27,9 +27,6 @@ export default function Newimage(props) {
   const [userId, setUserid] = useState('');
   const [allowed, setAllowed] = useState(false);
   const [creatorid, setCreatorid] = useState('');
-  const [rend, setRend] = useState(false);
-
-
 
 
 
@@ -42,7 +39,7 @@ export default function Newimage(props) {
   getData('permissions').then(res=>{
     let per = JSON.parse(res)
     if(per.isAdmin)setAllowed(true)
-   
+
    // console.log(`(new chapter) admin: ${per.isAdmin}`)
   })
 
@@ -72,6 +69,7 @@ export default function Newimage(props) {
   })
 
       if(userId==creatorid){
+        if(!userId || creatorid)return;
 /*         console.log(`userid: ${userId}, creatorid: ${creatorid}`) */
         setAllowed(true)
       }
@@ -86,7 +84,7 @@ export default function Newimage(props) {
       })
       
  
-      },[manganame, userId, creatorid, rend])
+      },[manganame, userId, creatorid])
 
 
 
