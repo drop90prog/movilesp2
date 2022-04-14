@@ -1,11 +1,19 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-    container: {
+    lienzo: {
       flex: 1,
       backgroundColor: '#fff',
+
+    },
+    container: {
+      width:'95%',
       alignItems: 'center',  
-      justifyContent: 'flex-start',
+      alignSelf:'center',
+    },
+    allowedContent: {
+      width:'100%',
+      marginTop:15,
     },
     bodytop:{
       height:40,
@@ -17,12 +25,33 @@ export const styles = StyleSheet.create({
       width:'100%',    
       backgroundColor: 'lightgray',    
     },
-    name: {
-      marginTop:10,
-      width:250,
+    input: {
+      marginTop:5,
+      width:'100%',
       borderColor:"black",
       borderWidth:1,     
       borderRadius:10,
       padding:10
+    },
+    taptodelete: {
+      height:30, 
+      width:100, 
+      backgroundColor:'orange', 
+      marginTop:20 , 
+      borderRadius:20,
+      justifyContent:'center',
+      alignItems:'center',
+    },
+    texttaptodelete: {
+      fontSize:17, 
+      color:'gray', 
+      alignSelf:'center', 
+      marginTop:10,
+    },
+    texteditchapter: {
+      color:'gray', 
+      fontSize:20, 
+      fontWeight:'bold', 
+      textAlign:'center',
     },
   });

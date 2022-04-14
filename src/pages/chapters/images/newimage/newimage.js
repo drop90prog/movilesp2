@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Modal, TextInput, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, TextInput, Image, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { getData } from '../../../../controllers/storages';
 import { deleteImage, saveImage } from '../../../../controllers/fetchImage';
 import { updateChapter, deleteChapter } from '../../../../controllers/fetchChapter';
+import { Card } from 'react-native-paper';
 
 import * as ImagePicker from 'expo-image-picker';
 
@@ -26,8 +27,17 @@ export default function Newimage(props) {
   const [userId, setUserid] = useState('');
   const [allowed, setAllowed] = useState(false);
   const [creatorid, setCreatorid] = useState('');
+  const [rend, setRend] = useState(false);
 
 
+
+
+
+
+  useFocusEffect(
+    React.useCallback(()=>{
+
+      
 //obtiene si es admin o no
   getData('permissions').then(res=>{
     let per = JSON.parse(res)
@@ -61,17 +71,12 @@ export default function Newimage(props) {
     //console.log(`current manga: ${manganamee}, id:${mangaidee}, creatorid: ${creatoridd}`)         
   })
 
-
-
-
-  useFocusEffect(
-    React.useCallback(()=>{
-
       if(userId==creatorid){
 /*         console.log(`userid: ${userId}, creatorid: ${creatorid}`) */
         setAllowed(true)
       }
 
+  
 
       getData('images').then(res=>{  
         let imagess = JSON.parse(res)
@@ -81,7 +86,7 @@ export default function Newimage(props) {
       })
       
  
-      },[manganame, userId, creatorid])
+      },[manganame, userId, creatorid, rend])
 
 
 
@@ -152,6 +157,7 @@ export default function Newimage(props) {
         .then(res => {
         setImage(null)
         alert(res.message)
+        setRend(!rend)
         }).catch(error => console.error('Error:', error))
 
 
@@ -181,54 +187,59 @@ export default function Newimage(props) {
 
 
   return (
-    <View style={styles.container}>
-      {allowed?<View> 
+    <ScrollView style={styles.lienzo}>
+      <View style={styles.container}>
+        {allowed?
+        <View style={styles.allowedContent} showsVerticalScrollIndicator={false}> 
 
+          <View>
+            {!image?<Button title="Pick Image" onPress={pickImage} />:
+            <Button title="Add new image" onPress={uploadImage} />}
 
-
-
-        <View >
-          <Button title="Pick an image from camera roll" onPress={pickImage} />
-            {image && 
-            <TouchableOpacity onPress={()=>{setImage(null)}}>
-              <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-            </TouchableOpacity>}
-            {image && <Button title="upload" onPress={uploadImage} />}
-        </View>
+            {image?<Image source={{ uri: image }} style={{ width: 200, height: 200 }}/>:null}
+            {image?<Button color={'red'} title="cancel" onPress={()=>{setImage(null)}} />:null}
+          </View>
 
         <View>
-
-              {images.map((item, index)=>{
-        
-                return(
-                  <View key={index} >
-                    <TouchableOpacity  onPress={()=>{
-                      
-                      deleteImage(item.id).then((res)=>{alert(res.message)})
-                      
-                      }}>
-                      <View style={{height:30, width:100, backgroundColor:'lightgray', marginTop:20}}>
-                        <Text>{index + 1}</Text>
-                      </View>    
-                    </TouchableOpacity>
-                                   
-                  </View>               
-                )
-
-              })}
-
+          <Text style={styles.texttaptodelete}>Tap to delete the image</Text>
+            {images.map((item, index)=>{      
+              return(
+                <View key={index} style={{alignItems:'center'}}>
+                  <TouchableOpacity  onPress={()=>{                    
+                    deleteImage(item.id).then((res)=>{
+                      alert(res.message); 
+                      setRend(!rend)})                    
+                    }}>
+                    <View style={styles.taptodelete}>
+                      <Text style={{color:'white', fontWeight:'bold'}}>{index + 1}</Text>
+                    </View>    
+                  </TouchableOpacity>                                  
+                </View>               
+              )
+            })}
         </View>
 
-        <View style={{marginTop:40}}>
-            <View>
-                <TextInput style={styles.name}          
-                onChangeText={chapterneim => setChaptername(chapterneim)}
-                placeholder="number"
-                value={chapterName}
-                />
+        <View style={{marginTop:15}}>
+          <Card style={{padding:15, }}>
+
+            <View style={{padding:10}}>
+              <Text style={styles.texteditchapter}>Edit Chapter</Text>
             </View>
+
+            <View style={{padding:5, }}>
+              <Text style={{color:'gray' }}>Name of the chapter:</Text>
+            </View>
+
             <View>
+              <TextInput style={styles.input}          
+              onChangeText={chapterneim => setChaptername(chapterneim)}
+              placeholder="number"
+              value={chapterName}
+              />
+            </View>
+            <View style={{marginTop:15}}>
               <Button style={styles.button} 
+              disabled={chapterName?false:true}
               title="update"
               mode="contained" 
               onPress={() => {
@@ -239,8 +250,9 @@ export default function Newimage(props) {
               />
             </View>
 
-            <View style={{marginTop:20}}>
-              <Button 
+            <View style={{marginTop:40, marginBottom:30}}>
+
+              <Button color={'red'}
               title="delete chapter"
               mode="contained" 
               onPress={() => {              
@@ -252,13 +264,17 @@ export default function Newimage(props) {
                 }}
               />
             </View>
+          </Card>
+            
         </View>
       </View>:
       <View>
         <Text>qqq nooo jajaj bobisss</Text>
       </View>}
+      </View>
 
-    </View>
+
+    </ScrollView>
   );
 }
 
