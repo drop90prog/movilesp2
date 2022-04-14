@@ -105,17 +105,19 @@ useEffect(()=>{
             viewabilityConfigCallbackPairs.current
             }
             renderItem={({item, index})=>(
-    
-            <ImageZoom 
-                cropWidth={Dimensions.get('window').width}
-                cropHeight={Dimensions.get('window').height}
+ 
+            <ImageZoom
+            cropWidth={Dimensions.get('window').width}
+            cropHeight={Dimensions.get('window').height}
 
-                imageWidth={Dimensions.get('window').width}
-                imageHeight={500}>
+            imageWidth={Dimensions.get('window').width}
+            imageHeight={Dimensions.get('window').height}>
             {indexActive?<Image key={index} source={{uri: item.url}} style={styles.imagess}/>:
             <Image key={index} source={{uri: item.url}} style={styles.imagess}/>
             }
             </ImageZoom>
+
+
             
             )}
             />
@@ -131,7 +133,9 @@ const styles = StyleSheet.create({
         backgroundColor:'gray',
     },
     imagess: {
-        height:400, 
-        width:Dimensions.get('window').width,
+        height:Dimensions.get('window').height,
+        
+  
+        
       },
 });

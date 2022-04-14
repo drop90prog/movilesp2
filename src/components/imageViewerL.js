@@ -112,7 +112,7 @@ useEffect(()=>{
                 cropHeight={Dimensions.get('window').height}
 
                 imageWidth={Dimensions.get('window').width}
-                imageHeight={500}>
+                imageHeight={Dimensions.get('window').height}>
             {indexActive?<Image key={index} source={{uri: item.url}} style={styles.imagess}/>:
             <Image key={index} source={{uri: item.url}} style={styles.imagess}/>
             }
@@ -132,7 +132,6 @@ const styles = StyleSheet.create({
         backgroundColor:'gray',
     },
     imagess: {
-        height:400, 
-        width:Dimensions.get('window').width,
+        height:Dimensions.get('window').height,
       },
 });

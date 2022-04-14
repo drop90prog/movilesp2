@@ -129,7 +129,6 @@ const styles = StyleSheet.create({
     imagess: {        
         height:"100%",
   
-        margin:10,
    
       },
 });

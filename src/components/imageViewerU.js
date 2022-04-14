@@ -94,7 +94,6 @@ useEffect(()=>{
 {activate?<View>
           <FlatList         
             inverted
-         
             keyExtractor={(item, index) => index.toString()}
             data={images}
             initialScrollIndex={indexActive}
@@ -131,7 +130,7 @@ const styles = StyleSheet.create({
     imagess: {        
         height:"100%",
   
-        margin:10,
+       
    
       },
 });
