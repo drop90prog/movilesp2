@@ -54,4 +54,17 @@ export const styles = StyleSheet.create({
       fontWeight:'bold', 
       textAlign:'center',
     },
+    
+    notAllowedContent:{
+      marginTop:'49.8%'
+
+      
+    },
+
+    text: {
+      color:'gray',
+      fontSize:15
+    },
+
+
   });

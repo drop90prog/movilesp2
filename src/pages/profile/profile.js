@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { signUp, updateUser } from '../../controllers/fetchUser';
 import { getData, storeData, removeData } from '../../controllers/storages';
 import { findFollowsMangas, deleteFollow } from '../../controllers/fetchFollows';
+import { Octicons } from '@expo/vector-icons';
 
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -356,9 +357,21 @@ var follows;
       </View>
 
     </View>:
-    <View>
-      <Text>bobisss</Text>
-    </View>}
+      <View style={styles.notAllowedContent}>
+        <View>
+          <View style={{alignSelf:'center', width:50, marginBottom:20}}>
+            <Octicons name="stop" size={50} color="red" />
+          </View>
+        
+          <Text style={styles.text}>
+            <Text style={{ color: 'black', fontWeight: 'bold' }}> Sign in </Text>
+            to get access
+          </Text>
+        </View>
+
+        
+      </View>
+    }
 
 
   </View>

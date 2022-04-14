@@ -41,4 +41,20 @@ export const styles = StyleSheet.create({
           color: 'blue',
           textDecorationLine: 'underline'
         },
+
+        notAllowedContent:{
+          marginTop:'49.8%'
+
+          
+        },
+    
+        text: {
+          color:'gray',
+          fontSize:15
+        },
+
+
+
+
+        
     });

@@ -7,7 +7,7 @@ import { getData } from '../../../../controllers/storages';
 import { deleteImage, saveImage } from '../../../../controllers/fetchImage';
 import { updateChapter, deleteChapter } from '../../../../controllers/fetchChapter';
 import { Card } from 'react-native-paper';
-
+import { Octicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
 import Firebase from 'firebase/app';
@@ -266,9 +266,22 @@ export default function Newimage(props) {
             
         </View>
       </View>:
+      <View style={styles.notAllowedContent}>
+       
       <View>
-        <Text>qqq nooo jajaj bobisss</Text>
-      </View>}
+        <View style={{alignSelf:'center', width:50, marginBottom:20}}>
+          <Octicons name="stop" size={50} color="red" />
+        </View>
+
+        <Text style={styles.text}>
+          Only the
+          <Text style={{ color: 'black', fontWeight: 'bold' }}> author </Text>
+          and
+          <Text style={{ color: 'black', fontWeight: 'bold' }}> admins </Text>
+          are allowed
+        </Text>
+      </View>
+    </View>}
       </View>
 
 

@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
     },
     allowedContent: {
       width:'100%',
+
     },
     avatarContainer: {
       padding:20,
@@ -32,6 +33,7 @@ export const styles = StyleSheet.create({
     },
     inputsContainer: {  
       width:'100%',
+      height:'100%',
       alignItems:'center',
     },
   
@@ -66,4 +68,18 @@ export const styles = StyleSheet.create({
           color: 'blue',
           textDecorationLine: 'underline'
         },
+
+        notAllowedContent:{
+          marginTop:'61.5%',          
+        },
+    
+        text: {
+          color:'gray',
+          fontSize:15
+        },
+
+
+
+
+
     });

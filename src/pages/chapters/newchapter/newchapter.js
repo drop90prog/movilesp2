@@ -8,8 +8,10 @@ import { useFocusEffect } from '@react-navigation/native';
 import { getData } from '../../../controllers/storages';
 import { findFollowsManga } from '../../../controllers/fetchFollows';
 import { Card } from 'react-native-paper'
+import { Octicons } from '@expo/vector-icons';
 
 export default function Newchapter(props) {
+
 
   const [mangaName, setManganame] = useState('');
   const [mangaId, setMangaid] = useState('');
@@ -22,6 +24,9 @@ export default function Newchapter(props) {
   const [message, setMessage] = useState('a new chapter has been released');
   const [title, setTitle] = useState('Manga app');
   const [followers, setFollowers] = useState([])
+
+  const [isCreator, setIscreator] = useState(false)
+  const [isLogged, setIslogged] = useState(false)
 
 
   async function sendPushNotification(expoPushToken, title, messagee) {
@@ -47,7 +52,7 @@ export default function Newchapter(props) {
 
   getData('permissions').then(res=>{
     let per = JSON.parse(res)
-    if(per.isAdmin)setAllowed(true)
+    if(per.isAdmin)setAllowed(true);
   
    // console.log(`(new chapter) admin: ${per.isAdmin}`)
   })
@@ -84,9 +89,9 @@ export default function Newchapter(props) {
       })
       
       if(userId==creatorid){
-        if(!userId || creatorid)return;
+        if(!userId || !creatorid)return;
        
-
+        setIscreator(true)
         console.log(`userid: ${userId}, creatorid: ${creatorid}`), setAllowed(true)
       }
 
@@ -280,8 +285,22 @@ export default function Newchapter(props) {
             </View>
         </View>
       </View>:
-      <View>
-        <Text>not allowed</Text>
+
+      <View style={styles.notAllowedContent}>
+       
+        <View>
+          <View style={{alignSelf:'center', width:50, marginBottom:20}}>
+            <Octicons name="stop" size={50} color="red" />
+          </View>
+
+          <Text style={styles.text}>
+            Only the
+            <Text style={{ color: 'black', fontWeight: 'bold' }}> author </Text>
+            and
+            <Text style={{ color: 'black', fontWeight: 'bold' }}> admins </Text>
+            are allowed
+          </Text>
+        </View>
       </View>}
 
 
