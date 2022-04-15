@@ -111,7 +111,7 @@ export default function CommentRenderer(props) {
                 value={comment}
                 onChangeText={(text)=>{setComment(text)}}                          
                 />            
-            </View>
+              </View>
 
 
 {/* 
@@ -217,12 +217,14 @@ export default function CommentRenderer(props) {
 {
   reps
 }
-{allowComment?<View>
+        {allowComment?
+        <View>
           <View style={styles.inputcomment}>
               <TextInput 
               multiline
               onChangeText={(text)=>{setReply(text)}} 
-              placeholder="Enter your text..."             
+              placeholder="Enter your text..."
+              defaultValue={reply}
               />            
             </View>
 
@@ -231,10 +233,11 @@ export default function CommentRenderer(props) {
                   if(!props.loggeduserid)alert("Sign in before reply")
                   else if(reply=='')alert("fill the fiels please")
                   else{
-                    saveReply(props.commentid, props.chapterid, props.loggeduserid, props.name, reply)
+                    saveReply(props.commentid, props.chapterid, props.loggeduserid, props.nameFromWhoReplies, reply)
                     .then((res)=>{
                       findReplies(props.chapterid).then((res)=>{
                         setReplies(res.result)
+                        setReply('')
                       })
                     })
                   }

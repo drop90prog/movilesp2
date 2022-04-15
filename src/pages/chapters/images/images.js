@@ -195,6 +195,7 @@ const coms = comments.map((item,index,array)=>{
     avatar={item.avatar} 
     comment={item.comment}
     name={item.name}
+    nameFromWhoReplies={userName}
     iduser={item.iduser}
     ind={index}
     commentid={item._id}
@@ -334,7 +335,8 @@ const coms = comments.map((item,index,array)=>{
               <TextInput 
               multiline
               onChangeText={(text)=>{setComment(text)}} 
-              placeholder="Enter your text..."             
+              placeholder="Enter your text..."
+              defaultValue={comment}
               />            
             </View>
             <View style={{marginTop:3, width:'95%', alignSelf:'center'}}>
@@ -344,13 +346,14 @@ const coms = comments.map((item,index,array)=>{
                 else{
                   saveComment(comment, userId, avatar, chapterId, userName)
                   .then(res=>{
+                    
                     findComments(chapterId).then(res=>{
         
                     
                       setComments(res.result)
                     })
 
-
+                    setComment('')
                     alert(res.message)
                   })
                 }
