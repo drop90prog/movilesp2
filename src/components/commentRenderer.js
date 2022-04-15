@@ -151,6 +151,7 @@ export default function CommentRenderer(props) {
                       updateComment(props.commentid, comment).then((res)=>{
                         setEditablecomment(!editableComment)
                         console.log(res)
+                        alert(res.message)
                       })
                     }
                   }}>S</Text>

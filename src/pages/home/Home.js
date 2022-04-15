@@ -129,9 +129,10 @@ storeData('permissions', JSON.stringify({isLogged:isLogged, isAdmin:isAdmin}))
               </Text>
             </View>
 
+            {isAdmin?
             <View style={{marginLeft: 10, justifyContent:'center'}}>
               <Foundation name="crown" size={24} color="orange" />
-            </View>
+            </View>:null}
 
           </View>
 
