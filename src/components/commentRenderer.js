@@ -226,7 +226,7 @@ export default function CommentRenderer(props) {
               />            
             </View>
 
-            <View style={{width:'30%', alignSelf:'flex-end', marginTop:2}}>
+            <View style={{width:'30%', alignSelf:'flex-end', marginTop:2, marginRight:20}}>
               <Button color={'orange'} title="reply" onPress={()=>{
                   if(!props.loggeduserid)alert("Sign in before reply")
                   else if(reply=='')alert("fill the fiels please")
@@ -278,10 +278,10 @@ const styles = StyleSheet.create({
       inputcomment: {
         alignSelf:'center',    
         marginTop:10,
-        width:'97%',
-        borderColor:"black",
-        borderWidth:1,     
-        borderRadius:0,
+        width:'90%',
+        borderColor:"gray",
+        borderWidth:2,     
+        borderRadius:10,
         padding:10
       },
 

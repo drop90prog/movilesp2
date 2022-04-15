@@ -72,6 +72,7 @@ export default function Chapters(props, {navigation}) {
   return (
     <View style={styles.lienzo}>
       <View style={styles.container}>
+        {iduser?
         <View style={[styles.topbanner, {backgroundColor: isFollowed?'#CDFFC2':'#FFC2C2'}]}>
       
           <View>
@@ -124,7 +125,14 @@ export default function Chapters(props, {navigation}) {
           </View>
 
           
+        </View>:
+        <View style={[styles.topbanner, {backgroundColor: '#FFC2C2'}]}>
+          
+          <Text>
+            <Text style={{fontWeight:'bold'}}> Sign In </Text>
+            to follow this manga</Text>
         </View>
+        }
 
 
         <View style={{width:'95%'}}>

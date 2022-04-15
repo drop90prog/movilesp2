@@ -18,10 +18,10 @@ export const styles = StyleSheet.create({
     inputcomment: {
       alignSelf:'center',    
       marginTop:10,
-      width:'97%',
-      borderColor:"black",
-      borderWidth:1,     
-      borderRadius:0,
+      width:'95%',
+      borderColor:"gray",
+      borderWidth:2,     
+      borderRadius:15,
       padding:10
     },
     betr: {

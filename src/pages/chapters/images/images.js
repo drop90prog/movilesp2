@@ -328,7 +328,7 @@ const coms = comments.map((item,index,array)=>{
               placeholder="Enter your text..."             
               />            
             </View>
-            <View style={{marginTop:3, width:'97%', alignSelf:'center'}}>
+            <View style={{marginTop:3, width:'95%', alignSelf:'center'}}>
               <Button title="comment" onPress={()=>{
                 if(!userId)alert("Sign in before comment")
                 else if(comment=='')alert("fill the fiels please")
