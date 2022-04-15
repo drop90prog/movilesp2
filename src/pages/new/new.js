@@ -135,7 +135,8 @@ export default function New(props) {
             <View style={styles.inputContainer}>
                   <TextInput style={styles.input}
                   onChangeText={name => setName(name)}
-                  placeholder="Enter manga name"        
+                  placeholder="Enter manga name"
+                  defaultValue={name}
                   />
               </View>
 
@@ -150,7 +151,8 @@ export default function New(props) {
 
                       saveManga(name, poster, creatorid)
                       .then(res => {
-                      setName(null)
+         
+                      setName('')
                       setImage(null)
                       setPoster(null)
                       alert(res.message)

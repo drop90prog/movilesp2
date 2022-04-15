@@ -33,6 +33,7 @@ export default function Images(props) {
   const [avatar, setAvatar] = useState('');
   
 
+
   //obtiene de un array el id(0) y nombre(1) del capitulo
 
   getData('chapter').then(res=>{
@@ -84,7 +85,12 @@ export default function Images(props) {
           setComments(res.result)
 
           findReplies(chapterId).then((res)=>{
-           setReplies(res.result)
+            if(!res.result)setReplies([])
+            else{
+              setReplies(res.result)
+            }
+          
+          
           })
 
         }
@@ -336,7 +342,7 @@ const coms = comments.map((item,index,array)=>{
               multiline
               onChangeText={(text)=>{setComment(text)}} 
               placeholder="Enter your text..."
-              defaultValue={comment}
+              defultValue={comment}
               />            
             </View>
             <View style={{marginTop:3, width:'95%', alignSelf:'center'}}>
@@ -349,7 +355,7 @@ const coms = comments.map((item,index,array)=>{
                     
                     findComments(chapterId).then(res=>{
         
-                    
+                   
                       setComments(res.result)
                     })
 
