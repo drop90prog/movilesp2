@@ -10,7 +10,7 @@ export default function ImageViewerL() {
     const [iduser, setIduser] = useState('');
     const [chapterid, setChapterid] = useState('');
     const [images, setImages] = useState([])
-    const [activate, setActivate] = useState(false);
+
 
 
 
@@ -38,7 +38,7 @@ useEffect(()=>{
 useEffect(()=>{
     if(iduser && chapterid)findIndexActive(iduser, chapterid).then((res)=>{
 
-        if(!res.message){setActivate(true);setIndexactive(res.result.indexactive); }
+        if(!res.message)setIndexactive(res.result.indexactive); 
     })
 },[iduser, chapterid])
 
@@ -91,14 +91,14 @@ useEffect(()=>{
 
     return (
         <View style={styles.container}>
-{activate?<View>
+            <View>
             <FlatList
             horizontal
             inverted
             pagingEnabled
             keyExtractor={(item, index) => index.toString()}
             data={images}
-            initialScrollIndex={indexActive}
+            initialScrollIndex={iduser?indexActive:0}
             getItemLayout={(data, index) => (
                 {length: Dimensions.get('window').width, offset: Dimensions.get('window').width * index, index}
               )}
@@ -120,7 +120,7 @@ useEffect(()=>{
             
             )}
             />
-        </View>:null}
+        </View>
 
       </View>
     );

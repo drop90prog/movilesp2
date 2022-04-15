@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
     },
     bodylow:{
       height:'81%',
-      width:'100%',  
-
+      width:'100%',
     },
   });
