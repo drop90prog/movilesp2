@@ -1,20 +1,17 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-    container: {
+    lienzo: {
       flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',  
-      justifyContent: 'flex-start',
     },
     bodytop:{
-      height:40,
+      height:35,
       width:'100%',    
       backgroundColor: 'white',    
     },
     bodylow:{
-      height:'100%',
-      width:'100%',    
-      backgroundColor: 'lightgray',    
+      height:'81%',
+      width:'100%',  
+
     },
   });
