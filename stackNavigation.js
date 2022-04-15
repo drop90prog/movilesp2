@@ -14,6 +14,11 @@ import ImageViewerL from './src/components/imageViewerL';
 import ImageViewerU from './src/components/imageViewerU';
 import ImageViewerD from './src/components/imageViewerD';
 
+import Ivr from './src/components/ivR';
+import Ivl from './src/components/ivL';
+import IvD from './src/components/ivD';
+import IvU from './src/components/ivU';
+
 
 const Stack = createStackNavigator();
 
@@ -29,6 +34,11 @@ export default function Stacknavigation() {
             <Stack.Screen options={{headerShown: false}} name="ImageViewerL" component={ImageViewerL} /> 
             <Stack.Screen options={{headerShown: false}} name="ImageViewerU" component={ImageViewerU} /> 
             <Stack.Screen options={{headerShown: false}} name="ImageViewerD" component={ImageViewerD} />  
+
+            <Stack.Screen options={{headerShown: false}} name="Ivr" component={Ivr} />
+            <Stack.Screen options={{headerShown: false}} name="Ivl" component={Ivl} />
+            <Stack.Screen options={{headerShown: false}} name="IvD" component={IvD} />
+            <Stack.Screen options={{headerShown: false}} name="IvU" component={IvU} />
         </Stack.Navigator> 
   );
 }

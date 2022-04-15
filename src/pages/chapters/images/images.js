@@ -223,7 +223,10 @@ const coms = comments.map((item,index,array)=>{
     <View style={{flexDirection:'row'}}>
       <TouchableOpacity onPress={()=>{
               storeData('images', JSON.stringify(images))
-              props.navigation.navigate('ImageViewerL')             
+              {userId?
+                props.navigation.navigate('ImageViewerL') : 
+                props.navigation.navigate('Ivl')  }
+                      
               }}
       >
         <View style={{width:150}}>
@@ -242,7 +245,9 @@ const coms = comments.map((item,index,array)=>{
 
       <TouchableOpacity onPress={()=>{
               storeData('images', JSON.stringify(images))
-              props.navigation.navigate('ImageViewerR')             
+              {userId?
+                props.navigation.navigate('ImageViewerR') : 
+                props.navigation.navigate('Ivr')  }           
               }}
       >
         <View style={{width:150}}>
@@ -264,7 +269,9 @@ const coms = comments.map((item,index,array)=>{
     <View style={{flexDirection:'row'}}>
       <TouchableOpacity onPress={()=>{
               storeData('images', JSON.stringify(images))
-              props.navigation.navigate('ImageViewerU')             
+              {userId?
+                props.navigation.navigate('ImageViewerU') : 
+                props.navigation.navigate('IvU')  }           
               }}
         >
         <View style={{width:150}}>
@@ -283,7 +290,9 @@ const coms = comments.map((item,index,array)=>{
 
       <TouchableOpacity onPress={()=>{
               storeData('images', JSON.stringify(images))
-              props.navigation.navigate('ImageViewerD')             
+              {userId?
+                props.navigation.navigate('ImageViewerD') : 
+                props.navigation.navigate('IvD')  }            
               }}
       >
         <View style={{width:150}}>
