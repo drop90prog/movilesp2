@@ -41,7 +41,7 @@ export default function Newimage(props) {
     if(per.isAdmin)setAllowed(true)
 
    // console.log(`(new chapter) admin: ${per.isAdmin}`)
-  })
+  }).catch(err=>console.log(err))
 
   //obtiene id del user loggeado
   getData('user').then(res=>{
@@ -49,7 +49,7 @@ export default function Newimage(props) {
       let us = JSON.parse(res)
       setUserid(us.sub)
     }
-  })
+  }).catch(err=>console.log(err))
 
   //obtiene id(0) y nombre(1) del capitulo
   getData('chapter').then(res=>{
@@ -57,7 +57,7 @@ export default function Newimage(props) {
     setChapterid(gettingchapter[0])
     setChaptername(gettingchapter[1])  
    // console.log(`chaptername: ${gettingchapter[1]}, chapterid: ${gettingchapter[0]}`)   
-  })
+  }).catch(err=>console.log(err))
 
   //obtiene id del creador del manga
   getData('manga').then(res=>{
@@ -66,7 +66,7 @@ export default function Newimage(props) {
     setCreatorid(creatoridd)
   
     //console.log(`current manga: ${manganamee}, id:${mangaidee}, creatorid: ${creatoridd}`)         
-  })
+  }).catch(err=>console.log(err))
 
       if(userId==creatorid){
         if(!userId || creatorid)return;
@@ -81,7 +81,7 @@ export default function Newimage(props) {
         setImages(imagess)
  
         //console.log(`current manga: ${manganamee}, id:${mangaidee}, creatorid: ${creatoridd}`)         
-      })
+      }).catch(err=>console.log(err))
       
  
       },[manganame, userId, creatorid])
@@ -206,7 +206,7 @@ export default function Newimage(props) {
                     deleteImage(item.id).then((res)=>{
                       alert(res.message); 
                      
-                    })
+                    }).catch(err=>console.log(err))
                     }}>
                     <View style={styles.taptodelete}>
                       <Text style={{color:'white', fontWeight:'bold'}}>{index + 1}</Text>

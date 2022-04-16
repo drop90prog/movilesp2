@@ -55,7 +55,7 @@ export default function Newchapter(props) {
     if(per.isAdmin)setAllowed(true);
   
    // console.log(`(new chapter) admin: ${per.isAdmin}`)
-  })
+  }).catch(err=>console.log(err))
 
 
 
@@ -74,7 +74,7 @@ export default function Newchapter(props) {
           let us = JSON.parse(res)
           setUserid(us.sub)
         }
-      })
+      }).catch(err=>console.log(err))
     
     
       getData('manga').then(res=>{
@@ -86,7 +86,7 @@ export default function Newchapter(props) {
         setManganame(manganamee)
         setCreatorid(creatoridd)
         //console.log(`current manga: ${manganamee}, id:${mangaidee}, creatorid: ${creatoridd}`)         
-      })
+      }).catch(err=>console.log(err))
       
       if(userId==creatorid){
         if(!userId || !creatorid)return;
@@ -96,7 +96,7 @@ export default function Newchapter(props) {
       }
 
 
-      findFollowsManga(mangaId).then((res)=>{setFollowers(res.result)})
+      findFollowsManga(mangaId).then((res)=>{setFollowers(res.result)}).catch(err=>console.log(err))
 
     },[userId, creatorid])
   )
