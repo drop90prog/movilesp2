@@ -6,8 +6,8 @@ const Chapters = require('../models/chapters')
 
 function saveChapter (req, res) {
 
-    const savealo = async()=>{
-        await Chapters.find({mangaid: req.body.mangaid, number: req.body.number}, (err, result)=> {
+
+        Chapters.find({mangaid: req.body.mangaid, number: req.body.number}, (err, result)=> {
             if(result.length>0)return res.status(404).send({message:"Duplicated"})
             if(err)return res.status(500).send({message:`Error ${err}`})            
             
@@ -23,8 +23,8 @@ function saveChapter (req, res) {
             })  
             
         })//findone
-    }//savealo
-   savealo() 
+
+
   };
 
 

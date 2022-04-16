@@ -18,7 +18,7 @@ export default function ChaptersRenderer(props, {navigation}) {
         }}>
 
           <Card style={styles.card}>
-            <View  style={{ width: "100%", height: 90, marginLeft: 15, marginVertical: 15, flexDirection:'row' }}>
+            <View  style={{ width: "100%", height: 90, marginLeft: 15, marginVertical: 5, flexDirection:'row' }}>
               <View style={styles.image}>
                 <Text style={{fontSize:30}}>{props.number}</Text>
               </View>
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
   card: {
     height:120, 
     width:"100%", 
-    marginTop:10, 
     marginBottom:50,
   },
   image: {

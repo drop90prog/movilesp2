@@ -8,6 +8,8 @@ export const styles = StyleSheet.create({
     container: {
         width:'100%',
         alignItems:'center',
+        height:'91%',
+
     },
     topbanner: {
         width:'100%',

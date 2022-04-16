@@ -135,8 +135,13 @@ export default function Chapters(props, {navigation}) {
         }
 
 
+
+
+
+
         <View style={{width:'95%'}}>
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={chapters}
             renderItem={({ item }) => 
             <ChaptersRenderer 
