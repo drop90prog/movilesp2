@@ -17,6 +17,8 @@ export default function Ivr() {
 ////////////////////////////////////////////////////////////////////////////////////////
 useEffect(()=>{
     getData('images').then((res)=>{
+
+  
         setImages(JSON.parse(res))
     })
 

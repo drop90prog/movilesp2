@@ -19,6 +19,8 @@ import Ivl from './src/components/ivL';
 import IvD from './src/components/ivD';
 import IvU from './src/components/ivU';
 
+import Noimage from './src/components/noimage';
+
 
 const Stack = createStackNavigator();
 
@@ -39,6 +41,8 @@ export default function Stacknavigation() {
             <Stack.Screen options={{headerShown: false}} name="Ivl" component={Ivl} />
             <Stack.Screen options={{headerShown: false}} name="IvD" component={IvD} />
             <Stack.Screen options={{headerShown: false}} name="IvU" component={IvU} />
+
+            <Stack.Screen options={{headerShown: false}} name="Noimage" component={Noimage} />
         </Stack.Navigator> 
   );
 }

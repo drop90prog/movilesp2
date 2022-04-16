@@ -92,7 +92,7 @@ export default function Newchapter(props) {
         if(!userId || !creatorid)return;
        
         setIscreator(true)
-        console.log(`userid: ${userId}, creatorid: ${creatorid}`), setAllowed(true)
+        //console.log(`userid: ${userId}, creatorid: ${creatorid}`), setAllowed(true)
       }
 
 
@@ -100,7 +100,7 @@ export default function Newchapter(props) {
 
     },[userId, creatorid])
   )
-  console.log(`allowed: ${allowed}`)
+  //console.log(`allowed: ${allowed}`)
 
   return (
     <ScrollView style={styles.lienzo}>

@@ -14,7 +14,7 @@ function saveImage (req, res) {
 
     image.save((err)=>{
         if(err)res.status(500).send({message:`Error ${err}`})
-        res.status(200).send({message:"new manga added"})
+        res.status(200).send({message:"new image added"})
     })    
   };
 

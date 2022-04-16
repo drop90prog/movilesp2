@@ -68,11 +68,12 @@ export default function Images(props) {
       findImages(chapterId)
       .then(res=>{
         let arrayOfImages =[];
-        for(let x in res.content){
-          arrayOfImages.push({url:res.content[x].url, id:res.content[x]._id})
-        }
-  
-        setImages(arrayOfImages)
+        if(res.message=="found them"){
+          for(let x in res.content){
+            arrayOfImages.push({url:res.content[x].url, id:res.content[x]._id})
+          }
+          setImages(arrayOfImages)
+        } else { setImages([])}
         
   
         //storeData('images',JSON.stringify(res.content))  
@@ -131,7 +132,7 @@ export default function Images(props) {
   },[userId])
 
 
-  storeData('images', JSON.stringify(images))
+  //storeData('images', JSON.stringify(images))
 
 
 
@@ -251,6 +252,7 @@ const coms = comments.map((item,index,array)=>{
       </TouchableOpacity>
 
       <TouchableOpacity onPress={()=>{
+       
               storeData('images', JSON.stringify(images))
               {userId?
                 props.navigation.navigate('ImageViewerR') : 

@@ -155,7 +155,6 @@ export default function Newimage(props) {
         .then(res => {
         setImage(null)
         alert(res.message)
-        setRend(!rend)
         }).catch(error => console.error('Error:', error))
 
 
@@ -206,7 +205,8 @@ export default function Newimage(props) {
                   <TouchableOpacity  onPress={()=>{                    
                     deleteImage(item.id).then((res)=>{
                       alert(res.message); 
-                      setRend(!rend)})                    
+                     
+                    })
                     }}>
                     <View style={styles.taptodelete}>
                       <Text style={{color:'white', fontWeight:'bold'}}>{index + 1}</Text>

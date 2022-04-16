@@ -7,7 +7,7 @@ import { findMangas } from '../../controllers/fetchManga';
 import  Mangas  from '../../components/mangas';
 import { styles } from './styles';
 import { signIn } from '../../controllers/fetchUser';
-import { getData, removeData, storeData } from '../../controllers/storages';
+import { getData, removeData, storeData, clearAll } from '../../controllers/storages';
 import { Foundation } from '@expo/vector-icons';
 
 export default function Home(props,{navigation}) {
@@ -22,6 +22,7 @@ export default function Home(props,{navigation}) {
     React.useCallback(()=>{
       
       findMangas().then(res=>{setMangas(res.content)})
+
 
       getData('user').then(res=>{
         let user;
@@ -99,6 +100,7 @@ storeData('permissions', JSON.stringify({isLogged:isLogged, isAdmin:isAdmin}))
               height:25, borderRadius:10,}} 
               onPress={() => {
 
+                clearAll()
                 removeData('user')
                 removeData('manga')
                 removeData('permissions')

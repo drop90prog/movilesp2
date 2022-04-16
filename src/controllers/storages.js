@@ -13,7 +13,6 @@ export const storeData = async (key,value) => {
     try {
       const value = await AsyncStorage.getItem(key)
       if(value !== null) {
-        
         return value
       }
     } catch(e) {
@@ -31,6 +30,17 @@ export const storeData = async (key,value) => {
       // error reading value
     }
   }
+
+  export const clearAll = async () => {
+    try {
+      await AsyncStorage.clear()
+    } catch(e) {
+      // clear error
+    }
+  
+    console.log('Done.')
+  }
+  
 
 
   export const firebaseConfig = {
