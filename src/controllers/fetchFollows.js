@@ -1,12 +1,12 @@
 export const saveFollow = async (iduser, tokennp, idmanga, name)=> {
 
-    let heroku = 'https://movilesp1.herokuapp.com/savefollow';
+    let heroku = 'https://movilesp2.herokuapp.com/savefollow';
     let local = 'http://10.0.0.94:3000/savefollow';
 
 
     let info = {iduser:iduser, tokennp:tokennp, idmanga:idmanga, name:name};            
         
-      const res = await fetch(local, {
+      const res = await fetch(heroku, {
           method: 'post', 
           body: JSON.stringify(info), 
           headers:{            
@@ -22,10 +22,10 @@ export const findFollow = async(iduser, idmanga)=> {
 
     let info = {iduser:iduser, idmanga:idmanga}; 
     
-    let heroku = 'https://movilesp1.herokuapp.com/findfollow'
+    let heroku = 'https://movilesp2.herokuapp.com/findfollow'
     let local = 'http://10.0.0.94:3000/findfollow'
         
-        const res = await fetch(local, {
+        const res = await fetch(heroku, {
             method: 'post', 
             body: JSON.stringify(info), 
             headers:{            
@@ -40,10 +40,10 @@ export const findFollowsManga = async(idmanga)=> {
 
     let info = {idmanga:idmanga}; 
     
-    let heroku = 'https://movilesp1.herokuapp.com/findfollowsmanga'
+    let heroku = 'https://movilesp2.herokuapp.com/findfollowsmanga'
     let local = 'http://10.0.0.94:3000/findfollowsmanga'
         
-        const res = await fetch(local, {
+        const res = await fetch(heroku, {
             method: 'post', 
             body: JSON.stringify(info), 
             headers:{            
@@ -58,10 +58,10 @@ export const findFollowsMangas = async(iduser)=> {
 
     let info = {iduser:iduser}; 
     
-    let heroku = 'https://movilesp1.herokuapp.com/findfollowsmangas'
+    let heroku = 'https://movilesp2.herokuapp.com/findfollowsmangas'
     let local = 'http://10.0.0.94:3000/findfollowsmangas'
         
-        const res = await fetch(local, {
+        const res = await fetch(heroku, {
             method: 'post', 
             body: JSON.stringify(info), 
             headers:{            
@@ -76,12 +76,12 @@ export const findFollowsMangas = async(iduser)=> {
 
 export const deleteFollow = async (iduser, idmanga)=> {
 
-    let heroku = 'https://movilesp1.herokuapp.com/deletefollow'
+    let heroku = 'https://movilesp2.herokuapp.com/deletefollow'
     let local = 'http://10.0.0.94:3000/deletefollow'
             
     let info = {iduser:iduser, idmanga:idmanga};            
 
-        const res = await fetch(local, {
+        const res = await fetch(heroku, {
             method: 'delete', 
             body: JSON.stringify(info), 
             headers:{            
