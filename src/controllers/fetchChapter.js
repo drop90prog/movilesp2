@@ -1,6 +1,6 @@
 export const saveChapter = async (mangaid, chaptername, number)=> {
 
-    let heroku = 'https://movilesp1.herokuapp.com/savechapter'
+    let heroku = 'https://movilesp2.herokuapp.com/savechapter'
     let local = 'http://10.0.0.94:3000/savechapter'
           
 
@@ -8,7 +8,7 @@ export const saveChapter = async (mangaid, chaptername, number)=> {
 
     let info = { mangaid: mangaid, chaptername: chaptername, number: number };            
         
-      const res = await fetch(local, {
+      const res = await fetch(heroku, {
           method: 'post', 
           body: JSON.stringify(info), 
           headers:{            
@@ -27,10 +27,10 @@ export const updateChapter = async(chapterid, newname)=> {
 
     let info = { chapterid: chapterid, newname: newname };  
         
-    let heroku = 'https://movilesp1.herokuapp.com/updatechapter'
+    let heroku = 'https://movilesp2.herokuapp.com/updatechapter'
     let local = 'http://10.0.0.94:3000/updatechapter'
         
-    const res = await fetch(local, {
+    const res = await fetch(heroku, {
         method: 'put', 
         body: JSON.stringify(info), 
         headers:{            
@@ -43,11 +43,11 @@ export const updateChapter = async(chapterid, newname)=> {
   
 export const findChapters = async(mangaid)=> {
         
-    let heroku = 'https://movilesp1.herokuapp.com/findchapters'
+    let heroku = 'https://movilesp2.herokuapp.com/findchapters'
     let local = 'http://10.0.0.94:3000/findchapters'
     let info = { mangaid: mangaid };  
     
-    const res = await fetch(local, {
+    const res = await fetch(heroku, {
         method: 'post',
         body: JSON.stringify(info), 
         headers:{            
@@ -60,12 +60,12 @@ export const findChapters = async(mangaid)=> {
 
 export const deleteChapter = async (chapterid)=> {
 
-  let heroku = 'https://movilesp1.herokuapp.com/deletechapter'
+  let heroku = 'https://movilesp2.herokuapp.com/deletechapter'
   let local = 'http://10.0.0.94:3000/deletechapter'
        
   let info = { chapterid: chapterid };            
       
-    const res = await fetch(local, {
+    const res = await fetch(heroku, {
         method: 'delete', 
         body: JSON.stringify(info), 
         headers:{            
