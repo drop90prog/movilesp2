@@ -90,7 +90,7 @@ export default function Newchapter(props) {
       
       if(userId==creatorid){
         if(!userId || !creatorid)return;
-       
+        setAllowed(true)
         setIscreator(true)
         //console.log(`userid: ${userId}, creatorid: ${creatorid}`), setAllowed(true)
       }

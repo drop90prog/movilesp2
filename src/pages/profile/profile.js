@@ -164,7 +164,7 @@ const pickImage = async () => {
       return;
     }
 
-    await Sharing.shareAsync(image);
+    await Sharing.shareAsync(image, alert("sup"));
   };
   
 
@@ -226,7 +226,7 @@ var follows;
 
           <View >
             {!image?<Button title="Pick Image" onPress={pickImage} />:
-            /*<Button title="Share" onPress={openShareDialogAsync} /> */
+            
               <Button title="Save" onPress={()=>{setInprocess(true);uploadImage()}} />
             }
               {/* 
@@ -329,12 +329,14 @@ var follows;
           />
         </View>
 
+            
+        <View style={{ marginTop: 20 }}>
+          <Button title="Share Advances" onPress={openShareDialogAsync} /> 
+        </View>
+        
 
 
-      </View>
-
-
-      <View style={styles.followingMangasContainer}>
+        <View style={styles.followingMangasContainer}>
         <View style={{ width:'80%', }}>
           <Button 
           title = {isShown ? 'show following mangas':'hide following mangas'} 
@@ -355,6 +357,13 @@ var follows;
 
 
       </View>
+
+
+      </View>
+      
+      
+
+
 
     </View>:
       <View style={styles.notAllowedContent}>
