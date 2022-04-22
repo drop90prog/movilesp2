@@ -69,7 +69,7 @@ export default function Newimage(props) {
   })
 
       if(userId==creatorid){
-        if(!userId || creatorid)return;
+        if(!userId || !creatorid)return;
 /*         console.log(`userid: ${userId}, creatorid: ${creatorid}`) */
         setAllowed(true)
       }
